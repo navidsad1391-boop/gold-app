@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>هوش طلایی</title>
+<style>
+:root { --gold: #FFD700; --dark: #0a0a0a; --card: #1a1a2e; --danger: #ff4444; --success: #00ff88; }
+* { box-sizing: border-box; }
+body { background: var(--dark); color: #fff; font-family: Tahoma, sans-serif; margin: 0; padding-bottom: 80px; direction: rtl; }
+.header { background: linear-gradient(135deg, #1a1a2e, #000); padding: 20px; text-align: center; border-bottom: 2px solid var(--gold); position: sticky; top: 0; z-index: 100; }
+.header h1 { color: var(--gold); margin: 0; font-size: 22px; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+.page { display: none; padding: 15px; animation: fade 0.3s; }
+.page.active { display: block; }
+@keyframes fade { from{opacity:0} to{opacity:1} }
+.card { background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #333; }
+.card h3 { color: var(--gold); margin-top: 0; border-bottom: 1px solid #333; padding-bottom: 10px; }
+.bottom-nav { position: fixed; bottom: 0; width: 100%; background: #111; display: flex; justify-content: space-around; padding: 10px 0; border-top: 2px solid var(--gold); z-index: 100; }
+.nav-item { color: #888; text-align: center; font-size: 11px; cursor: pointer; padding: 5px 10px; }
+.nav-item.active { color: var(--gold); }
+.nav-item .icon { font-size: 22px; display: block; margin-bottom: 4px; }
+.gold-btn { background: linear-gradient(135deg, var(--gold), #B8860B); color: #000; border: none; padding: 12px; border-radius: 10px; width: 100%; font-weight: bold; font-size: 15px; cursor: pointer; margin-top: 10px; }
+.red-btn { background: var(--danger); color: #fff; border: none; padding: 12px; border-radius: 10px; width: 100%; font-weight: bold; font-size: 15px; cursor: pointer; margin-top: 10px; }
+input, textarea { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #333; background: #222; color: #fff; font-family: Tahoma; font-size: 14px; }
+textarea { min-height: 100px; }
+.price-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #333; }
+.logo { width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), #B8860B); color: #000; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 20px auto; cursor: pointer; font-weight: bold; }
+.success-box { background: #003311; border: 2px solid var(--success); border-radius: 10px; padding: 15px; margin: 10px 0; }
+.msg-item { background: #222; border-right: 3px solid var(--gold); padding: 12px; margin-bottom: 10px; border-radius: 8px; }
+.vip-badge { background: var(--gold); color: #000; padding: 5px 15px; border-radius: 20px; display: inline-block; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>🧠 هوش طلایی</h1>
+<div id="user-status">کاربر رایگان</div>
+</div>
+
+<div id="p1" class="page active">
+<div class="card">
+<h3>📊 قیمت لحظه‌ای</h3>
+<div class="price-row"><span>سکه تمام</span><span style="color:var(--gold)">۴۵,۰۰۰,۰۰۰</span></div>
+<div class="price-row"><span>نیم سکه</span><span style="color:var(--gold)">۲۵,۰۰۰,۰۰۰</span></div>
+<div class="price-row"><span>ربع سکه</span><span style="color:var(--gold)">۱۵,۰۰۰,۰۰۰</span></div>
+<div class="price-row"><span>طلای ۱۸ عیار</span><span style="color:var(--gold)">۴,۲۰۰,۰۰۰</span></div>
+<div class="price-row"><span>دلار</span><span style="color:var(--gold)">۷۰,۰۰۰</span></div>
+<div class="price-row"><span>بیت‌کوین</span><span style="color:var(--gold)">$104,000</span></div>
+</div>
+</div>
+
+<div id="p2" class="page">
+<div class="card">
+<h3>🧠 مشاور هوش مصنوعی</h3>
+<p>موجودی پول (تومان):</p>
+<input type="number" id="budget" placeholder="مثلا: ۵۰۰۰۰۰۰۰">
+<p>مقدار طلا (گرم):</p>
+<input type="number" id="gold-amount" placeholder="مثلا: ۱۰">
+<button class="gold-btn" onclick="requestAI()">🎯 تحلیل هوشمند</button>
+<div id="ai-result" style="margin-top:15px;"></div>
+</div>
+</div>
+
+<div id="p3" class="page">
+<div class="card">
+<h3>📰 اخبار</h3>
+<div class="msg-item"><strong>افزایش قیمت طلای جهانی</strong><p style="font-size:12px;color:#888;">قیمت انس ۲٪ افزایش یافت...</p></div>
+<div class="msg-item"><strong>نوسان بازار ارز دیجیتال</strong><p style="font-size:12px;color:#888;">بیت‌کوین به سقف جدید رسید...</p></div>
+</div>
+</div>
+
+<div id="p4" class="page">
+<div class="card">
+<h3>📞 پشتیبانی</h3>
+<input type="text" id="user-name" placeholder="نام شما">
+<textarea id="support-msg" placeholder="پیام خود را بنویسید..."></textarea>
+<button class="gold-btn" onclick="sendSupport()">📤 ارسال پیام</button>
+<div id="support-result"></div>
+</div>
+<div class="card">
+<h3>📬 پاسخ‌های شما</h3>
+<div id="my-messages">پیامی ندارید</div>
+</div>
+</div>
+
+<div id="p5" class="page">
+<div class="card" style="text-align:center;">
+<div class="logo" onclick="secretClick()">GOLD</div>
+<h3>هوش طلایی</h3>
+<p>نسخه ۱.۰.۰</p>
+<button class="gold-btn" onclick="showActivation()">🎁 فعال‌سازی اشتراک</button>
+</div>
+</div>
+
+<div id="p6" class="page">
+<div class="card">
+<h3>🛡️ پنل ادمین</h3>
+<div class="success-box">✅ به پنل ادمین خوش آمدید</div>
+<button class="gold-btn" onclick="loadAdminMessages()">📬 پیام‌های پشتیبانی</button>
+<button class="red-btn" onclick="tab('p1',document.querySelector('.nav-item'))">🚪 خروج</button>
+</div>
+<div class="card">
+<h3>📬 پیام‌ها</h3>
+<div id="admin-msg-list">در حال بارگذاری...</div>
+</div>
+</div>
+
+<div class="bottom-nav">
+<div class="nav-item active" onclick="tab('p1',this)"><span class="icon">📊</span>قیمت</div>
+<div class="nav-item" onclick="tab('p2',this)"><span class="icon">🧠</span>مشاور</div>
+<div class="nav-item" onclick="tab('p3',this)"><span class="icon">📰</span>اخبار</div>
+<div class="nav-item" onclick="tab('p4',this)"><span class="icon">📞</span>پشتیبانی</div>
+<div class="nav-item" onclick="tab('p5',this)"><span class="icon">ℹ️</span>درباره</div>
+</div>
+
+<script>
+let secretClicks = 0, isVIP = false, isAdmin = false, aiUsageCount = 0;
+let messages = JSON.parse(localStorage.getItem('messages') || '[]');
+
+function tab(id, el) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if(el) el.classList.add('active');
+    if(id === 'p4') loadMyMessages();
+}
+
+function secretClick() {
+    secretClicks++;
+    if(secretClicks >= 7) {
+        secretClicks = 0;
+        let pass = prompt('🔐 رمز عبور:');
+        if(pass === '139113911391') {
+            isAdmin = true; isVIP = true;
+            document.getElementById('user-status').innerHTML = '<span class="vip-badge">👑 ادمین</span>';
+            tab('p6');
+            loadAdminMessages();
+        } else if(pass === '13911391') {
+            isVIP = true;
+            document.getElementById('user-status').innerHTML = '<span class="vip-badge">⭐ VIP</span>';
+            alert('✅ اشتراک VIP فعال شد');
+        } else if(pass) alert('❌ رمز اشتباه');
+    }
+}
+
+function showActivation() {
+    let pass = prompt('🔑 کد فعال‌سازی:');
+    if(pass === '13911391') {
+        isVIP = true;
+        document.getElementById('user-status').innerHTML = '<span class="vip-badge">⭐ VIP</span>';
+        alert('✅ اشتراک VIP فعال شد');
+    } else if(pass === '139113911391') {
+        isAdmin = true; isVIP = true;
+        document.getElementById('user-status').innerHTML = '<span class="vip-badge">👑 ادمین</span>';
+        tab('p6'); loadAdminMessages();
+    } else if(pass) alert('❌ کد اشتباه');
+}
+
+function requestAI() {
+    if(!isVIP && aiUsageCount >= 1) { alert('⚠️ استفاده رایگان تمام شد. اشتراک VIP بخرید.'); return; }
+    let budget = document.getElementById('budget').value;
+    if(!budget) { alert('موجودی را وارد کنید'); return; }
+    let ok = confirm('⚠️ هشدار\n\nاین پیشنهاد تحلیل هوش مصنوعی است.\nمسئولیت خرید و فروش با شماست.\n\nقبول میکنید؟');
+    if(!ok) return;
+    document.getElementById('ai-result').innerHTML = '⏳ در حال تحلیل...';
+    setTimeout(() => {
+        aiUsageCount++;
+        let advice = budget < 20000000 ? '۶۰٪ ربع سکه + ۴۰٪ تتر' : '۴۰٪ سکه + ۳۰٪ طلای آبشده + ۳۰٪ تتر';
+        document.getElementById('ai-result').innerHTML = '<div class="success-box"><h4>📊 نتیجه</h4><p>حباب: ۷.۲٪</p><p>RSI: ۶۲</p><p>💡 پیشنهاد: '+advice+'</p></div>';
+    }, 1500);
+}
+
+function sendSupport() {
+    let name = document.getElementById('user-name').value;
+    let msg = document.getElementById('support-msg').value;
+    if(!name || !msg) { alert('نام و پیام را وارد کنید'); return; }
+    messages.push({id: Date.now(), name, message: msg, time: new Date().toLocaleString('fa-IR'), replied: false, reply: ''});
+    localStorage.setItem('messages', JSON.stringify(messages));
+    document.getElementById('support-result').innerHTML = '<div class="success-box">✅ پیام ارسال شد</div>';
+    document.getElementById('support-msg').value = '';
+}
+
+function loadMyMessages() {
+    let myMsgs = messages.filter(m => m.replied);
+    document.getElementById('my-messages').innerHTML = myMsgs.length === 0 ? 'پاسخی ندارید' :
+        myMsgs.map(m => `<div class="msg-item"><strong>سوال:</strong> ${m.message}<br><strong style="color:var(--gold)">پاسخ:</strong> ${m.reply}</div>`).join('');
+}
+
+function loadAdminMessages() {
+    messages = JSON.parse(localStorage.getItem('messages') || '[]');
+    document.getElementById('admin-msg-list').innerHTML = messages.length === 0 ? 'پیامی نیست' :
+        messages.map(m => `<div class="msg-item"><strong>👤 ${m.name}</strong><br><small>${m.time}</small><p>${m.message}</p>${m.replied ? '<div class="success-box">✅ پاسخ: '+m.reply+'</div>' : '<button class="gold-btn" onclick="replyMsg('+m.id+')">✍️ پاسخ</button>'}</div>`).join('');
+}
+
+function replyMsg(id) {
+    let reply = prompt('پاسخ:');
+    if(reply) {
+        let msg = messages.find(m => m.id === id);
+        if(msg) { msg.replied = true; msg.reply = reply; localStorage.setItem('messages', JSON.stringify(messages)); loadAdminMessages(); alert('✅ ارسال شد'); }
+    }
+}
+</script>
+
+</body>
+</html>
