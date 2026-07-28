@@ -6,302 +6,156 @@
 <title>هوش طلایی</title>
 <style>
 :root {
-    --gold: #FFD700;
-    --gold-dark: #B8860B;
-    --dark: #0a0a0a;
-    --card: #1a1a2e;
-    --card-2: #16213e;
-    --success: #00ff88;
-    --danger: #ff4444;
-    --warning: #ffaa00;
-    --info: #00aaff;
+    --gold: #FFD700; --gold-dark: #B8860B; --dark: #0a0a0a;
+    --card: #1a1a2e; --card-2: #16213e;
+    --success: #00ff88; --danger: #ff4444; --warning: #ffaa00; --info: #00aaff;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
     background: linear-gradient(180deg, #0a0a0a 0%, #16213e 100%);
-    color: #fff;
-    font-family: Tahoma, sans-serif;
-    padding-bottom: 80px;
-    direction: rtl;
-    min-height: 100vh;
+    color: #fff; font-family: Tahoma, sans-serif;
+    padding-bottom: 80px; direction: rtl; min-height: 100vh;
 }
-
-/* هدر */
 .header {
     background: linear-gradient(135deg, #000, #1a1a2e);
-    padding: 15px 20px;
-    text-align: center;
+    padding: 15px 20px; text-align: center;
     border-bottom: 3px solid var(--gold);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    position: sticky; top: 0; z-index: 100;
     box-shadow: 0 4px 20px rgba(255,215,0,0.3);
 }
-.header h1 {
-    color: var(--gold);
-    font-size: 22px;
-    text-shadow: 0 0 15px rgba(255,215,0,0.6);
-}
-.header .status {
-    margin-top: 5px;
-    font-size: 12px;
-    color: #888;
-}
+.header h1 { color: var(--gold); font-size: 22px; text-shadow: 0 0 15px rgba(255,215,0,0.6); }
+.header .status { margin-top: 5px; font-size: 12px; color: #888; }
 .vip-badge {
     background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    color: #000;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 11px;
-    display: inline-block;
+    color: #000; padding: 4px 12px; border-radius: 20px;
+    font-weight: bold; font-size: 11px; display: inline-block;
     box-shadow: 0 2px 10px rgba(255,215,0,0.5);
 }
-
-/* صفحات */
 .page { display: none; padding: 15px; animation: slideIn 0.4s; }
 .page.active { display: block; }
-@keyframes slideIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* کارت‌ها */
+@keyframes slideIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 .card {
     background: linear-gradient(135deg, var(--card), var(--card-2));
-    border-radius: 15px;
-    padding: 15px;
-    margin-bottom: 15px;
+    border-radius: 15px; padding: 15px; margin-bottom: 15px;
     border: 1px solid rgba(255,215,0,0.2);
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 .card h3 {
-    color: var(--gold);
-    border-bottom: 2px solid rgba(255,215,0,0.3);
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-    font-size: 16px;
+    color: var(--gold); border-bottom: 2px solid rgba(255,215,0,0.3);
+    padding-bottom: 10px; margin-bottom: 15px; font-size: 16px;
 }
-
-/* آمار ۳ ستونی */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 15px;
-}
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
 .stat-box {
     background: linear-gradient(135deg, #222, #1a1a2e);
-    border-radius: 12px;
-    padding: 12px 8px;
-    text-align: center;
+    border-radius: 12px; padding: 12px 8px; text-align: center;
     border: 1px solid rgba(255,215,0,0.3);
 }
 .stat-box .icon { font-size: 24px; margin-bottom: 5px; }
 .stat-box .value { color: var(--gold); font-size: 14px; font-weight: bold; }
 .stat-box .label { font-size: 10px; color: #888; margin-top: 3px; }
 .stat-box .change { font-size: 10px; margin-top: 3px; }
-.up { color: var(--success); }
-.down { color: var(--danger); }
-
-/* قیمت‌ها */
+.up { color: var(--success); } .down { color: var(--danger); }
 .price-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    transition: 0.3s;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);
 }
-.price-row:hover { background: rgba(255,215,0,0.05); }
 .price-row:last-child { border: none; }
 .price-name { font-size: 14px; }
 .price-value { color: var(--gold); font-weight: bold; font-size: 15px; }
-.price-change { font-size: 11px; margin-top: 3px; }
-
-/* دکمه‌ها */
 .gold-btn {
     background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    color: #000;
-    border: none;
-    padding: 14px;
-    border-radius: 12px;
-    width: 100%;
-    font-weight: bold;
-    font-size: 15px;
-    cursor: pointer;
-    margin-top: 10px;
-    box-shadow: 0 4px 15px rgba(255,215,0,0.4);
-    transition: 0.3s;
+    color: #000; border: none; padding: 14px; border-radius: 12px;
+    width: 100%; font-weight: bold; font-size: 15px; cursor: pointer;
+    margin-top: 10px; box-shadow: 0 4px 15px rgba(255,215,0,0.4);
 }
-.gold-btn:active { transform: scale(0.97); }
 .red-btn {
     background: linear-gradient(135deg, var(--danger), #cc0000);
-    color: #fff;
-    border: none;
-    padding: 12px;
-    border-radius: 10px;
-    width: 100%;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
+    color: #fff; border: none; padding: 12px; border-radius: 10px;
+    width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px;
 }
 .blue-btn {
     background: linear-gradient(135deg, var(--info), #0088cc);
-    color: #fff;
-    border: none;
-    padding: 12px;
-    border-radius: 10px;
-    width: 100%;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
+    color: #fff; border: none; padding: 12px; border-radius: 10px;
+    width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px;
 }
-
-/* اینپوت */
 input, textarea, select {
-    width: 100%;
-    padding: 14px;
-    margin-bottom: 12px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,215,0,0.3);
-    background: #0a0a0a;
-    color: #fff;
-    font-family: Tahoma;
-    font-size: 14px;
+    width: 100%; padding: 14px; margin-bottom: 12px;
+    border-radius: 10px; border: 1px solid rgba(255,215,0,0.3);
+    background: #0a0a0a; color: #fff; font-family: Tahoma; font-size: 14px;
 }
 input:focus { border-color: var(--gold); outline: none; }
 label { display: block; margin-bottom: 5px; color: #aaa; font-size: 13px; }
-
-/* منوی پایین */
 .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+    position: fixed; bottom: 0; width: 100%;
     background: linear-gradient(180deg, #111, #000);
-    display: flex;
-    justify-content: space-around;
-    padding: 8px 0;
-    border-top: 2px solid var(--gold);
-    z-index: 100;
-    box-shadow: 0 -4px 20px rgba(255,215,0,0.2);
+    display: flex; justify-content: space-around; padding: 8px 0;
+    border-top: 2px solid var(--gold); z-index: 100;
 }
-.nav-item {
-    color: #666;
-    text-align: center;
-    font-size: 10px;
-    cursor: pointer;
-    padding: 5px 8px;
-    transition: 0.3s;
-}
-.nav-item.active { color: var(--gold); transform: translateY(-3px); }
+.nav-item { color: #666; text-align: center; font-size: 10px; cursor: pointer; padding: 5px 8px; }
+.nav-item.active { color: var(--gold); }
 .nav-item .icon { font-size: 22px; display: block; margin-bottom: 3px; }
-
-/* لوگو */
 .logo {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
+    width: 120px; height: 120px; border-radius: 50%;
     background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    color: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 45px;
-    margin: 20px auto;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 0 30px rgba(255,215,0,0.5);
+    color: #000; display: flex; align-items: center; justify-content: center;
+    font-size: 45px; margin: 20px auto; cursor: pointer;
+    font-weight: bold; box-shadow: 0 0 30px rgba(255,215,0,0.5);
     animation: pulse 2s infinite;
 }
-@keyframes pulse {
-    0%, 100% { box-shadow: 0 0 30px rgba(255,215,0,0.5); }
-    50% { box-shadow: 0 0 50px rgba(255,215,0,0.8); }
-}
-
-/* باکس‌ها */
+@keyframes pulse { 0%,100%{box-shadow:0 0 30px rgba(255,215,0,0.5)} 50%{box-shadow:0 0 50px rgba(255,215,0,0.8)} }
 .info-box { background: rgba(0,170,255,0.1); border: 2px solid var(--info); border-radius: 12px; padding: 15px; margin: 10px 0; }
 .success-box { background: rgba(0,255,136,0.1); border: 2px solid var(--success); border-radius: 12px; padding: 15px; margin: 10px 0; }
 .warning-box { background: rgba(255,170,0,0.1); border: 2px solid var(--warning); border-radius: 12px; padding: 15px; margin: 10px 0; }
 .danger-box { background: rgba(255,68,68,0.1); border: 2px solid var(--danger); border-radius: 12px; padding: 15px; margin: 10px 0; }
-
-/* پنل ادمین */
 .admin-header {
     background: linear-gradient(135deg, #6a0000, #900);
-    padding: 20px;
-    text-align: center;
-    border-radius: 15px;
-    margin-bottom: 15px;
+    padding: 20px; text-align: center; border-radius: 15px; margin-bottom: 15px;
 }
 .admin-stat {
     background: linear-gradient(135deg, #1a1a2e, #16213e);
-    padding: 15px;
-    border-radius: 12px;
-    text-align: center;
+    padding: 15px; border-radius: 12px; text-align: center;
     border: 1px solid rgba(255,215,0,0.3);
 }
 .admin-stat .num { color: var(--gold); font-size: 24px; font-weight: bold; }
 .admin-stat .lbl { font-size: 11px; color: #888; margin-top: 5px; }
-
-/* پیام‌ها */
 .msg-item {
     background: linear-gradient(135deg, #1a1a2e, #16213e);
-    border-right: 4px solid var(--gold);
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 10px;
+    border-right: 4px solid var(--gold); padding: 12px;
+    margin-bottom: 10px; border-radius: 10px;
 }
-.msg-item strong { color: var(--gold); }
-
-/* استراتژی */
 .strategy-item {
-    background: rgba(255,215,0,0.05);
-    border: 1px solid rgba(255,215,0,0.3);
-    border-radius: 12px;
-    padding: 15px;
-    margin: 10px 0;
+    background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.3);
+    border-radius: 12px; padding: 15px; margin: 10px 0;
 }
 .strategy-item .num-circle {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    background: var(--gold);
-    color: #000;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 30px;
-    font-weight: bold;
-    margin-left: 10px;
+    display: inline-block; width: 30px; height: 30px;
+    background: var(--gold); color: #000; border-radius: 50%;
+    text-align: center; line-height: 30px; font-weight: bold; margin-left: 10px;
 }
-
-/* لودینگ */
 .loader {
-    border: 3px solid rgba(255,215,0,0.2);
-    border-top: 3px solid var(--gold);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-    margin: 20px auto;
+    border: 3px solid rgba(255,215,0,0.2); border-top: 3px solid var(--gold);
+    border-radius: 50%; width: 40px; height: 40px;
+    animation: spin 1s linear infinite; margin: 20px auto;
 }
 @keyframes spin { 0%{transform:rotate(0)} 100%{transform:rotate(360deg)} }
-
-/* نمودار ساده */
 .chart-bar {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-around;
-    height: 100px;
-    margin: 15px 0;
-    padding: 10px;
-    background: rgba(0,0,0,0.3);
-    border-radius: 10px;
+    display: flex; align-items: flex-end; justify-content: space-around;
+    height: 100px; margin: 15px 0; padding: 10px;
+    background: rgba(0,0,0,0.3); border-radius: 10px;
 }
 .chart-bar .bar {
-    width: 20px;
-    background: linear-gradient(180deg, var(--gold), var(--gold-dark));
+    width: 20px; background: linear-gradient(180deg, var(--gold), var(--gold-dark));
     border-radius: 3px 3px 0 0;
-    transition: 0.3s;
+}
+.login-box {
+    max-width: 400px; margin: 40px auto; padding: 25px;
+    background: linear-gradient(135deg, var(--card), var(--card-2));
+    border-radius: 20px; border: 2px solid var(--gold);
+    box-shadow: 0 0 40px rgba(255,215,0,0.3);
+}
+.user-info {
+    background: rgba(255,215,0,0.1); padding: 10px; border-radius: 10px;
+    margin-bottom: 15px; text-align: center; border: 1px solid rgba(255,215,0,0.3);
 }
 </style>
 </head>
@@ -309,11 +163,34 @@ label { display: block; margin-bottom: 5px; color: #aaa; font-size: 13px; }
 
 <div class="header">
 <h1>🧠 هوش طلایی</h1>
-<div class="status" id="user-status">کاربر رایگان</div>
+<div class="status" id="user-status">لطفا وارد شوید</div>
+</div>
+
+<!-- ============ صفحه ورود/ثبت‌نام ============ -->
+<div id="p-login" class="page active">
+<div class="login-box">
+<div style="text-align:center;font-size:60px;margin-bottom:10px;">🔐</div>
+<h3 style="color:var(--gold);text-align:center;margin-bottom:20px;">ورود / ثبت‌نام</h3>
+
+<label>👤 نام کاربری:</label>
+<input type="text" id="login-user" placeholder="مثلا: ali1234">
+
+<label>🔑 رمز عبور:</label>
+<input type="password" id="login-pass" placeholder="رمز عبور">
+
+<button class="gold-btn" onclick="loginUser()">🚪 ورود</button>
+<button class="blue-btn" onclick="registerUser()">📝 ثبت‌نام کاربر جدید</button>
+
+<p style="color:#666;font-size:11px;text-align:center;margin-top:15px;">
+اطلاعات شما فقط در گوشی خودتان ذخیره می‌شود
+</p>
+</div>
 </div>
 
 <!-- ============ صفحه ۱: قیمت‌ها ============ -->
-<div id="p1" class="page active">
+<div id="p1" class="page">
+<div class="user-info" id="welcome-msg"></div>
+
 <div class="card">
 <h3>📊 قیمت لحظه‌ای</h3>
 <div class="stats-grid">
@@ -353,47 +230,39 @@ label { display: block; margin-bottom: 5px; color: #aaa; font-size: 13px; }
 </div>
 
 <div class="card">
-<h3>🌡️ شاخص ترس و طمع بازار</h3>
+<h3>🌡️ شاخص ترس و طمع</h3>
 <div style="text-align:center;padding:20px;">
 <div style="font-size:48px;color:var(--warning);">۶۵</div>
 <div style="color:var(--warning);font-size:18px;font-weight:bold;">طمع</div>
-<p style="color:#888;font-size:12px;margin-top:10px;">بازار در حال طمع است، احتیاط کنید</p>
 </div>
 </div>
 
 <p style="text-align:center;color:#666;font-size:11px;">🕐 آخرین بروزرسانی: <span id="update-time">-</span></p>
 </div>
 
-<!-- ============ صفحه ۲: مشاور هوشمند ============ -->
+<!-- ============ صفحه ۲: مشاور ============ -->
 <div id="p2" class="page">
 <div class="card">
 <h3>🧠 مشاور هوش مصنوعی</h3>
-<p style="color:#aaa;font-size:13px;margin-bottom:15px;">اطلاعات خود را وارد کنید تا هوش مصنوعی بهترین استراتژی را برای شما پیشنهاد دهد</p>
-
 <label>💰 موجودی پول نقد (تومان):</label>
 <input type="number" id="budget" placeholder="مثلا: ۵۰۰۰۰۰۰۰">
-
 <label>🥇 مقدار طلای فعلی (گرم):</label>
 <input type="number" id="gold-amount" placeholder="مثلا: ۱۰" value="0">
-
 <label>₿ مقدار ارز دیجیتال (دلار):</label>
 <input type="number" id="crypto-amount" placeholder="مثلا: ۵۰۰" value="0">
-
-<label>⚠️ میزان ریسک پذیری:</label>
+<label>⚠️ ریسک پذیری:</label>
 <select id="risk">
 <option value="low">🟢 کم (محافظه‌کار)</option>
-<option value="medium" selected>🟡 متوسط (متعادل)</option>
+<option value="medium" selected>🟡 متوسط</option>
 <option value="high">🔴 زیاد (تهاجمی)</option>
 </select>
-
 <label>⏰ مدت سرمایه‌گذاری:</label>
 <select id="period">
-<option value="1">۱ ماه (کوتاه‌مدت)</option>
-<option value="3" selected>۳ ماه (میان‌مدت)</option>
+<option value="1">۱ ماه</option>
+<option value="3" selected>۳ ماه</option>
 <option value="6">۶ ماه</option>
-<option value="12">۱ سال (بلندمدت)</option>
+<option value="12">۱ سال</option>
 </select>
-
 <button class="gold-btn" onclick="requestAI()">🎯 دریافت تحلیل کامل</button>
 <div id="ai-result" style="margin-top:15px;"></div>
 </div>
@@ -402,32 +271,21 @@ label { display: block; margin-bottom: 5px; color: #aaa; font-size: 13px; }
 <!-- ============ صفحه ۳: اخبار ============ -->
 <div id="p3" class="page">
 <div class="card">
-<h3>📰 آخرین اخبار اقتصادی</h3>
-<div id="news-list">
+<h3>📰 اخبار اقتصادی</h3>
 <div class="msg-item">
 <strong>🟢 افزایش قیمت طلای جهانی</strong>
-<p style="font-size:12px;color:#aaa;margin-top:5px;">قیمت انس طلا در بازارهای جهانی امروز با رشد ۲ درصدی به ۲,۶۵۰ دلار رسید...</p>
+<p style="font-size:12px;color:#aaa;margin-top:5px;">قیمت انس طلا با رشد ۲ درصدی به ۲,۶۵۰ دلار رسید...</p>
 <small style="color:#666;">🕐 ۲ ساعت پیش</small>
 </div>
 <div class="msg-item">
-<strong>🔴 نوسان شدید بازار ارز دیجیتال</strong>
+<strong>🔴 نوسان بازار ارز دیجیتال</strong>
 <p style="font-size:12px;color:#aaa;margin-top:5px;">بیت‌کوین در ۲۴ ساعت گذشته نوسان ۵ درصدی داشت...</p>
 <small style="color:#666;">🕐 ۳ ساعت پیش</small>
 </div>
-<div class="msg-item">
-<strong>🟡 پیش‌بینی وضعیت دلار</strong>
-<p style="font-size:12px;color:#aaa;margin-top:5px;">تحلیل‌گران معتقدند دلار در هفته‌های آینده...</p>
-<small style="color:#666;">🕐 ۵ ساعت پیش</small>
 </div>
-</div>
-</div>
-
 <div class="card">
 <h3>🎯 جو کلی اخبار</h3>
-<div class="info-box">
-<p style="text-align:center;font-size:16px;">🟢 <strong>مثبت</strong></p>
-<p style="text-align:center;font-size:12px;color:#aaa;margin-top:10px;">۷۰٪ اخبار امروز مثبت هستند</p>
-</div>
+<div class="info-box"><p style="text-align:center;font-size:16px;">🟢 <strong>مثبت</strong></p></div>
 </div>
 </div>
 
@@ -435,8 +293,9 @@ label { display: block; margin-bottom: 5px; color: #aaa; font-size: 13px; }
 <div id="p4" class="page">
 <div class="card">
 <h3>📞 ارسال پیام به پشتیبانی</h3>
-<label>👤 نام شما:</label>
-<input type="text" id="user-name" placeholder="نام و نام خانوادگی">
+<div class="info-box" style="margin-bottom:15px;">
+<p style="font-size:13px;">👤 شما به عنوان <strong style="color:var(--gold);" id="current-user-name">-</strong> وارد شده‌اید</p>
+</div>
 <label>💬 پیام یا سوال:</label>
 <textarea id="support-msg" placeholder="سوال یا مشکل خود را بنویسید..." style="min-height:120px;"></textarea>
 <button class="gold-btn" onclick="sendSupport()">📤 ارسال پیام</button>
@@ -444,8 +303,9 @@ label { display: block; margin-bottom: 5px; color: #aaa; font-size: 13px; }
 </div>
 
 <div class="card">
-<h3>📬 پاسخ‌های دریافتی</h3>
-<div id="my-messages"><p style="color:#666;text-align:center;">هنوز پاسخی دریافت نکرده‌اید</p></div>
+<h3>📬 پاسخ‌های شما</h3>
+<p style="color:#888;font-size:12px;margin-bottom:10px;">🔒 فقط شما این پیام‌ها را میبینید</p>
+<div id="my-messages"><p style="color:#666;text-align:center;">هنوز پیامی ندارید</p></div>
 </div>
 </div>
 
@@ -454,29 +314,26 @@ label { display: block; margin-bottom: 5px; color: #aaa; font-size: 13px; }
 <div class="card" style="text-align:center;">
 <div class="logo" onclick="secretClick()">GOLD</div>
 <h3 style="color:var(--gold);">هوش طلایی</h3>
-<p style="color:#888;font-size:13px;margin:10px 0;">مشاور هوشمند سرمایه‌گذاری</p>
+<p style="color:#888;font-size:13px;">مشاور هوشمند سرمایه‌گذاری</p>
 <p style="color:#666;font-size:11px;">نسخه ۲.۰.۰</p>
 </div>
 
 <div class="card">
 <h3>👑 ارتقا به VIP</h3>
 <div class="success-box">
-<p><strong style="color:var(--gold);">با نسخه VIP دسترسی دارید به:</strong></p>
-<p style="margin:8px 0;">✅ تحلیل نامحدود هوش مصنوعی</p>
-<p style="margin:8px 0;">✅ سیگنال دقیق خرید و فروش</p>
-<p style="margin:8px 0;">✅ مدیریت سبد دارایی</p>
+<p style="margin:8px 0;">✅ تحلیل نامحدود</p>
+<p style="margin:8px 0;">✅ سیگنال دقیق</p>
+<p style="margin:8px 0;">✅ مدیریت سبد</p>
 <p style="margin:8px 0;">✅ هشدار قیمتی</p>
-<p style="margin:8px 0;">✅ نمودارهای پیشرفته</p>
-<p style="margin:8px 0;">✅ پشتیبانی VIP</p>
 </div>
 <div style="text-align:center;font-size:28px;color:var(--gold);margin:15px 0;font-weight:bold;">۳۵,۰۰۰ تومان</div>
-<p style="text-align:center;color:#888;font-size:12px;">اشتراک ماهانه</p>
 <button class="gold-btn" onclick="buyVIP()">💳 خرید اشتراک VIP</button>
 </div>
 
 <div class="card">
-<h3>ℹ️ درباره ما</h3>
-<p style="color:#aaa;font-size:13px;line-height:1.8;">هوش طلایی با استفاده از پیشرفته‌ترین الگوریتم‌های هوش مصنوعی و تحلیل تکنیکال، به شما کمک می‌کند تا بهترین تصمیم را برای سرمایه‌گذاری در طلا، ارز و ارز دیجیتال بگیرید.</p>
+<h3>👤 حساب کاربری</h3>
+<p style="color:#aaa;font-size:13px;margin-bottom:10px;">کاربر فعلی: <strong style="color:var(--gold);" id="about-user">-</strong></p>
+<button class="red-btn" onclick="logoutUser()">🚪 خروج از حساب</button>
 </div>
 </div>
 
@@ -484,44 +341,28 @@ label { display: block; margin-bottom: 5px; color: #aaa; font-size: 13px; }
 <div id="p6" class="page">
 <div class="admin-header">
 <h2 style="color:#fff;">👑 پنل مدیریت</h2>
-<p style="color:#ffcccc;font-size:12px;margin-top:5px;">دسترسی کامل ادمین</p>
 </div>
-
 <div class="stats-grid">
-<div class="admin-stat"><div class="num" id="a-users">۱</div><div class="lbl">کاربر</div></div>
-<div class="admin-stat"><div class="num" id="a-vip">۰</div><div class="lbl">VIP</div></div>
-<div class="admin-stat"><div class="num" id="a-msgs">۰</div><div class="lbl">پیام</div></div>
+<div class="admin-stat"><div class="num" id="a-users">۰</div><div class="lbl">کاربر</div></div>
+<div class="admin-stat"><div class="num" id="a-vip">۰</div><div class="lbl">تایید</div></div>
+<div class="admin-stat"><div class="num" id="a-msgs">۰</div><div class="lbl">پیام جدید</div></div>
 </div>
-
 <div class="card">
-<h3>💰 آمار درآمد</h3>
+<h3>💰 درآمد کل</h3>
 <div class="success-box" style="text-align:center;">
 <div style="font-size:32px;color:var(--gold);font-weight:bold;" id="a-income">۰</div>
-<div style="color:#aaa;font-size:12px;">تومان درآمد کل</div>
+<div style="color:#aaa;font-size:12px;">تومان</div>
 </div>
 </div>
-
 <div class="card">
-<h3>📬 پیام‌های پشتیبانی</h3>
+<h3>📬 همه پیام‌های کاربران</h3>
 <div id="admin-msg-list"><p style="color:#666;text-align:center;">پیامی موجود نیست</p></div>
 </div>
-
-<div class="card">
-<h3>✅ تاییدات کاربران</h3>
-<div id="admin-confirms"><p style="color:#666;text-align:center;">تاییدی موجود نیست</p></div>
-</div>
-
-<div class="card">
-<h3>📢 ارسال پیام همگانی</h3>
-<textarea id="broadcast" placeholder="پیامی به همه کاربران بفرستید..."></textarea>
-<button class="blue-btn" onclick="broadcast()">📤 ارسال به همه</button>
-</div>
-
-<button class="red-btn" onclick="exitAdmin()">🚪 خروج از پنل ادمین</button>
+<button class="red-btn" onclick="exitAdmin()">🚪 خروج از پنل</button>
 </div>
 
 <!-- ============ منوی پایین ============ -->
-<div class="bottom-nav">
+<div class="bottom-nav" id="main-nav" style="display:none;">
 <div class="nav-item active" onclick="tab('p1',this)"><span class="icon">📊</span>قیمت</div>
 <div class="nav-item" onclick="tab('p2',this)"><span class="icon">🧠</span>مشاور</div>
 <div class="nav-item" onclick="tab('p3',this)"><span class="icon">📰</span>اخبار</div>
@@ -530,22 +371,111 @@ label { display: block; margin-bottom: 5px; color: #aaa; font-size: 13px; }
 </div>
 
 <script>
+// ============ سیستم کاربران ============
+let currentUser = null;
 let secretClicks = 0, isVIP = false, isAdmin = false, aiUsageCount = 0;
-let messages = JSON.parse(localStorage.getItem('messages') || '[]');
+let users = JSON.parse(localStorage.getItem('users') || '{}');
+let allMessages = JSON.parse(localStorage.getItem('allMessages') || '[]');
 let confirms = JSON.parse(localStorage.getItem('confirms') || '[]');
 let prices = {};
 
-// ============ بارگذاری قیمت از ربات (گیت‌هاب) ============
+// ثبت‌نام
+function registerUser() {
+    let u = document.getElementById('login-user').value.trim();
+    let p = document.getElementById('login-pass').value.trim();
+    if(!u || !p) { alert('نام کاربری و رمز را وارد کنید'); return; }
+    if(u.length < 3) { alert('نام کاربری حداقل ۳ حرف باشد'); return; }
+    if(p.length < 4) { alert('رمز عبور حداقل ۴ حرف باشد'); return; }
+    if(users[u]) { alert('این نام کاربری قبلا ثبت شده'); return; }
+    users[u] = { password: p, joinDate: new Date().toLocaleString('fa-IR'), isVIP: false };
+    localStorage.setItem('users', JSON.stringify(users));
+    alert('✅ ثبت‌نام موفق! حالا وارد شوید');
+}
+
+// ورود
+function loginUser() {
+    let u = document.getElementById('login-user').value.trim();
+    let p = document.getElementById('login-pass').value.trim();
+    if(!u || !p) { alert('نام کاربری و رمز را وارد کنید'); return; }
+    if(!users[u]) { alert('❌ کاربر یافت نشد. ابتدا ثبت‌نام کنید'); return; }
+    if(users[u].password !== p) { alert('❌ رمز اشتباه است'); return; }
+    currentUser = u;
+    localStorage.setItem('currentUser', u);
+    isVIP = users[u].isVIP || false;
+    showApp();
+}
+
+// نمایش برنامه بعد از ورود
+function showApp() {
+    document.getElementById('p-login').classList.remove('active');
+    document.getElementById('p1').classList.add('active');
+    document.getElementById('main-nav').style.display = 'flex';
+    document.getElementById('welcome-msg').innerHTML = '👋 خوش آمدید <strong style="color:var(--gold);">'+currentUser+'</strong>';
+    document.getElementById('current-user-name').innerText = currentUser;
+    document.getElementById('about-user').innerText = currentUser;
+    document.getElementById('user-status').innerHTML = isVIP ? '<span class="vip-badge">⭐ VIP</span> - '+currentUser : 'کاربر: '+currentUser;
+}
+
+// خروج
+function logoutUser() {
+    if(confirm('آیا از حساب خود خارج می‌شوید؟')) {
+        currentUser = null;
+        localStorage.removeItem('currentUser');
+        isVIP = false;
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('p-login').classList.add('active');
+        document.getElementById('main-nav').style.display = 'none';
+        document.getElementById('user-status').innerText = 'لطفا وارد شوید';
+        document.getElementById('login-user').value = '';
+        document.getElementById('login-pass').value = '';
+    }
+}
+
+// تغییر تب
+function tab(id, el) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if(el) el.classList.add('active');
+    if(id === 'p4') loadMyMessages();
+    window.scrollTo(0, 0);
+}
+
+// کلیک مخفی
+function secretClick() {
+    secretClicks++;
+    if(secretClicks >= 7) {
+        secretClicks = 0;
+        let pass = prompt('🔐 رمز عبور مخفی:');
+        if(pass === '139113911391') {
+            isAdmin = true; isVIP = true;
+            if(currentUser && users[currentUser]) { users[currentUser].isVIP = true; localStorage.setItem('users', JSON.stringify(users)); }
+            document.getElementById('user-status').innerHTML = '<span class="vip-badge">👑 ادمین</span>';
+            tab('p6');
+            loadAdminMessages();
+            updateAdminStats();
+        } else if(pass === '13911391') {
+            isVIP = true;
+            if(currentUser && users[currentUser]) { users[currentUser].isVIP = true; localStorage.setItem('users', JSON.stringify(users)); }
+            document.getElementById('user-status').innerHTML = '<span class="vip-badge">⭐ VIP</span> - '+currentUser;
+            alert('✅ اشتراک VIP فعال شد');
+        } else if(pass) alert('❌ رمز اشتباه');
+    }
+}
+
+function buyVIP() {
+    alert('🔔 در حال انتقال به درگاه پرداخت مایکت...\n\n(بعد از انتشار در مایکت فعال می‌شود)');
+}
+
+// بارگذاری قیمت‌ها
 async function loadPrices() {
     try {
-        // این فایل رو ربات ترموکس آپدیت می‌کنه
         const response = await fetch('prices.json?t=' + Date.now());
         const data = await response.json();
         prices = data;
         updatePriceDisplay(data);
         document.getElementById('update-time').innerText = data.updated || new Date().toLocaleString('fa-IR');
     } catch(e) {
-        console.log('استفاده از قیمت پیش‌فرض');
         document.getElementById('update-time').innerText = new Date().toLocaleString('fa-IR');
     }
 }
@@ -562,76 +492,29 @@ function updatePriceDisplay(d) {
     if(d.btc) document.getElementById('p-btc').innerText = '$' + Number(d.btc).toLocaleString('en-US');
     if(d.eth) document.getElementById('p-eth').innerText = '$' + Number(d.eth).toLocaleString('en-US');
     if(d.usdt) document.getElementById('p-usdt').innerText = Number(d.usdt).toLocaleString('fa-IR');
-    
     if(d.coin) document.getElementById('s-coin').innerText = (d.coin/1000000).toFixed(1)+'M';
     if(d.usd) document.getElementById('s-dollar').innerText = (d.usd/1000).toFixed(0)+'K';
     if(d.btc) document.getElementById('s-btc').innerText = '$'+(d.btc/1000).toFixed(0)+'K';
 }
 
-// ============ تغییر تب ============
-function tab(id, el) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    if(el) el.classList.add('active');
-    if(id === 'p4') loadMyMessages();
-    window.scrollTo(0, 0);
-}
-
-// ============ کلیک مخفی ============
-function secretClick() {
-    secretClicks++;
-    if(secretClicks >= 7) {
-        secretClicks = 0;
-        let pass = prompt('🔐 رمز عبور:');
-        if(pass === '139113911391') {
-            isAdmin = true; isVIP = true;
-            document.getElementById('user-status').innerHTML = '<span class="vip-badge">👑 ادمین</span>';
-            tab('p6');
-            loadAdminMessages();
-            loadAdminConfirms();
-            updateAdminStats();
-        } else if(pass === '13911391') {
-            isVIP = true;
-            document.getElementById('user-status').innerHTML = '<span class="vip-badge">⭐ VIP</span>';
-            alert('✅ اشتراک VIP فعال شد');
-        } else if(pass) alert('❌ رمز اشتباه');
-    }
-}
-
-// ============ خرید اشتراک ============
-function buyVIP() {
-    alert('🔔 در حال انتقال به درگاه پرداخت مایکت...\n\n(این قابلیت پس از انتشار در مایکت فعال می‌شود)');
-    // در نسخه واقعی: window.location = 'myket://payment/...'
-}
-
-// ============ تحلیل هوش مصنوعی (پیشرفته) ============
+// تحلیل AI
 function requestAI() {
     if(!isVIP && aiUsageCount >= 1) {
-        alert('⚠️ استفاده رایگان تمام شد!\n\nبرای دسترسی نامحدود، اشتراک VIP (۳۵,۰۰۰ تومان) بخرید.');
+        alert('⚠️ استفاده رایگان تمام شد!\nبرای دسترسی نامحدود، VIP بخرید.');
         tab('p5', document.querySelectorAll('.nav-item')[4]);
         return;
     }
-    
     let budget = parseInt(document.getElementById('budget').value);
     let gold = parseInt(document.getElementById('gold-amount').value) || 0;
     let crypto = parseInt(document.getElementById('crypto-amount').value) || 0;
     let risk = document.getElementById('risk').value;
     let period = parseInt(document.getElementById('period').value);
-    
-    if(!budget || budget < 1000000) {
-        alert('لطفا موجودی معتبر (حداقل ۱ میلیون) وارد کنید');
-        return;
-    }
-    
-    let ok = confirm('⚠️ هشدار مهم\n\nاین تحلیل بر اساس هوش مصنوعی است.\nهیچ تضمینی برای سود قطعی وجود ندارد.\nمسئولیت خرید و فروش با شخص شماست.\n\nآیا قبول می‌کنید؟');
+    if(!budget || budget < 1000000) { alert('موجودی حداقل ۱ میلیون'); return; }
+    let ok = confirm('⚠️ هشدار\nاین تحلیل هوش مصنوعی است.\nمسئولیت با شماست.\n\nقبول می‌کنید؟');
     if(!ok) return;
-    
-    confirms.push({time: new Date().toLocaleString('fa-IR'), budget, gold, crypto, risk, period, accepted: true});
+    confirms.push({user: currentUser, time: new Date().toLocaleString('fa-IR'), budget, gold, crypto, risk, period});
     localStorage.setItem('confirms', JSON.stringify(confirms));
-    
-    document.getElementById('ai-result').innerHTML = '<div class="loader"></div><p style="text-align:center;color:var(--gold);">🧠 در حال تحلیل با هوش مصنوعی...</p>';
-    
+    document.getElementById('ai-result').innerHTML = '<div class="loader"></div><p style="text-align:center;color:var(--gold);">🧠 در حال تحلیل...</p>';
     setTimeout(() => {
         aiUsageCount++;
         document.getElementById('ai-result').innerHTML = generateAdvice(budget, gold, crypto, risk, period);
@@ -639,181 +522,112 @@ function requestAI() {
 }
 
 function generateAdvice(budget, gold, crypto, risk, period) {
-    // قیمت‌های پیش‌فرض (بعداً از prices میاد)
     let coinPrice = prices.coin || 45000000;
     let goldGramPrice = prices.melted_gold || 4500000;
     let usdtPrice = prices.usdt || 70200;
-    
-    let strategy = {};
-    let profitPercent = 0;
-    let riskLevel = '';
-    let riskColor = '';
-    
-    if(risk === 'low') {
-        strategy = {coin: 0.2, gold: 0.5, usdt: 0.2, cash: 0.1};
-        profitPercent = period * 3;
-        riskLevel = 'کم'; riskColor = 'success';
-    } else if(risk === 'medium') {
-        strategy = {coin: 0.35, gold: 0.3, usdt: 0.25, cash: 0.1};
-        profitPercent = period * 5;
-        riskLevel = 'متوسط'; riskColor = 'warning';
-    } else {
-        strategy = {coin: 0.4, gold: 0.2, usdt: 0.1, btc: 0.2, cash: 0.1};
-        profitPercent = period * 8;
-        riskLevel = 'زیاد'; riskColor = 'danger';
-    }
-    
-    let coinBudget = Math.floor(budget * strategy.coin);
-    let coinCount = Math.floor(coinBudget / coinPrice);
-    let goldBudget = Math.floor(budget * strategy.gold);
-    let goldGrams = Math.floor(goldBudget / goldGramPrice);
-    let usdtBudget = Math.floor(budget * strategy.usdt);
-    let usdtAmount = Math.floor(usdtBudget / usdtPrice);
+    let strategy = {}, profitPercent = 0, riskLevel = '', riskColor = '';
+    if(risk === 'low') { strategy = {coin:0.2, gold:0.5, usdt:0.2, cash:0.1}; profitPercent = period * 3; riskLevel = 'کم'; riskColor = 'success'; }
+    else if(risk === 'medium') { strategy = {coin:0.35, gold:0.3, usdt:0.25, cash:0.1}; profitPercent = period * 5; riskLevel = 'متوسط'; riskColor = 'warning'; }
+    else { strategy = {coin:0.4, gold:0.2, usdt:0.1, btc:0.2, cash:0.1}; profitPercent = period * 8; riskLevel = 'زیاد'; riskColor = 'danger'; }
+    let coinCount = Math.floor((budget * strategy.coin) / coinPrice);
+    let goldGrams = Math.floor((budget * strategy.gold) / goldGramPrice);
+    let usdtAmount = Math.floor((budget * strategy.usdt) / usdtPrice);
     let cashAmount = Math.floor(budget * strategy.cash);
     let expectedProfit = Math.floor(budget * profitPercent / 100);
     
     let html = `
     <div class="success-box">
-    <h3 style="color:var(--gold);margin-bottom:10px;">📊 تحلیل کامل سرمایه شما</h3>
+    <h3 style="color:var(--gold);">📊 تحلیل کامل</h3>
     <p>💰 موجودی: ${budget.toLocaleString('fa-IR')} تومان</p>
-    <p>📅 تاریخ: ${new Date().toLocaleDateString('fa-IR')}</p>
     </div>
-    
     <div class="info-box">
-    <h4 style="color:var(--info);">🎯 استراتژی پیشنهادی</h4>
-    <p style="margin:5px 0;">⚠️ ریسک: <span class="${riskColor === 'success' ? 'up' : (riskColor === 'danger' ? 'down' : '')}" style="font-weight:bold;">${riskLevel}</span></p>
-    <p style="margin:5px 0;">📈 سود پیش‌بینی ${period} ماهه: <strong style="color:var(--success);">${profitPercent}٪</strong></p>
-    <p style="margin:5px 0;">💵 سود انتظاری: <strong style="color:var(--success);">${expectedProfit.toLocaleString('fa-IR')} تومان</strong></p>
+    <p>⚠️ ریسک: <strong>${riskLevel}</strong></p>
+    <p>📈 سود ${period} ماهه: <strong style="color:var(--success);">${profitPercent}٪</strong></p>
+    <p>💵 سود انتظاری: <strong style="color:var(--success);">${expectedProfit.toLocaleString('fa-IR')} تومان</strong></p>
     </div>
+    <h3 style="color:var(--gold);margin:15px 0;">🛒 برنامه خرید:</h3>`;
     
-    <h3 style="color:var(--gold);margin:15px 0;">🛒 برنامه خرید دقیق:</h3>
-    `;
-    
-    if(coinCount > 0) {
-        html += `
-        <div class="strategy-item">
-        <span class="num-circle">۱</span><strong>خرید سکه تمام</strong>
-        <p style="margin:8px 0;">📦 تعداد: <strong style="color:var(--gold);">${coinCount} سکه</strong></p>
-        <p style="margin:8px 0;">💰 هزینه: ${(coinCount * coinPrice).toLocaleString('fa-IR')} تومان</p>
-        <p style="margin:8px 0;">📍 محل خرید: بانک ملی / صرافی معتبر</p>
-        <p style="margin:8px 0;color:#aaa;font-size:12px;">💡 حباب فعلی: ۳٪ (مناسب خرید)</p>
-        </div>
-        `;
-    }
-    
-    if(goldGrams > 0) {
-        html += `
-        <div class="strategy-item">
-        <span class="num-circle">۲</span><strong>خرید طلای آبشده</strong>
-        <p style="margin:8px 0;">⚖️ مقدار: <strong style="color:var(--gold);">${goldGrams} گرم</strong></p>
-        <p style="margin:8px 0;">💰 هزینه: ${(goldGrams * goldGramPrice).toLocaleString('fa-IR')} تومان</p>
-        <p style="margin:8px 0;">📍 محل خرید: طلافروشی معتبر بازار</p>
-        <p style="margin:8px 0;color:#aaa;font-size:12px;">💡 دلیل: بدون حباب، نقدشوندگی بالا</p>
-        </div>
-        `;
-    }
-    
-    if(usdtAmount > 0) {
-        html += `
-        <div class="strategy-item">
-        <span class="num-circle">۳</span><strong>خرید تتر (USDT)</strong>
-        <p style="margin:8px 0;">💵 مقدار: <strong style="color:var(--gold);">${usdtAmount} دلار</strong></p>
-        <p style="margin:8px 0;">💰 هزینه: ${(usdtAmount * usdtPrice).toLocaleString('fa-IR')} تومان</p>
-        <p style="margin:8px 0;">📍 محل خرید: نوبیتکس / والکس / رمزینکس</p>
-        <p style="margin:8px 0;color:#aaa;font-size:12px;">💡 دلیل: حفظ ارزش در برابر تورم</p>
-        </div>
-        `;
-    }
-    
-    if(strategy.btc) {
-        let btcBudget = Math.floor(budget * strategy.btc);
-        html += `
-        <div class="strategy-item">
-        <span class="num-circle">۴</span><strong>خرید بیت‌کوین</strong>
-        <p style="margin:8px 0;">💰 مبلغ: <strong style="color:var(--gold);">${btcBudget.toLocaleString('fa-IR')} تومان</strong></p>
-        <p style="margin:8px 0;">📍 محل خرید: صرافی‌های داخلی</p>
-        <p style="margin:8px 0;color:#aaa;font-size:12px;">💡 دلیل: پتانسیل رشد بالا</p>
-        </div>
-        `;
-    }
-    
-    html += `
-    <div class="strategy-item">
-    <span class="num-circle">${strategy.btc ? '۵' : '۴'}</span><strong>نقد نگه دار</strong>
-    <p style="margin:8px 0;">💰 مبلغ: <strong style="color:var(--gold);">${cashAmount.toLocaleString('fa-IR')} تومان</strong></p>
-    <p style="margin:8px 0;color:#aaa;font-size:12px;">💡 برای فرصت‌های آینده و اضطراری</p>
-    </div>
-    
-    <div class="warning-box" style="margin-top:15px;">
-    <h4 style="color:var(--warning);">⏰ زمان‌بندی پیشنهادی:</h4>
-    <p style="margin:5px 0;">• الان (پله اول): ۶۰٪ سرمایه</p>
-    <p style="margin:5px 0;">• ۱ هفته بعد (پله دوم): ۲۵٪</p>
-    <p style="margin:5px 0;">• ۲ هفته بعد (پله سوم): ۱۵٪</p>
-    </div>
-    
-    <div class="danger-box">
-    <h4 style="color:var(--danger);">⚠️ هشدارهای مهم:</h4>
-    <p style="margin:5px 0;">🔴 اگر دلار زیر ۶۸,۰۰۰ آمد، سکه را بفروش</p>
-    <p style="margin:5px 0;">🔴 اگر طلا افت شدید داشت، صبر کن</p>
-    <p style="margin:5px 0;">🟢 اگر انس طلا از ۲,۷۰۰ رد شد، طلا بخر</p>
-    </div>
-    
-    <p style="text-align:center;color:#666;font-size:11px;margin-top:15px;">⚠️ این تحلیل هوش مصنوعی است. مسئولیت با شماست.</p>
-    `;
-    
+    if(coinCount > 0) html += `<div class="strategy-item"><span class="num-circle">۱</span><strong>سکه تمام</strong><p>📦 ${coinCount} سکه</p><p>💰 ${(coinCount*coinPrice).toLocaleString('fa-IR')} تومان</p><p>📍 بانک ملی / صرافی</p></div>`;
+    if(goldGrams > 0) html += `<div class="strategy-item"><span class="num-circle">۲</span><strong>طلای آبشده</strong><p>⚖️ ${goldGrams} گرم</p><p>💰 ${(goldGrams*goldGramPrice).toLocaleString('fa-IR')} تومان</p><p>📍 طلافروشی</p></div>`;
+    if(usdtAmount > 0) html += `<div class="strategy-item"><span class="num-circle">۳</span><strong>تتر</strong><p>💵 ${usdtAmount} دلار</p><p>💰 ${(usdtAmount*usdtPrice).toLocaleString('fa-IR')} تومان</p><p>📍 نوبیتکس</p></div>`;
+    if(strategy.btc) html += `<div class="strategy-item"><span class="num-circle">۴</span><strong>بیت‌کوین</strong><p>💰 ${Math.floor(budget*strategy.btc).toLocaleString('fa-IR')} تومان</p></div>`;
+    html += `<div class="strategy-item"><span class="num-circle">${strategy.btc?'۵':'۴'}</span><strong>نقد نگه دار</strong><p>💰 ${cashAmount.toLocaleString('fa-IR')} تومان</p></div>`;
+    html += `<div class="warning-box"><h4 style="color:var(--warning);">⏰ زمان‌بندی:</h4><p>• الان: ۶۰٪</p><p>• ۱ هفته بعد: ۲۵٪</p><p>• ۲ هفته بعد: ۱۵٪</p></div>`;
+    html += `<div class="danger-box"><h4 style="color:var(--danger);">⚠️ هشدارها:</h4><p>🔴 اگر دلار زیر ۶۸ آمد، سکه بفروش</p><p>🟢 اگر انس بالای ۲۷۰۰ رفت، طلا بخر</p></div>`;
     return html;
 }
 
-// ============ پشتیبانی ============
+// پشتیبانی - فقط پیام‌های کاربر فعلی
 function sendSupport() {
-    let name = document.getElementById('user-name').value;
-    let msg = document.getElementById('support-msg').value;
-    if(!name || !msg) { alert('نام و پیام را وارد کنید'); return; }
-    messages.push({id: Date.now(), name, message: msg, time: new Date().toLocaleString('fa-IR'), replied: false, reply: ''});
-    localStorage.setItem('messages', JSON.stringify(messages));
-    document.getElementById('support-result').innerHTML = '<div class="success-box" style="margin-top:15px;">✅ پیام شما ارسال شد. به زودی پاسخ داده می‌شود.</div>';
+    let msg = document.getElementById('support-msg').value.trim();
+    if(!msg) { alert('پیام را وارد کنید'); return; }
+    allMessages.push({
+        id: Date.now(),
+        user: currentUser,
+        message: msg,
+        time: new Date().toLocaleString('fa-IR'),
+        replied: false,
+        reply: ''
+    });
+    localStorage.setItem('allMessages', JSON.stringify(allMessages));
+    document.getElementById('support-result').innerHTML = '<div class="success-box" style="margin-top:15px;">✅ پیام شما ارسال شد</div>';
     document.getElementById('support-msg').value = '';
+    loadMyMessages();
 }
 
+// فقط پیام‌های کاربر فعلی
 function loadMyMessages() {
-    let myMsgs = messages.filter(m => m.replied);
-    document.getElementById('my-messages').innerHTML = myMsgs.length === 0 ? 
-        '<p style="color:#666;text-align:center;">هنوز پاسخی دریافت نکرده‌اید</p>' :
-        myMsgs.map(m => `<div class="msg-item"><strong>💬 سوال:</strong> ${m.message}<br><strong style="color:var(--gold);">📩 پاسخ:</strong> ${m.reply}<br><small style="color:#666;">${m.time}</small></div>`).join('');
+    let myMsgs = allMessages.filter(m => m.user === currentUser);
+    if(myMsgs.length === 0) {
+        document.getElementById('my-messages').innerHTML = '<p style="color:#666;text-align:center;">هنوز پیامی ندارید</p>';
+        return;
+    }
+    document.getElementById('my-messages').innerHTML = myMsgs.map(m => 
+        `<div class="msg-item">
+        <strong>💬 پیام شما:</strong> ${m.message}
+        <br><small style="color:#666;">${m.time}</small>
+        ${m.replied ? '<div class="success-box" style="margin-top:8px;"><strong style="color:var(--gold);">📩 پاسخ پشتیبانی:</strong><br>'+m.reply+'</div>' : '<p style="color:var(--warning);margin-top:8px;font-size:12px;">⏳ در انتظار پاسخ...</p>'}
+        </div>`
+    ).join('');
 }
 
-// ============ پنل ادمین ============
+// ادمین - همه پیام‌ها
 function loadAdminMessages() {
-    messages = JSON.parse(localStorage.getItem('messages') || '[]');
-    document.getElementById('admin-msg-list').innerHTML = messages.length === 0 ? 
-        '<p style="color:#666;text-align:center;">پیامی موجود نیست</p>' :
-        messages.map(m => `<div class="msg-item"><strong>👤 ${m.name}</strong><br><small style="color:#888;">${m.time}</small><p style="margin:8px 0;">${m.message}</p>${m.replied ? '<div class="success-box">✅ پاسخ: '+m.reply+'</div>' : '<button class="gold-btn" onclick="replyMsg('+m.id+')">✍️ پاسخ</button>'}</div>`).join('');
-}
-
-function loadAdminConfirms() {
-    document.getElementById('admin-confirms').innerHTML = confirms.length === 0 ? 
-        '<p style="color:#666;text-align:center;">تاییدی موجود نیست</p>' :
-        confirms.map(c => `<div class="msg-item">💰 موجودی: ${c.budget.toLocaleString('fa-IR')} تومان<br>⚠️ ریسک: ${c.risk}<br>⏰ دوره: ${c.period} ماه<br>✅ تایید شده<br><small style="color:#666;">${c.time}</small></div>`).join('');
-}
-
-function updateAdminStats() {
-    document.getElementById('a-users').innerText = messages.length || 1;
-    document.getElementById('a-vip').innerText = confirms.length;
-    document.getElementById('a-msgs').innerText = messages.filter(m => !m.replied).length;
-    document.getElementById('a-income').innerText = (confirms.length * 35000).toLocaleString('fa-IR');
+    allMessages = JSON.parse(localStorage.getItem('allMessages') || '[]');
+    if(allMessages.length === 0) {
+        document.getElementById('admin-msg-list').innerHTML = '<p style="color:#666;text-align:center;">پیامی موجود نیست</p>';
+        return;
+    }
+    document.getElementById('admin-msg-list').innerHTML = allMessages.map(m => 
+        `<div class="msg-item">
+        <strong>👤 کاربر:</strong> <span style="color:var(--gold);">${m.user}</span>
+        <br><small style="color:#888;">${m.time}</small>
+        <p style="margin:8px 0;">${m.message}</p>
+        ${m.replied ? '<div class="success-box">✅ پاسخ: '+m.reply+'</div>' : '<button class="gold-btn" onclick="replyMsg('+m.id+')">✍️ پاسخ به این کاربر</button>'}
+        </div>`
+    ).join('');
 }
 
 function replyMsg(id) {
     let reply = prompt('پاسخ خود را بنویسید:');
     if(reply) {
-        let msg = messages.find(m => m.id === id);
-        if(msg) { msg.replied = true; msg.reply = reply; localStorage.setItem('messages', JSON.stringify(messages)); loadAdminMessages(); updateAdminStats(); alert('✅ پاسخ ارسال شد'); }
+        let msg = allMessages.find(m => m.id === id);
+        if(msg) {
+            msg.replied = true;
+            msg.reply = reply;
+            localStorage.setItem('allMessages', JSON.stringify(allMessages));
+            loadAdminMessages();
+            updateAdminStats();
+            alert('✅ پاسخ ارسال شد به کاربر: ' + msg.user);
+        }
     }
 }
 
-function broadcast() {
-    let msg = document.getElementById('broadcast').value;
-    if(msg) { alert('✅ پیام به همه کاربران ارسال شد'); document.getElementById('broadcast').value = ''; }
+function updateAdminStats() {
+    document.getElementById('a-users').innerText = Object.keys(users).length;
+    document.getElementById('a-vip').innerText = Object.values(users).filter(u => u.isVIP).length;
+    document.getElementById('a-msgs').innerText = allMessages.filter(m => !m.replied).length;
+    document.getElementById('a-income').innerText = (Object.values(users).filter(u => u.isVIP).length * 35000).toLocaleString('fa-IR');
 }
 
 function exitAdmin() {
@@ -821,9 +635,17 @@ function exitAdmin() {
     tab('p1', document.querySelector('.nav-item'));
 }
 
-// ============ اجرا ============
-loadPrices();
-setInterval(loadPrices, 60000); // هر ۱ دقیقه بروزرسانی
+// شروع
+window.onload = function() {
+    let saved = localStorage.getItem('currentUser');
+    if(saved && users[saved]) {
+        currentUser = saved;
+        isVIP = users[saved].isVIP || false;
+        showApp();
+    }
+    loadPrices();
+    setInterval(loadPrices, 60000);
+};
 </script>
 
 </body>
