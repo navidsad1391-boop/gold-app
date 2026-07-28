@@ -5,648 +5,480 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>هوش طلایی</title>
 <style>
-:root {
-    --gold: #FFD700; --gold-dark: #B8860B; --dark: #0a0a0a;
-    --card: #1a1a2e; --card-2: #16213e;
-    --success: #00ff88; --danger: #ff4444; --warning: #ffaa00; --info: #00aaff;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-    background: linear-gradient(180deg, #0a0a0a 0%, #16213e 100%);
-    color: #fff; font-family: Tahoma, sans-serif;
-    padding-bottom: 80px; direction: rtl; min-height: 100vh;
-}
-.header {
-    background: linear-gradient(135deg, #000, #1a1a2e);
-    padding: 15px 20px; text-align: center;
-    border-bottom: 3px solid var(--gold);
-    position: sticky; top: 0; z-index: 100;
-    box-shadow: 0 4px 20px rgba(255,215,0,0.3);
-}
-.header h1 { color: var(--gold); font-size: 22px; text-shadow: 0 0 15px rgba(255,215,0,0.6); }
-.header .status { margin-top: 5px; font-size: 12px; color: #888; }
-.vip-badge {
-    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    color: #000; padding: 4px 12px; border-radius: 20px;
-    font-weight: bold; font-size: 11px; display: inline-block;
-    box-shadow: 0 2px 10px rgba(255,215,0,0.5);
-}
-.page { display: none; padding: 15px; animation: slideIn 0.4s; }
-.page.active { display: block; }
-@keyframes slideIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-.card {
-    background: linear-gradient(135deg, var(--card), var(--card-2));
-    border-radius: 15px; padding: 15px; margin-bottom: 15px;
-    border: 1px solid rgba(255,215,0,0.2);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-}
-.card h3 {
-    color: var(--gold); border-bottom: 2px solid rgba(255,215,0,0.3);
-    padding-bottom: 10px; margin-bottom: 15px; font-size: 16px;
-}
-.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
-.stat-box {
-    background: linear-gradient(135deg, #222, #1a1a2e);
-    border-radius: 12px; padding: 12px 8px; text-align: center;
-    border: 1px solid rgba(255,215,0,0.3);
-}
-.stat-box .icon { font-size: 24px; margin-bottom: 5px; }
-.stat-box .value { color: var(--gold); font-size: 14px; font-weight: bold; }
-.stat-box .label { font-size: 10px; color: #888; margin-top: 3px; }
-.stat-box .change { font-size: 10px; margin-top: 3px; }
-.up { color: var(--success); } .down { color: var(--danger); }
-.price-row {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-.price-row:last-child { border: none; }
-.price-name { font-size: 14px; }
-.price-value { color: var(--gold); font-weight: bold; font-size: 15px; }
-.gold-btn {
-    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    color: #000; border: none; padding: 14px; border-radius: 12px;
-    width: 100%; font-weight: bold; font-size: 15px; cursor: pointer;
-    margin-top: 10px; box-shadow: 0 4px 15px rgba(255,215,0,0.4);
-}
-.red-btn {
-    background: linear-gradient(135deg, var(--danger), #cc0000);
-    color: #fff; border: none; padding: 12px; border-radius: 10px;
-    width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px;
-}
-.blue-btn {
-    background: linear-gradient(135deg, var(--info), #0088cc);
-    color: #fff; border: none; padding: 12px; border-radius: 10px;
-    width: 100%; font-weight: bold; cursor: pointer; margin-top: 10px;
-}
-input, textarea, select {
-    width: 100%; padding: 14px; margin-bottom: 12px;
-    border-radius: 10px; border: 1px solid rgba(255,215,0,0.3);
-    background: #0a0a0a; color: #fff; font-family: Tahoma; font-size: 14px;
-}
-input:focus { border-color: var(--gold); outline: none; }
-label { display: block; margin-bottom: 5px; color: #aaa; font-size: 13px; }
-.bottom-nav {
-    position: fixed; bottom: 0; width: 100%;
-    background: linear-gradient(180deg, #111, #000);
-    display: flex; justify-content: space-around; padding: 8px 0;
-    border-top: 2px solid var(--gold); z-index: 100;
-}
-.nav-item { color: #666; text-align: center; font-size: 10px; cursor: pointer; padding: 5px 8px; }
-.nav-item.active { color: var(--gold); }
-.nav-item .icon { font-size: 22px; display: block; margin-bottom: 3px; }
-.logo {
-    width: 120px; height: 120px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-    color: #000; display: flex; align-items: center; justify-content: center;
-    font-size: 45px; margin: 20px auto; cursor: pointer;
-    font-weight: bold; box-shadow: 0 0 30px rgba(255,215,0,0.5);
-    animation: pulse 2s infinite;
-}
-@keyframes pulse { 0%,100%{box-shadow:0 0 30px rgba(255,215,0,0.5)} 50%{box-shadow:0 0 50px rgba(255,215,0,0.8)} }
-.info-box { background: rgba(0,170,255,0.1); border: 2px solid var(--info); border-radius: 12px; padding: 15px; margin: 10px 0; }
-.success-box { background: rgba(0,255,136,0.1); border: 2px solid var(--success); border-radius: 12px; padding: 15px; margin: 10px 0; }
-.warning-box { background: rgba(255,170,0,0.1); border: 2px solid var(--warning); border-radius: 12px; padding: 15px; margin: 10px 0; }
-.danger-box { background: rgba(255,68,68,0.1); border: 2px solid var(--danger); border-radius: 12px; padding: 15px; margin: 10px 0; }
-.admin-header {
-    background: linear-gradient(135deg, #6a0000, #900);
-    padding: 20px; text-align: center; border-radius: 15px; margin-bottom: 15px;
-}
-.admin-stat {
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    padding: 15px; border-radius: 12px; text-align: center;
-    border: 1px solid rgba(255,215,0,0.3);
-}
-.admin-stat .num { color: var(--gold); font-size: 24px; font-weight: bold; }
-.admin-stat .lbl { font-size: 11px; color: #888; margin-top: 5px; }
-.msg-item {
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    border-right: 4px solid var(--gold); padding: 12px;
-    margin-bottom: 10px; border-radius: 10px;
-}
-.strategy-item {
-    background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.3);
-    border-radius: 12px; padding: 15px; margin: 10px 0;
-}
-.strategy-item .num-circle {
-    display: inline-block; width: 30px; height: 30px;
-    background: var(--gold); color: #000; border-radius: 50%;
-    text-align: center; line-height: 30px; font-weight: bold; margin-left: 10px;
-}
-.loader {
-    border: 3px solid rgba(255,215,0,0.2); border-top: 3px solid var(--gold);
-    border-radius: 50%; width: 40px; height: 40px;
-    animation: spin 1s linear infinite; margin: 20px auto;
-}
-@keyframes spin { 0%{transform:rotate(0)} 100%{transform:rotate(360deg)} }
-.chart-bar {
-    display: flex; align-items: flex-end; justify-content: space-around;
-    height: 100px; margin: 15px 0; padding: 10px;
-    background: rgba(0,0,0,0.3); border-radius: 10px;
-}
-.chart-bar .bar {
-    width: 20px; background: linear-gradient(180deg, var(--gold), var(--gold-dark));
-    border-radius: 3px 3px 0 0;
-}
-.login-box {
-    max-width: 400px; margin: 40px auto; padding: 25px;
-    background: linear-gradient(135deg, var(--card), var(--card-2));
-    border-radius: 20px; border: 2px solid var(--gold);
-    box-shadow: 0 0 40px rgba(255,215,0,0.3);
-}
-.user-info {
-    background: rgba(255,215,0,0.1); padding: 10px; border-radius: 10px;
-    margin-bottom: 15px; text-align: center; border: 1px solid rgba(255,215,0,0.3);
-}
+:root{--gold:#FFD700;--gold-dark:#B8860B;--dark:#0a0a0a;--card:#1a1a2e;--card-2:#16213e;--success:#00ff88;--danger:#ff4444;--warning:#ffaa00;--info:#00aaff;--purple:#9d4edd;--pink:#ff006e}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#0a0a0a 0%,#16213e 100%);color:#fff;font-family:Tahoma,sans-serif;padding-bottom:80px;direction:rtl;min-height:100vh}
+.header{background:linear-gradient(135deg,#000,#1a1a2e);padding:15px;text-align:center;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(255,215,0,0.3)}
+.header h1{color:var(--gold);font-size:22px;text-shadow:0 0 15px rgba(255,215,0,0.6)}
+.user-status-card{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:15px;padding:15px;margin:10px 15px;border:2px solid rgba(255,215,0,0.3)}
+.user-status-card.vip{border-color:var(--gold);box-shadow:0 0 30px rgba(255,215,0,0.4)}
+.user-status-card.admin{border-color:var(--danger);box-shadow:0 0 30px rgba(255,68,68,0.4)}
+.user-status-card.permanent{border-color:var(--purple);box-shadow:0 0 30px rgba(157,78,221,0.5)}
+.status-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.status-name{font-size:16px;font-weight:bold}
+.status-badge{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:bold}
+.badge-free{background:#444;color:#aaa}
+.badge-vip{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000}
+.badge-admin{background:linear-gradient(135deg,var(--danger),#900);color:#fff}
+.badge-permanent{background:linear-gradient(135deg,var(--purple),#6a2ba8);color:#fff}
+.status-info{font-size:12px;color:#aaa;margin:5px 0}
+.progress-bar{background:#333;border-radius:10px;height:8px;margin:8px 0;overflow:hidden}
+.progress-fill{background:linear-gradient(90deg,var(--success),var(--gold));height:100%}
+.upgrade-btn{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;border:none;padding:8px 15px;border-radius:20px;font-weight:bold;font-size:12px;cursor:pointer;margin-top:8px}
+.page{display:none;padding:15px;animation:slideIn 0.4s}
+.page.active{display:block}
+@keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.card{background:linear-gradient(135deg,var(--card),var(--card-2));border-radius:15px;padding:15px;margin-bottom:15px;border:1px solid rgba(255,215,0,0.2)}
+.card h3{color:var(--gold);border-bottom:2px solid rgba(255,215,0,0.3);padding-bottom:10px;margin-bottom:15px;font-size:16px}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:15px}
+.stat-box{background:linear-gradient(135deg,#222,#1a1a2e);border-radius:12px;padding:12px 8px;text-align:center;border:1px solid rgba(255,215,0,0.3)}
+.stat-box .icon{font-size:24px;margin-bottom:5px}
+.stat-box .value{color:var(--gold);font-size:14px;font-weight:bold}
+.stat-box .label{font-size:10px;color:#888;margin-top:3px}
+.stat-box .change{font-size:10px;margin-top:3px}
+.up{color:var(--success)}.down{color:var(--danger)}
+.price-row{display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid rgba(255,255,255,0.1)}
+.price-row:last-child{border:none}
+.price-name{font-size:14px}
+.price-value{color:var(--gold);font-weight:bold;font-size:15px}
+.gold-btn{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;border:none;padding:14px;border-radius:12px;width:100%;font-weight:bold;font-size:15px;cursor:pointer;margin-top:10px;box-shadow:0 4px 15px rgba(255,215,0,0.4)}
+.purple-btn{background:linear-gradient(135deg,var(--purple),#6a2ba8);color:#fff;border:none;padding:14px;border-radius:12px;width:100%;font-weight:bold;font-size:15px;cursor:pointer;margin-top:10px}
+.red-btn{background:linear-gradient(135deg,var(--danger),#cc0000);color:#fff;border:none;padding:12px;border-radius:10px;width:100%;font-weight:bold;cursor:pointer;margin-top:10px}
+.blue-btn{background:linear-gradient(135deg,var(--info),#0088cc);color:#fff;border:none;padding:12px;border-radius:10px;width:100%;font-weight:bold;cursor:pointer;margin-top:10px}
+.pink-btn{background:linear-gradient(135deg,var(--pink),#c2185b);color:#fff;border:none;padding:12px;border-radius:10px;width:100%;font-weight:bold;cursor:pointer;margin-top:10px}
+input,textarea,select{width:100%;padding:14px;margin-bottom:12px;border-radius:10px;border:1px solid rgba(255,215,0,0.3);background:#0a0a0a;color:#fff;font-family:Tahoma;font-size:14px}
+input:focus{border-color:var(--gold);outline:none}
+label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
+.bottom-nav{position:fixed;bottom:0;width:100%;background:linear-gradient(180deg,#111,#000);display:flex;justify-content:space-around;padding:8px 0;border-top:2px solid var(--gold);z-index:100;overflow-x:auto}
+.nav-item{color:#666;text-align:center;font-size:9px;cursor:pointer;padding:5px;min-width:55px}
+.nav-item.active{color:var(--gold)}
+.nav-item .icon{font-size:20px;display:block;margin-bottom:3px}
+.logo{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;display:flex;align-items:center;justify-content:center;font-size:45px;margin:20px auto;cursor:pointer;font-weight:bold;box-shadow:0 0 30px rgba(255,215,0,0.5);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 30px rgba(255,215,0,0.5)}50%{box-shadow:0 0 50px rgba(255,215,0,0.8)}}
+.info-box{background:rgba(0,170,255,0.1);border:2px solid var(--info);border-radius:12px;padding:15px;margin:10px 0}
+.success-box{background:rgba(0,255,136,0.1);border:2px solid var(--success);border-radius:12px;padding:15px;margin:10px 0}
+.warning-box{background:rgba(255,170,0,0.1);border:2px solid var(--warning);border-radius:12px;padding:15px;margin:10px 0}
+.danger-box{background:rgba(255,68,68,0.1);border:2px solid var(--danger);border-radius:12px;padding:15px;margin:10px 0}
+.purple-box{background:rgba(157,78,221,0.1);border:2px solid var(--purple);border-radius:12px;padding:15px;margin:10px 0}
+.admin-header{background:linear-gradient(135deg,#6a0000,#900);padding:20px;text-align:center;border-radius:15px;margin-bottom:15px}
+.admin-stat{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:15px;border-radius:12px;text-align:center;border:1px solid rgba(255,215,0,0.3)}
+.admin-stat .num{color:var(--gold);font-size:24px;font-weight:bold}
+.admin-stat .lbl{font-size:11px;color:#888;margin-top:5px}
+.msg-item{background:linear-gradient(135deg,#1a1a2e,#16213e);border-right:4px solid var(--gold);padding:12px;margin-bottom:10px;border-radius:10px}
+.strategy-item{background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.3);border-radius:12px;padding:15px;margin:10px 0}
+.strategy-item .num-circle{display:inline-block;width:30px;height:30px;background:var(--gold);color:#000;border-radius:50%;text-align:center;line-height:30px;font-weight:bold;margin-left:10px}
+.loader{border:3px solid rgba(255,215,0,0.2);border-top:3px solid var(--gold);border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;margin:20px auto}
+@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+.login-box{max-width:400px;margin:40px auto;padding:25px;background:linear-gradient(135deg,var(--card),var(--card-2));border-radius:20px;border:2px solid var(--gold);box-shadow:0 0 40px rgba(255,215,0,0.3)}
+.plan-card{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:15px;padding:20px;margin:15px 0;border:2px solid rgba(255,215,0,0.3)}
+.plan-card.premium{border-color:var(--gold);box-shadow:0 0 20px rgba(255,215,0,0.3)}
+.plan-card.permanent-plan{border-color:var(--purple);box-shadow:0 0 20px rgba(157,78,221,0.3)}
+.plan-title{color:var(--gold);font-size:18px;margin-bottom:5px}
+.plan-price{font-size:28px;color:var(--gold);font-weight:bold;margin:10px 0}
+.plan-features{text-align:right;margin:15px 0}
+.plan-features p{margin:6px 0;font-size:13px}
+.level-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:10px;margin-right:5px}
+.level-newbie{background:#444;color:#ccc}
+.level-regular{background:#0088cc;color:#fff}
+.level-pro{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000}
+.referral-code{background:#000;padding:10px;border-radius:8px;text-align:center;color:var(--gold);font-family:monospace;font-size:18px;letter-spacing:2px;margin:10px 0;border:2px dashed var(--gold)}
+.wheel-container{text-align:center;padding:20px}
+.wheel{width:280px;height:280px;margin:0 auto;position:relative}
+.wheel-svg{transition:transform 4s cubic-bezier(0.17,0.67,0.16,0.99)}
+.wheel-pointer{position:absolute;top:-10px;right:50%;transform:translateX(50%);font-size:40px;z-index:10}
+.spin-btn{background:linear-gradient(135deg,var(--pink),#c2185b);color:#fff;border:none;padding:15px 40px;border-radius:30px;font-weight:bold;font-size:16px;cursor:pointer;margin-top:20px;box-shadow:0 5px 20px rgba(255,0,110,0.5)}
+.spin-btn:disabled{background:#444;cursor:not-allowed;box-shadow:none}
+.timer-display{font-size:24px;color:var(--gold);font-family:monospace;margin:15px 0}
+.prize-display{padding:20px;border-radius:15px;margin:15px 0;text-align:center;font-size:18px;font-weight:bold;animation:prizePop 0.5s}
+@keyframes prizePop{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+.prize-win{background:linear-gradient(135deg,rgba(0,255,136,0.2),rgba(255,215,0,0.2));border:2px solid var(--gold);color:var(--gold)}
+.prize-lose{background:rgba(255,68,68,0.1);border:2px solid var(--danger);color:var(--danger)}
+.ad-container{background:linear-gradient(135deg,#2a1a3e,#1a1a2e);border:2px solid var(--pink);border-radius:15px;padding:15px;margin:10px 15px;position:relative;box-shadow:0 4px 20px rgba(255,0,110,0.3)}
+.ad-label{position:absolute;top:-10px;right:15px;background:var(--pink);color:#fff;padding:3px 10px;border-radius:10px;font-size:10px;font-weight:bold}
+.ad-title{color:var(--gold);font-size:16px;font-weight:bold;margin-bottom:8px}
+.ad-text{color:#fff;font-size:13px;margin-bottom:10px;line-height:1.6}
+.ad-contact{color:var(--info);font-size:14px;font-weight:bold}
+.ad-image{width:100%;max-height:150px;object-fit:cover;border-radius:10px;margin-bottom:10px}
 </style>
 </head>
 <body>
 
-<div class="header">
-<h1>🧠 هوش طلایی</h1>
-<div class="status" id="user-status">لطفا وارد شوید</div>
-</div>
+<div class="header"><h1>🧠 هوش طلایی</h1></div>
+<div id="status-card" class="user-status-card" style="display:none;"><div class="status-header"><div><div class="status-name" id="s-username">-</div><div class="status-info" id="s-level"></div></div><div class="status-badge badge-free" id="s-badge">🆓 رایگان</div></div><div id="s-details"></div></div>
+<div id="ads-display"></div>
 
-<!-- ============ صفحه ورود/ثبت‌نام ============ -->
 <div id="p-login" class="page active">
 <div class="login-box">
-<div style="text-align:center;font-size:60px;margin-bottom:10px;">🔐</div>
-<h3 style="color:var(--gold);text-align:center;margin-bottom:20px;">ورود / ثبت‌نام</h3>
-
-<label>👤 نام کاربری:</label>
-<input type="text" id="login-user" placeholder="مثلا: ali1234">
-
-<label>🔑 رمز عبور:</label>
-<input type="password" id="login-pass" placeholder="رمز عبور">
-
+<div style="text-align:center;font-size:60px;">🔐</div>
+<h3 style="color:var(--gold);text-align:center;margin:15px 0;">ورود / ثبت‌نام</h3>
+<label>👤 نام کاربری:</label><input type="text" id="login-user" placeholder="مثلا: ali1234">
+<label>🔑 رمز عبور:</label><input type="password" id="login-pass" placeholder="رمز عبور">
+<label>🎁 کد معرف (اختیاری):</label><input type="text" id="referral" placeholder="اگر معرف دارید">
 <button class="gold-btn" onclick="loginUser()">🚪 ورود</button>
-<button class="blue-btn" onclick="registerUser()">📝 ثبت‌نام کاربر جدید</button>
-
-<p style="color:#666;font-size:11px;text-align:center;margin-top:15px;">
-اطلاعات شما فقط در گوشی خودتان ذخیره می‌شود
-</p>
+<button class="blue-btn" onclick="registerUser()">📝 ثبت‌نام</button>
 </div>
 </div>
 
-<!-- ============ صفحه ۱: قیمت‌ها ============ -->
 <div id="p1" class="page">
-<div class="user-info" id="welcome-msg"></div>
-
 <div class="card">
 <h3>📊 قیمت لحظه‌ای</h3>
 <div class="stats-grid">
-<div class="stat-box"><div class="icon">🥇</div><div class="value" id="s-coin">-</div><div class="label">سکه تمام</div><div class="change up">▲ ۲.۳%</div></div>
+<div class="stat-box"><div class="icon">🥇</div><div class="value" id="s-coin">-</div><div class="label">سکه</div><div class="change up">▲ ۲.۳%</div></div>
 <div class="stat-box"><div class="icon">💵</div><div class="value" id="s-dollar">-</div><div class="label">دلار</div><div class="change up">▲ ۰.۵%</div></div>
 <div class="stat-box"><div class="icon">₿</div><div class="value" id="s-btc">-</div><div class="label">بیت‌کوین</div><div class="change down">▼ ۱.۲%</div></div>
 </div>
 </div>
-
 <div class="card">
 <h3>💰 قیمت‌های تفصیلی</h3>
-<div class="price-row"><span class="price-name">🥇 سکه تمام بهار</span><span class="price-value" id="p-coin">۴۵,۰۰۰,۰۰۰</span></div>
+<div class="price-row"><span class="price-name">🥇 سکه تمام</span><span class="price-value" id="p-coin">۴۵,۰۰۰,۰۰۰</span></div>
 <div class="price-row"><span class="price-name">🥈 نیم سکه</span><span class="price-value" id="p-half">۲۵,۰۰۰,۰۰۰</span></div>
 <div class="price-row"><span class="price-name">🥉 ربع سکه</span><span class="price-value" id="p-quarter">۱۵,۰۰۰,۰۰۰</span></div>
-<div class="price-row"><span class="price-name">💎 طلای ۱۸ عیار</span><span class="price-value" id="p-gold18">۴,۲۰۰,۰۰۰</span></div>
+<div class="price-row"><span class="price-name">💎 طلای ۱۸</span><span class="price-value" id="p-gold18">۴,۲۰۰,۰۰۰</span></div>
 <div class="price-row"><span class="price-name">✨ طلای آبشده</span><span class="price-value" id="p-melted">۴,۵۰۰,۰۰۰</span></div>
 <div class="price-row"><span class="price-name">🌎 انس جهانی</span><span class="price-value" id="p-ounce">$۲,۶۵۰</span></div>
-<div class="price-row"><span class="price-name">💵 دلار آزاد</span><span class="price-value" id="p-usd">۷۰,۰۰۰</span></div>
+<div class="price-row"><span class="price-name">💵 دلار</span><span class="price-value" id="p-usd">۷۰,۰۰۰</span></div>
 <div class="price-row"><span class="price-name">💶 یورو</span><span class="price-value" id="p-eur">۷۶,۰۰۰</span></div>
 <div class="price-row"><span class="price-name">₿ بیت‌کوین</span><span class="price-value" id="p-btc">$۱۰۴,۰۰۰</span></div>
 <div class="price-row"><span class="price-name">Ξ اتریوم</span><span class="price-value" id="p-eth">$۳,۸۵۰</span></div>
 <div class="price-row"><span class="price-name">💰 تتر</span><span class="price-value" id="p-usdt">۷۰,۲۰۰</span></div>
 </div>
-
-<div class="card">
-<h3>📈 نمودار سکه (۷ روزه)</h3>
-<div class="chart-bar">
-<div class="bar" style="height:60%"></div>
-<div class="bar" style="height:75%"></div>
-<div class="bar" style="height:50%"></div>
-<div class="bar" style="height:80%"></div>
-<div class="bar" style="height:65%"></div>
-<div class="bar" style="height:90%"></div>
-<div class="bar" style="height:100%"></div>
-</div>
-<p style="text-align:center;color:#888;font-size:12px;">روند ۷ روز اخیر: <span class="up">▲ ۳.۵%</span></p>
+<p style="text-align:center;color:#666;font-size:11px;">🕐 <span id="update-time">-</span></p>
 </div>
 
-<div class="card">
-<h3>🌡️ شاخص ترس و طمع</h3>
-<div style="text-align:center;padding:20px;">
-<div style="font-size:48px;color:var(--warning);">۶۵</div>
-<div style="color:var(--warning);font-size:18px;font-weight:bold;">طمع</div>
-</div>
-</div>
-
-<p style="text-align:center;color:#666;font-size:11px;">🕐 آخرین بروزرسانی: <span id="update-time">-</span></p>
-</div>
-
-<!-- ============ صفحه ۲: مشاور ============ -->
 <div id="p2" class="page">
 <div class="card">
 <h3>🧠 مشاور هوش مصنوعی</h3>
-<label>💰 موجودی پول نقد (تومان):</label>
-<input type="number" id="budget" placeholder="مثلا: ۵۰۰۰۰۰۰۰">
-<label>🥇 مقدار طلای فعلی (گرم):</label>
-<input type="number" id="gold-amount" placeholder="مثلا: ۱۰" value="0">
-<label>₿ مقدار ارز دیجیتال (دلار):</label>
-<input type="number" id="crypto-amount" placeholder="مثلا: ۵۰۰" value="0">
-<label>⚠️ ریسک پذیری:</label>
-<select id="risk">
-<option value="low">🟢 کم (محافظه‌کار)</option>
-<option value="medium" selected>🟡 متوسط</option>
-<option value="high">🔴 زیاد (تهاجمی)</option>
-</select>
-<label>⏰ مدت سرمایه‌گذاری:</label>
-<select id="period">
-<option value="1">۱ ماه</option>
-<option value="3" selected>۳ ماه</option>
-<option value="6">۶ ماه</option>
-<option value="12">۱ سال</option>
-</select>
-<button class="gold-btn" onclick="requestAI()">🎯 دریافت تحلیل کامل</button>
-<div id="ai-result" style="margin-top:15px;"></div>
+<div id="ai-usage-info" class="info-box" style="margin-bottom:15px;"></div>
+<label>💰 موجودی (تومان):</label><input type="number" id="budget" placeholder="مثلا: ۵۰۰۰۰۰۰۰">
+<label>🥇 طلا (گرم):</label><input type="number" id="gold-amount" value="0">
+<label>₿ ارز دیجیتال (دلار):</label><input type="number" id="crypto-amount" value="0">
+<label>⚠️ ریسک:</label><select id="risk"><option value="low">🟢 کم</option><option value="medium" selected>🟡 متوسط</option><option value="high">🔴 زیاد</option></select>
+<label>⏰ مدت:</label><select id="period"><option value="1">۱ ماه</option><option value="3" selected>۳ ماه</option><option value="6">۶ ماه</option><option value="12">۱ سال</option></select>
+<button class="gold-btn" onclick="requestAI()">🎯 تحلیل هوشمند</button>
+<div id="ai-result"></div>
 </div>
 </div>
 
-<!-- ============ صفحه ۳: اخبار ============ -->
+<div id="p-wheel" class="page">
+<div class="card">
+<h3>🎡 گردونه شانس روزانه</h3>
+<div class="wheel-container">
+<div class="wheel">
+<div class="wheel-pointer">▼</div>
+<svg width="280" height="280" viewBox="0 0 280 280"><g id="wheel-group" class="wheel-svg" transform="rotate(0 140 140)" style="transform-origin:center;">
+<path d="M140,140 L140,10 A130,130 0 0,1 232,48 Z" fill="#FFD700"/>
+<path d="M140,140 L232,48 A130,130 0 0,1 270,140 Z" fill="#9d4edd"/>
+<path d="M140,140 L270,140 A130,130 0 0,1 232,232 Z" fill="#ff4444"/>
+<path d="M140,140 L232,232 A130,130 0 0,1 140,270 Z" fill="#00ff88"/>
+<path d="M140,140 L140,270 A130,130 0 0,1 48,232 Z" fill="#FFD700"/>
+<path d="M140,140 L48,232 A130,130 0 0,1 10,140 Z" fill="#ff006e"/>
+<path d="M140,140 L10,140 A130,130 0 0,1 48,48 Z" fill="#00aaff"/>
+<path d="M140,140 L48,48 A130,130 0 0,1 140,10 Z" fill="#ffaa00"/>
+<text x="170" y="55" fill="#000" font-size="11" font-weight="bold">🎁</text>
+<text x="230" y="105" fill="#fff" font-size="11" font-weight="bold">💀</text>
+<text x="235" y="180" fill="#fff" font-size="11" font-weight="bold">⭐</text>
+<text x="180" y="235" fill="#000" font-size="11" font-weight="bold">🎊</text>
+<text x="100" y="240" fill="#000" font-size="11" font-weight="bold">🎁</text>
+<text x="40" y="180" fill="#fff" font-size="11" font-weight="bold">💀</text>
+<text x="40" y="105" fill="#fff" font-size="11" font-weight="bold">⭐</text>
+<text x="100" y="55" fill="#000" font-size="11" font-weight="bold">💎</text>
+<circle cx="140" cy="140" r="15" fill="#000"/>
+<circle cx="140" cy="140" r="10" fill="#FFD700"/>
+</g></svg>
+</div>
+<button class="spin-btn" id="spin-btn" onclick="spinWheel()">🎯 چرخش گردونه!</button>
+<div class="timer-display" id="wheel-timer"></div>
+<div id="wheel-result"></div>
+</div>
+</div>
+<div class="card">
+<h3>📊 آمار شما</h3>
+<div class="stats-grid">
+<div class="admin-stat"><div class="num" id="w-total">۰</div><div class="lbl">کل چرخش</div></div>
+<div class="admin-stat"><div class="num" id="w-wins">۰</div><div class="lbl">جوایز</div></div>
+<div class="admin-stat"><div class="num" id="w-loses">۰</div><div class="lbl">پوچ</div></div>
+</div>
+</div>
+<div class="card"><h3>🏆 لیدربورد</h3><div id="leaderboard"></div></div>
+<div class="card"><h3>📋 تاریخچه جوایز</h3><div id="prize-history"></div></div>
+</div>
+
 <div id="p3" class="page">
 <div class="card">
 <h3>📰 اخبار اقتصادی</h3>
-<div class="msg-item">
-<strong>🟢 افزایش قیمت طلای جهانی</strong>
-<p style="font-size:12px;color:#aaa;margin-top:5px;">قیمت انس طلا با رشد ۲ درصدی به ۲,۶۵۰ دلار رسید...</p>
-<small style="color:#666;">🕐 ۲ ساعت پیش</small>
-</div>
-<div class="msg-item">
-<strong>🔴 نوسان بازار ارز دیجیتال</strong>
-<p style="font-size:12px;color:#aaa;margin-top:5px;">بیت‌کوین در ۲۴ ساعت گذشته نوسان ۵ درصدی داشت...</p>
-<small style="color:#666;">🕐 ۳ ساعت پیش</small>
-</div>
-</div>
-<div class="card">
-<h3>🎯 جو کلی اخبار</h3>
-<div class="info-box"><p style="text-align:center;font-size:16px;">🟢 <strong>مثبت</strong></p></div>
+<div class="msg-item"><strong>🟢 افزایش قیمت طلا</strong><p style="font-size:12px;color:#aaa;">قیمت انس به ۲,۶۵۰ دلار رسید...</p><small style="color:#666;">۲ ساعت پیش</small></div>
+<div class="msg-item"><strong>🔴 نوسان بیت‌کوین</strong><p style="font-size:12px;color:#aaa;">نوسان ۵ درصدی...</p><small style="color:#666;">۳ ساعت پیش</small></div>
 </div>
 </div>
 
-<!-- ============ صفحه ۴: پشتیبانی ============ -->
 <div id="p4" class="page">
 <div class="card">
-<h3>📞 ارسال پیام به پشتیبانی</h3>
-<div class="info-box" style="margin-bottom:15px;">
-<p style="font-size:13px;">👤 شما به عنوان <strong style="color:var(--gold);" id="current-user-name">-</strong> وارد شده‌اید</p>
-</div>
-<label>💬 پیام یا سوال:</label>
-<textarea id="support-msg" placeholder="سوال یا مشکل خود را بنویسید..." style="min-height:120px;"></textarea>
-<button class="gold-btn" onclick="sendSupport()">📤 ارسال پیام</button>
+<h3>📞 ارسال پیام</h3>
+<div class="info-box"><p>👤 <strong style="color:var(--gold);" id="current-user-name">-</strong></p></div>
+<textarea id="support-msg" placeholder="سوال یا مشکل..." style="min-height:100px;"></textarea>
+<button class="gold-btn" onclick="sendSupport()">📤 ارسال</button>
 <div id="support-result"></div>
 </div>
-
 <div class="card">
-<h3>📬 پاسخ‌های شما</h3>
-<p style="color:#888;font-size:12px;margin-bottom:10px;">🔒 فقط شما این پیام‌ها را میبینید</p>
-<div id="my-messages"><p style="color:#666;text-align:center;">هنوز پیامی ندارید</p></div>
+<h3>💰 درخواست ثبت تبلیغ</h3>
+<div class="warning-box"><p style="font-size:12px;">کسب و کار خود را تبلیغ کنید</p></div>
+<button class="pink-btn" onclick="showAdForm()">📢 درخواست تبلیغ</button>
+<div id="ad-form" style="display:none;margin-top:15px;">
+<label>🏪 عنوان:</label><input type="text" id="ad-title" placeholder="مثلا: طلافروشی احمدی">
+<label>📝 متن:</label><textarea id="ad-text" placeholder="متن تبلیغ..." style="min-height:80px;"></textarea>
+<label>📞 تماس:</label><input type="text" id="ad-phone" placeholder="09xxxxxxxxx">
+<label>🔗 لینک عکس (اختیاری):</label><input type="text" id="ad-image" placeholder="https://...">
+<label>🎯 پلن:</label>
+<select id="ad-plan">
+<option value="basic">🥉 پایه - ۷ روز - ۵۰,۰۰۰ تومان</option>
+<option value="pro">🥈 حرفه‌ای - ۷ روز - ۱۵۰,۰۰۰ تومان</option>
+<option value="special">🥇 ویژه - ۷ روز - ۳۰۰,۰۰۰ تومان</option>
+<option value="vip">💎 VIP - ۳۰ روز - ۱,۵۰۰,۰۰۰ تومان</option>
+<option value="sponsor">👑 اسپانسر - ۳۰ روز - ۵,۰۰۰,۰۰۰ تومان</option>
+</select>
+<button class="gold-btn" onclick="submitAdRequest()">📤 ارسال درخواست</button>
+<button class="red-btn" onclick="document.getElementById('ad-form').style.display='none'">❌ انصراف</button>
 </div>
+</div>
+<div class="card"><h3>📬 پاسخ‌های شما</h3><div id="my-messages"><p style="color:#666;text-align:center;">پیامی ندارید</p></div></div>
 </div>
 
-<!-- ============ صفحه ۵: درباره ============ -->
 <div id="p5" class="page">
 <div class="card" style="text-align:center;">
 <div class="logo" onclick="secretClick()">GOLD</div>
 <h3 style="color:var(--gold);">هوش طلایی</h3>
-<p style="color:#888;font-size:13px;">مشاور هوشمند سرمایه‌گذاری</p>
-<p style="color:#666;font-size:11px;">نسخه ۲.۰.۰</p>
+<p style="color:#888;font-size:13px;">مشاور هوشمند</p>
 </div>
-
 <div class="card">
-<h3>👑 ارتقا به VIP</h3>
-<div class="success-box">
-<p style="margin:8px 0;">✅ تحلیل نامحدود</p>
-<p style="margin:8px 0;">✅ سیگنال دقیق</p>
-<p style="margin:8px 0;">✅ مدیریت سبد</p>
-<p style="margin:8px 0;">✅ هشدار قیمتی</p>
+<h3>👤 حساب من</h3>
+<p>👤 <strong style="color:var(--gold);" id="about-user">-</strong></p>
+<p>📅 <strong id="about-joindate">-</strong></p>
+<p>🏆 سطح: <span id="about-level"></span></p>
+<p>⭐ امتیاز: <strong style="color:var(--gold);" id="about-points">۰</strong></p>
+<div style="margin-top:10px;"><p style="font-size:12px;color:#888;">🎁 کد معرف:</p><div class="referral-code" id="my-referral-code">-</div></div>
 </div>
-<div style="text-align:center;font-size:28px;color:var(--gold);margin:15px 0;font-weight:bold;">۳۵,۰۰۰ تومان</div>
-<button class="gold-btn" onclick="buyVIP()">💳 خرید اشتراک VIP</button>
+<div class="card" id="subscription-status"></div>
+<div class="card" id="plans-section">
+<h3>👑 پلن‌های اشتراک</h3>
+<div class="plan-card premium">
+<div class="plan-title">⭐ VIP ماهانه</div>
+<div class="plan-price">۳۵,۰۰۰ <span style="font-size:14px;">تومان</span></div>
+<p style="color:#888;font-size:12px;">۳۰ روز</p>
+<div class="plan-features"><p>✅ AI نامحدود</p><p>✅ بدون تبلیغات</p><p>✅ سیگنال دقیق</p></div>
+<button class="gold-btn" onclick="buyVIP('monthly')">💳 خرید ماهانه</button>
+</div>
+<div class="plan-card permanent-plan">
+<div class="plan-title" style="color:var(--purple);">👑 VIP همیشگی</div>
+<div class="plan-price" style="color:var(--purple);">۲۹۹,۰۰۰ <span style="font-size:14px;">تومان</span></div>
+<p style="color:#888;font-size:12px;">نامحدود</p>
+<div class="plan-features"><p>✅ همه مزایای VIP</p><p>✅ بدون انقضا</p><p>✅ بدون تبلیغات</p></div>
+<button class="purple-btn" onclick="buyVIP('permanent')">💎 خرید همیشگی</button>
+</div>
+</div>
+<div class="card"><button class="red-btn" onclick="logoutUser()">🚪 خروج</button></div>
 </div>
 
-<div class="card">
-<h3>👤 حساب کاربری</h3>
-<p style="color:#aaa;font-size:13px;margin-bottom:10px;">کاربر فعلی: <strong style="color:var(--gold);" id="about-user">-</strong></p>
-<button class="red-btn" onclick="logoutUser()">🚪 خروج از حساب</button>
-</div>
-</div>
-
-<!-- ============ صفحه ۶: پنل ادمین ============ -->
 <div id="p6" class="page">
-<div class="admin-header">
-<h2 style="color:#fff;">👑 پنل مدیریت</h2>
-</div>
+<div class="admin-header"><h2 style="color:#fff;">👑 پنل مدیریت</h2></div>
 <div class="stats-grid">
 <div class="admin-stat"><div class="num" id="a-users">۰</div><div class="lbl">کاربر</div></div>
-<div class="admin-stat"><div class="num" id="a-vip">۰</div><div class="lbl">تایید</div></div>
-<div class="admin-stat"><div class="num" id="a-msgs">۰</div><div class="lbl">پیام جدید</div></div>
+<div class="admin-stat"><div class="num" id="a-vip">۰</div><div class="lbl">VIP</div></div>
+<div class="admin-stat"><div class="num" id="a-msgs">۰</div><div class="lbl">پیام</div></div>
 </div>
 <div class="card">
 <h3>💰 درآمد کل</h3>
-<div class="success-box" style="text-align:center;">
-<div style="font-size:32px;color:var(--gold);font-weight:bold;" id="a-income">۰</div>
-<div style="color:#aaa;font-size:12px;">تومان</div>
+<div class="success-box" style="text-align:center;"><div style="font-size:32px;color:var(--gold);font-weight:bold;" id="a-income">۰</div><div style="color:#aaa;font-size:12px;">تومان</div></div>
 </div>
-</div>
+<div class="card"><h3>📢 درخواست تبلیغات</h3><div id="ad-requests"></div></div>
+<div class="card"><h3>✅ تبلیغات فعال</h3><div id="active-ads"></div></div>
 <div class="card">
-<h3>📬 همه پیام‌های کاربران</h3>
-<div id="admin-msg-list"><p style="color:#666;text-align:center;">پیامی موجود نیست</p></div>
+<h3>➕ افزودن دستی تبلیغ</h3>
+<input type="text" id="manual-title" placeholder="عنوان">
+<textarea id="manual-text" placeholder="متن" style="min-height:60px;"></textarea>
+<input type="text" id="manual-phone" placeholder="تماس">
+<input type="text" id="manual-image" placeholder="لینک عکس (اختیاری)">
+<select id="manual-days"><option value="7">۷ روز</option><option value="30">۳۰ روز</option></select>
+<button class="blue-btn" onclick="addManualAd()">➕ افزودن</button>
 </div>
-<button class="red-btn" onclick="exitAdmin()">🚪 خروج از پنل</button>
+<div class="card"><h3>📬 پیام‌های کاربران</h3><div id="admin-msg-list"></div></div>
+<div class="card"><h3>👥 کاربران</h3><div id="admin-users-list"></div></div>
+<button class="red-btn" onclick="exitAdmin()">🚪 خروج</button>
 </div>
 
-<!-- ============ منوی پایین ============ -->
 <div class="bottom-nav" id="main-nav" style="display:none;">
 <div class="nav-item active" onclick="tab('p1',this)"><span class="icon">📊</span>قیمت</div>
 <div class="nav-item" onclick="tab('p2',this)"><span class="icon">🧠</span>مشاور</div>
+<div class="nav-item" onclick="tab('p-wheel',this)"><span class="icon">🎡</span>گردونه</div>
 <div class="nav-item" onclick="tab('p3',this)"><span class="icon">📰</span>اخبار</div>
 <div class="nav-item" onclick="tab('p4',this)"><span class="icon">📞</span>پشتیبانی</div>
-<div class="nav-item" onclick="tab('p5',this)"><span class="icon">ℹ️</span>درباره</div>
+<div class="nav-item" onclick="tab('p5',this)"><span class="icon">ℹ️</span>حساب</div>
 </div>
 
 <script>
-// ============ سیستم کاربران ============
-let currentUser = null;
-let secretClicks = 0, isVIP = false, isAdmin = false, aiUsageCount = 0;
-let users = JSON.parse(localStorage.getItem('users') || '{}');
-let allMessages = JSON.parse(localStorage.getItem('allMessages') || '[]');
-let confirms = JSON.parse(localStorage.getItem('confirms') || '[]');
-let prices = {};
+let currentUser=null,secretClicks=0,isAdmin=false;
+let users=JSON.parse(localStorage.getItem('users')||'{}');
+let allMessages=JSON.parse(localStorage.getItem('allMessages')||'[]');
+let ads=JSON.parse(localStorage.getItem('ads')||'[]');
+let adRequests=JSON.parse(localStorage.getItem('adRequests')||'[]');
+let prices={};
+let timerInterval=null;
 
-// ثبت‌نام
-function registerUser() {
-    let u = document.getElementById('login-user').value.trim();
-    let p = document.getElementById('login-pass').value.trim();
-    if(!u || !p) { alert('نام کاربری و رمز را وارد کنید'); return; }
-    if(u.length < 3) { alert('نام کاربری حداقل ۳ حرف باشد'); return; }
-    if(p.length < 4) { alert('رمز عبور حداقل ۴ حرف باشد'); return; }
-    if(users[u]) { alert('این نام کاربری قبلا ثبت شده'); return; }
-    users[u] = { password: p, joinDate: new Date().toLocaleString('fa-IR'), isVIP: false };
-    localStorage.setItem('users', JSON.stringify(users));
-    alert('✅ ثبت‌نام موفق! حالا وارد شوید');
+function genReferralCode(u){return 'GOLD'+u.substring(0,3).toUpperCase()+Math.floor(Math.random()*9999)}
+
+function registerUser(){
+    let u=document.getElementById('login-user').value.trim();
+    let p=document.getElementById('login-pass').value.trim();
+    let ref=document.getElementById('referral').value.trim();
+    if(!u||!p){alert('نام کاربری و رمز را وارد کنید');return}
+    if(u.length<3){alert('نام کاربری حداقل ۳ حرف');return}
+    if(p.length<4){alert('رمز حداقل ۴ حرف');return}
+    if(users[u]){alert('این نام کاربری قبلا ثبت شده');return}
+    users[u]={password:p,joinDate:new Date().toLocaleDateString('fa-IR'),joinTime:Date.now(),subscription:'free',subExpiry:0,aiUsage:0,aiLimit:1,points:10,referralCode:genReferralCode(u),referredBy:ref||null,referrals:0,lastSpin:0,totalSpins:0,wins:0,loses:0,prizeHistory:[]};
+    if(ref){for(let un in users){if(users[un].referralCode===ref){users[un].referrals=(users[un].referrals||0)+1;users[un].points+=20;if(users[un].referrals%3===0){users[un].subscription='monthly';users[un].subExpiry=Date.now()+(30*86400000)}break}}}
+    localStorage.setItem('users',JSON.stringify(users));
+    alert('✅ ثبت‌نام موفق!\n🎁 کد معرف: '+users[u].referralCode);
 }
 
-// ورود
-function loginUser() {
-    let u = document.getElementById('login-user').value.trim();
-    let p = document.getElementById('login-pass').value.trim();
-    if(!u || !p) { alert('نام کاربری و رمز را وارد کنید'); return; }
-    if(!users[u]) { alert('❌ کاربر یافت نشد. ابتدا ثبت‌نام کنید'); return; }
-    if(users[u].password !== p) { alert('❌ رمز اشتباه است'); return; }
-    currentUser = u;
-    localStorage.setItem('currentUser', u);
-    isVIP = users[u].isVIP || false;
+function loginUser(){
+    let u=document.getElementById('login-user').value.trim();
+    let p=document.getElementById('login-pass').value.trim();
+    if(!u||!p){alert('نام کاربری و رمز');return}
+    if(!users[u]){alert('❌ کاربر یافت نشد');return}
+    if(users[u].password!==p){alert('❌ رمز اشتباه');return}
+    currentUser=u;
+    localStorage.setItem('currentUser',u);
+    checkSubscription();
     showApp();
 }
 
-// نمایش برنامه بعد از ورود
-function showApp() {
+function checkSubscription(){
+    if(!currentUser||!users[currentUser])return;
+    let user=users[currentUser];
+    if(user.subscription==='monthly'&&user.subExpiry<Date.now()){user.subscription='free';user.subExpiry=0;localStorage.setItem('users',JSON.stringify(users));alert('⚠️ اشتراک VIP منقضی شد')}
+}
+
+function getUserLevel(p){if(p<30)return{name:'تازه‌کار',cls:'level-newbie',icon:'🌱'};if(p<100)return{name:'معمولی',cls:'level-regular',icon:'⭐'};return{name:'حرفه‌ای',cls:'level-pro',icon:'🏆'}}
+
+function updateStatusCard(){
+    if(!currentUser||!users[currentUser])return;
+    let user=users[currentUser];
+    let card=document.getElementById('status-card');
+    card.style.display='block';
+    card.className='user-status-card';
+    document.getElementById('s-username').innerText='👤 '+currentUser;
+    let lvl=getUserLevel(user.points);
+    document.getElementById('s-level').innerHTML='<span class="level-badge '+lvl.cls+'">'+lvl.icon+' '+lvl.name+'</span> ⭐ '+user.points+' امتیاز';
+    let badge=document.getElementById('s-badge'),details=document.getElementById('s-details');
+    if(isAdmin){card.classList.add('admin');badge.className='status-badge badge-admin';badge.innerText='🛡️ ادمین';details.innerHTML='<p class="status-info">⚡ همه دسترسی‌ها</p>'}
+    else if(user.subscription==='permanent'){card.classList.add('permanent');badge.className='status-badge badge-permanent';badge.innerText='💎 همیشگی';details.innerHTML='<p class="status-info">♾️ اشتراک نامحدود</p>'}
+    else if(user.subscription==='monthly'){card.classList.add('vip');badge.className='status-badge badge-vip';badge.innerText='⭐ VIP';let d=Math.ceil((user.subExpiry-Date.now())/86400000);let pr=Math.max(0,Math.min(100,(d/30)*100));details.innerHTML='<p class="status-info">📅 '+d+' روز باقی مانده</p><div class="progress-bar"><div class="progress-fill" style="width:'+pr+'%"></div></div>'}
+    else{badge.className='status-badge badge-free';badge.innerText='🆓 رایگان';let u=user.aiUsage||0,l=user.aiLimit||1;details.innerHTML='<p class="status-info">⚡ AI: '+u+' از '+l+'</p><div class="progress-bar"><div class="progress-fill" style="width:'+(u/l)*100+'%"></div></div><button class="upgrade-btn" onclick="tab(\'p5\',document.querySelectorAll(\'.nav-item\')[5])">🎁 ارتقا به VIP</button>'}
+}
+
+function showApp(){
     document.getElementById('p-login').classList.remove('active');
     document.getElementById('p1').classList.add('active');
-    document.getElementById('main-nav').style.display = 'flex';
-    document.getElementById('welcome-msg').innerHTML = '👋 خوش آمدید <strong style="color:var(--gold);">'+currentUser+'</strong>';
-    document.getElementById('current-user-name').innerText = currentUser;
-    document.getElementById('about-user').innerText = currentUser;
-    document.getElementById('user-status').innerHTML = isVIP ? '<span class="vip-badge">⭐ VIP</span> - '+currentUser : 'کاربر: '+currentUser;
+    document.getElementById('main-nav').style.display='flex';
+    updateStatusCard();
+    updateAboutPage();
+    document.getElementById('current-user-name').innerText=currentUser;
+    displayAds();
 }
 
-// خروج
-function logoutUser() {
-    if(confirm('آیا از حساب خود خارج می‌شوید؟')) {
-        currentUser = null;
-        localStorage.removeItem('currentUser');
-        isVIP = false;
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('p-login').classList.add('active');
-        document.getElementById('main-nav').style.display = 'none';
-        document.getElementById('user-status').innerText = 'لطفا وارد شوید';
-        document.getElementById('login-user').value = '';
-        document.getElementById('login-pass').value = '';
-    }
+function updateAboutPage(){
+    if(!currentUser||!users[currentUser])return;
+    let user=users[currentUser];
+    document.getElementById('about-user').innerText=currentUser;
+    document.getElementById('about-joindate').innerText=user.joinDate;
+    let lvl=getUserLevel(user.points);
+    document.getElementById('about-level').innerHTML='<span class="level-badge '+lvl.cls+'">'+lvl.icon+' '+lvl.name+'</span>';
+    document.getElementById('about-points').innerText=user.points;
+    document.getElementById('my-referral-code').innerText=user.referralCode;
+    let s=document.getElementById('subscription-status');
+    if(user.subscription==='permanent'){s.innerHTML='<h3>💎 اشتراک شما</h3><div class="purple-box" style="text-align:center;"><p style="font-size:18px;color:var(--purple);font-weight:bold;">👑 VIP همیشگی</p><p style="margin-top:10px;">♾️ بدون انقضا</p></div>';document.getElementById('plans-section').style.display='none'}
+    else if(user.subscription==='monthly'){let d=Math.ceil((user.subExpiry-Date.now())/86400000);s.innerHTML='<h3>⭐ اشتراک شما</h3><div class="success-box" style="text-align:center;"><p style="font-size:18px;color:var(--gold);font-weight:bold;">VIP ماهانه</p><p style="margin-top:10px;">📅 '+d+' روز باقی مانده</p></div>'}
+    else{s.innerHTML='<h3>🆓 کاربر رایگان</h3><p style="color:#888;text-align:center;">با ارتقا به VIP از همه امکانات لذت ببرید</p>'}
 }
 
-// تغییر تب
-function tab(id, el) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    if(el) el.classList.add('active');
-    if(id === 'p4') loadMyMessages();
-    window.scrollTo(0, 0);
-}
+function logoutUser(){if(confirm('خروج؟')){currentUser=null;localStorage.removeItem('currentUser');isAdmin=false;document.getElementById('status-card').style.display='none';document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('p-login').classList.add('active');document.getElementById('main-nav').style.display='none';document.getElementById('login-user').value='';document.getElementById('login-pass').value=''}}
 
-// کلیک مخفی
-function secretClick() {
-    secretClicks++;
-    if(secretClicks >= 7) {
-        secretClicks = 0;
-        let pass = prompt('🔐 رمز عبور مخفی:');
-        if(pass === '139113911391') {
-            isAdmin = true; isVIP = true;
-            if(currentUser && users[currentUser]) { users[currentUser].isVIP = true; localStorage.setItem('users', JSON.stringify(users)); }
-            document.getElementById('user-status').innerHTML = '<span class="vip-badge">👑 ادمین</span>';
-            tab('p6');
-            loadAdminMessages();
-            updateAdminStats();
-        } else if(pass === '13911391') {
-            isVIP = true;
-            if(currentUser && users[currentUser]) { users[currentUser].isVIP = true; localStorage.setItem('users', JSON.stringify(users)); }
-            document.getElementById('user-status').innerHTML = '<span class="vip-badge">⭐ VIP</span> - '+currentUser;
-            alert('✅ اشتراک VIP فعال شد');
-        } else if(pass) alert('❌ رمز اشتباه');
-    }
-}
+function tab(id,el){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));if(el)el.classList.add('active');if(id==='p4')loadMyMessages();if(id==='p2')updateAIUsageInfo();if(id==='p5')updateAboutPage();if(id==='p-wheel'){updateWheelStats();updateLeaderboard();updatePrizeHistory();startTimer()}window.scrollTo(0,0)}
 
-function buyVIP() {
-    alert('🔔 در حال انتقال به درگاه پرداخت مایکت...\n\n(بعد از انتشار در مایکت فعال می‌شود)');
-}
+function updateAIUsageInfo(){if(!currentUser)return;let user=users[currentUser];let info=document.getElementById('ai-usage-info');if(isAdmin||user.subscription!=='free'){info.innerHTML='<p>⚡ <strong style="color:var(--success);">استفاده نامحدود</strong> ✅</p>'}else{let r=(user.aiLimit||1)-(user.aiUsage||0);info.innerHTML='<p>⚡ باقی مانده: <strong style="color:var(--gold);">'+r+'</strong> از '+(user.aiLimit||1)+'</p>'}}
 
-// بارگذاری قیمت‌ها
-async function loadPrices() {
-    try {
-        const response = await fetch('prices.json?t=' + Date.now());
-        const data = await response.json();
-        prices = data;
-        updatePriceDisplay(data);
-        document.getElementById('update-time').innerText = data.updated || new Date().toLocaleString('fa-IR');
-    } catch(e) {
-        document.getElementById('update-time').innerText = new Date().toLocaleString('fa-IR');
-    }
-}
+function secretClick(){secretClicks++;if(secretClicks>=7){secretClicks=0;let pass=prompt('🔐 رمز مخفی:');if(pass==='139113911391'){isAdmin=true;if(users[currentUser]){users[currentUser].subscription='permanent';localStorage.setItem('users',JSON.stringify(users))}updateStatusCard();tab('p6');loadAdminMessages();loadAdminUsers();loadAdRequests();loadActiveAds();updateAdminStats()}else if(pass==='13911391'){if(users[currentUser]){users[currentUser].subscription='monthly';users[currentUser].subExpiry=Date.now()+(30*86400000);localStorage.setItem('users',JSON.stringify(users))}updateStatusCard();alert('✅ VIP فعال شد')}else if(pass)alert('❌ رمز اشتباه')}}
 
-function updatePriceDisplay(d) {
-    if(d.coin) document.getElementById('p-coin').innerText = Number(d.coin).toLocaleString('fa-IR');
-    if(d.half_coin) document.getElementById('p-half').innerText = Number(d.half_coin).toLocaleString('fa-IR');
-    if(d.quarter_coin) document.getElementById('p-quarter').innerText = Number(d.quarter_coin).toLocaleString('fa-IR');
-    if(d.gold18) document.getElementById('p-gold18').innerText = Number(d.gold18).toLocaleString('fa-IR');
-    if(d.melted_gold) document.getElementById('p-melted').innerText = Number(d.melted_gold).toLocaleString('fa-IR');
-    if(d.ounce) document.getElementById('p-ounce').innerText = '$' + Number(d.ounce).toLocaleString('en-US');
-    if(d.usd) document.getElementById('p-usd').innerText = Number(d.usd).toLocaleString('fa-IR');
-    if(d.eur) document.getElementById('p-eur').innerText = Number(d.eur).toLocaleString('fa-IR');
-    if(d.btc) document.getElementById('p-btc').innerText = '$' + Number(d.btc).toLocaleString('en-US');
-    if(d.eth) document.getElementById('p-eth').innerText = '$' + Number(d.eth).toLocaleString('en-US');
-    if(d.usdt) document.getElementById('p-usdt').innerText = Number(d.usdt).toLocaleString('fa-IR');
-    if(d.coin) document.getElementById('s-coin').innerText = (d.coin/1000000).toFixed(1)+'M';
-    if(d.usd) document.getElementById('s-dollar').innerText = (d.usd/1000).toFixed(0)+'K';
-    if(d.btc) document.getElementById('s-btc').innerText = '$'+(d.btc/1000).toFixed(0)+'K';
-}
+function buyVIP(t){alert('🔔 در حال انتقال به درگاه پرداخت مایکت...\n\n📦 پلن '+(t==='permanent'?'همیشگی':'ماهانه')+'\n💰 '+(t==='permanent'?'۲۹۹,۰۰۰':'۳۵,۰۰۰')+' تومان')}
 
-// تحلیل AI
-function requestAI() {
-    if(!isVIP && aiUsageCount >= 1) {
-        alert('⚠️ استفاده رایگان تمام شد!\nبرای دسترسی نامحدود، VIP بخرید.');
-        tab('p5', document.querySelectorAll('.nav-item')[4]);
-        return;
-    }
-    let budget = parseInt(document.getElementById('budget').value);
-    let gold = parseInt(document.getElementById('gold-amount').value) || 0;
-    let crypto = parseInt(document.getElementById('crypto-amount').value) || 0;
-    let risk = document.getElementById('risk').value;
-    let period = parseInt(document.getElementById('period').value);
-    if(!budget || budget < 1000000) { alert('موجودی حداقل ۱ میلیون'); return; }
-    let ok = confirm('⚠️ هشدار\nاین تحلیل هوش مصنوعی است.\nمسئولیت با شماست.\n\nقبول می‌کنید؟');
-    if(!ok) return;
-    confirms.push({user: currentUser, time: new Date().toLocaleString('fa-IR'), budget, gold, crypto, risk, period});
-    localStorage.setItem('confirms', JSON.stringify(confirms));
-    document.getElementById('ai-result').innerHTML = '<div class="loader"></div><p style="text-align:center;color:var(--gold);">🧠 در حال تحلیل...</p>';
-    setTimeout(() => {
-        aiUsageCount++;
-        document.getElementById('ai-result').innerHTML = generateAdvice(budget, gold, crypto, risk, period);
-    }, 2500);
-}
+async function loadPrices(){try{const r=await fetch('prices.json?t='+Date.now());const d=await r.json();prices=d;updatePriceDisplay(d);document.getElementById('update-time').innerText=d.updated||new Date().toLocaleString('fa-IR')}catch(e){document.getElementById('update-time').innerText=new Date().toLocaleString('fa-IR')}}
 
-function generateAdvice(budget, gold, crypto, risk, period) {
-    let coinPrice = prices.coin || 45000000;
-    let goldGramPrice = prices.melted_gold || 4500000;
-    let usdtPrice = prices.usdt || 70200;
-    let strategy = {}, profitPercent = 0, riskLevel = '', riskColor = '';
-    if(risk === 'low') { strategy = {coin:0.2, gold:0.5, usdt:0.2, cash:0.1}; profitPercent = period * 3; riskLevel = 'کم'; riskColor = 'success'; }
-    else if(risk === 'medium') { strategy = {coin:0.35, gold:0.3, usdt:0.25, cash:0.1}; profitPercent = period * 5; riskLevel = 'متوسط'; riskColor = 'warning'; }
-    else { strategy = {coin:0.4, gold:0.2, usdt:0.1, btc:0.2, cash:0.1}; profitPercent = period * 8; riskLevel = 'زیاد'; riskColor = 'danger'; }
-    let coinCount = Math.floor((budget * strategy.coin) / coinPrice);
-    let goldGrams = Math.floor((budget * strategy.gold) / goldGramPrice);
-    let usdtAmount = Math.floor((budget * strategy.usdt) / usdtPrice);
-    let cashAmount = Math.floor(budget * strategy.cash);
-    let expectedProfit = Math.floor(budget * profitPercent / 100);
-    
-    let html = `
-    <div class="success-box">
-    <h3 style="color:var(--gold);">📊 تحلیل کامل</h3>
-    <p>💰 موجودی: ${budget.toLocaleString('fa-IR')} تومان</p>
-    </div>
-    <div class="info-box">
-    <p>⚠️ ریسک: <strong>${riskLevel}</strong></p>
-    <p>📈 سود ${period} ماهه: <strong style="color:var(--success);">${profitPercent}٪</strong></p>
-    <p>💵 سود انتظاری: <strong style="color:var(--success);">${expectedProfit.toLocaleString('fa-IR')} تومان</strong></p>
-    </div>
-    <h3 style="color:var(--gold);margin:15px 0;">🛒 برنامه خرید:</h3>`;
-    
-    if(coinCount > 0) html += `<div class="strategy-item"><span class="num-circle">۱</span><strong>سکه تمام</strong><p>📦 ${coinCount} سکه</p><p>💰 ${(coinCount*coinPrice).toLocaleString('fa-IR')} تومان</p><p>📍 بانک ملی / صرافی</p></div>`;
-    if(goldGrams > 0) html += `<div class="strategy-item"><span class="num-circle">۲</span><strong>طلای آبشده</strong><p>⚖️ ${goldGrams} گرم</p><p>💰 ${(goldGrams*goldGramPrice).toLocaleString('fa-IR')} تومان</p><p>📍 طلافروشی</p></div>`;
-    if(usdtAmount > 0) html += `<div class="strategy-item"><span class="num-circle">۳</span><strong>تتر</strong><p>💵 ${usdtAmount} دلار</p><p>💰 ${(usdtAmount*usdtPrice).toLocaleString('fa-IR')} تومان</p><p>📍 نوبیتکس</p></div>`;
-    if(strategy.btc) html += `<div class="strategy-item"><span class="num-circle">۴</span><strong>بیت‌کوین</strong><p>💰 ${Math.floor(budget*strategy.btc).toLocaleString('fa-IR')} تومان</p></div>`;
-    html += `<div class="strategy-item"><span class="num-circle">${strategy.btc?'۵':'۴'}</span><strong>نقد نگه دار</strong><p>💰 ${cashAmount.toLocaleString('fa-IR')} تومان</p></div>`;
-    html += `<div class="warning-box"><h4 style="color:var(--warning);">⏰ زمان‌بندی:</h4><p>• الان: ۶۰٪</p><p>• ۱ هفته بعد: ۲۵٪</p><p>• ۲ هفته بعد: ۱۵٪</p></div>`;
-    html += `<div class="danger-box"><h4 style="color:var(--danger);">⚠️ هشدارها:</h4><p>🔴 اگر دلار زیر ۶۸ آمد، سکه بفروش</p><p>🟢 اگر انس بالای ۲۷۰۰ رفت، طلا بخر</p></div>`;
-    return html;
-}
+function updatePriceDisplay(d){if(d.coin)document.getElementById('p-coin').innerText=Number(d.coin).toLocaleString('fa-IR');if(d.half_coin)document.getElementById('p-half').innerText=Number(d.half_coin).toLocaleString('fa-IR');if(d.quarter_coin)document.getElementById('p-quarter').innerText=Number(d.quarter_coin).toLocaleString('fa-IR');if(d.gold18)document.getElementById('p-gold18').innerText=Number(d.gold18).toLocaleString('fa-IR');if(d.melted_gold)document.getElementById('p-melted').innerText=Number(d.melted_gold).toLocaleString('fa-IR');if(d.ounce)document.getElementById('p-ounce').innerText='$'+Number(d.ounce).toLocaleString('en-US');if(d.usd)document.getElementById('p-usd').innerText=Number(d.usd).toLocaleString('fa-IR');if(d.eur)document.getElementById('p-eur').innerText=Number(d.eur).toLocaleString('fa-IR');if(d.btc)document.getElementById('p-btc').innerText='$'+Number(d.btc).toLocaleString('en-US');if(d.eth)document.getElementById('p-eth').innerText='$'+Number(d.eth).toLocaleString('en-US');if(d.usdt)document.getElementById('p-usdt').innerText=Number(d.usdt).toLocaleString('fa-IR');if(d.coin)document.getElementById('s-coin').innerText=(d.coin/1000000).toFixed(1)+'M';if(d.usd)document.getElementById('s-dollar').innerText=(d.usd/1000).toFixed(0)+'K';if(d.btc)document.getElementById('s-btc').innerText='$'+(d.btc/1000).toFixed(0)+'K'}
 
-// پشتیبانی - فقط پیام‌های کاربر فعلی
-function sendSupport() {
-    let msg = document.getElementById('support-msg').value.trim();
-    if(!msg) { alert('پیام را وارد کنید'); return; }
-    allMessages.push({
-        id: Date.now(),
-        user: currentUser,
-        message: msg,
-        time: new Date().toLocaleString('fa-IR'),
-        replied: false,
-        reply: ''
-    });
-    localStorage.setItem('allMessages', JSON.stringify(allMessages));
-    document.getElementById('support-result').innerHTML = '<div class="success-box" style="margin-top:15px;">✅ پیام شما ارسال شد</div>';
-    document.getElementById('support-msg').value = '';
-    loadMyMessages();
-}
+function requestAI(){if(!currentUser){alert('اول وارد شوید');return}let user=users[currentUser];let has=isAdmin||user.subscription==='monthly'||user.subscription==='permanent';if(!has&&(user.aiUsage||0)>=(user.aiLimit||1)){alert('⚠️ استفاده رایگان تمام شد!');tab('p5',document.querySelectorAll('.nav-item')[5]);return}let budget=parseInt(document.getElementById('budget').value);if(!budget||budget<1000000){alert('حداقل ۱ میلیون');return}let ok=confirm('⚠️ این تحلیل هوش مصنوعی است.\nمسئولیت با شماست.\n\nقبول؟');if(!ok)return;if(!has)user.aiUsage=(user.aiUsage||0)+1;user.points=(user.points||0)+5;localStorage.setItem('users',JSON.stringify(users));updateStatusCard();updateAIUsageInfo();document.getElementById('ai-result').innerHTML='<div class="loader"></div><p style="text-align:center;color:var(--gold);">🧠 در حال تحلیل...</p>';setTimeout(()=>{let g=parseInt(document.getElementById('gold-amount').value)||0;let c=parseInt(document.getElementById('crypto-amount').value)||0;let r=document.getElementById('risk').value;let p=parseInt(document.getElementById('period').value);document.getElementById('ai-result').innerHTML=generateAdvice(budget,g,c,r,p)},2500)}
 
-// فقط پیام‌های کاربر فعلی
-function loadMyMessages() {
-    let myMsgs = allMessages.filter(m => m.user === currentUser);
-    if(myMsgs.length === 0) {
-        document.getElementById('my-messages').innerHTML = '<p style="color:#666;text-align:center;">هنوز پیامی ندارید</p>';
-        return;
-    }
-    document.getElementById('my-messages').innerHTML = myMsgs.map(m => 
-        `<div class="msg-item">
-        <strong>💬 پیام شما:</strong> ${m.message}
-        <br><small style="color:#666;">${m.time}</small>
-        ${m.replied ? '<div class="success-box" style="margin-top:8px;"><strong style="color:var(--gold);">📩 پاسخ پشتیبانی:</strong><br>'+m.reply+'</div>' : '<p style="color:var(--warning);margin-top:8px;font-size:12px;">⏳ در انتظار پاسخ...</p>'}
-        </div>`
-    ).join('');
-}
+function generateAdvice(budget,gold,crypto,risk,period){let cp=prices.coin||45000000,gp=prices.melted_gold||4500000,up=prices.usdt||70200;let st={},pp=0,rl='';if(risk==='low'){st={coin:0.2,gold:0.5,usdt:0.2,cash:0.1};pp=period*3;rl='کم'}else if(risk==='medium'){st={coin:0.35,gold:0.3,usdt:0.25,cash:0.1};pp=period*5;rl='متوسط'}else{st={coin:0.4,gold:0.2,usdt:0.1,btc:0.2,cash:0.1};pp=period*8;rl='زیاد'}let cc=Math.floor((budget*st.coin)/cp);let gg=Math.floor((budget*st.gold)/gp);let ua=Math.floor((budget*st.usdt)/up);let ca=Math.floor(budget*st.cash);let ep=Math.floor(budget*pp/100);let h='<div class="success-box"><h3 style="color:var(--gold);">📊 تحلیل کامل</h3><p>💰 موجودی: '+budget.toLocaleString('fa-IR')+' تومان</p></div>';h+='<div class="info-box"><p>⚠️ ریسک: <strong>'+rl+'</strong></p><p>📈 سود '+period+' ماهه: <strong style="color:var(--success);">'+pp+'٪</strong></p><p>💵 سود انتظاری: <strong style="color:var(--success);">'+ep.toLocaleString('fa-IR')+' تومان</strong></p></div>';h+='<h3 style="color:var(--gold);margin:15px 0;">🛒 برنامه خرید:</h3>';if(cc>0)h+='<div class="strategy-item"><span class="num-circle">۱</span><strong>سکه</strong><p>📦 '+cc+' سکه</p><p>💰 '+(cc*cp).toLocaleString('fa-IR')+' تومان</p><p>📍 بانک ملی</p></div>';if(gg>0)h+='<div class="strategy-item"><span class="num-circle">۲</span><strong>طلای آبشده</strong><p>⚖️ '+gg+' گرم</p><p>💰 '+(gg*gp).toLocaleString('fa-IR')+' تومان</p><p>📍 طلافروشی</p></div>';if(ua>0)h+='<div class="strategy-item"><span class="num-circle">۳</span><strong>تتر</strong><p>💵 '+ua+' دلار</p><p>💰 '+(ua*up).toLocaleString('fa-IR')+' تومان</p></div>';if(st.btc)h+='<div class="strategy-item"><span class="num-circle">۴</span><strong>بیت‌کوین</strong><p>💰 '+Math.floor(budget*st.btc).toLocaleString('fa-IR')+' تومان</p></div>';h+='<div class="strategy-item"><span class="num-circle">'+(st.btc?'۵':'۴')+'</span><strong>نقد</strong><p>💰 '+ca.toLocaleString('fa-IR')+' تومان</p></div>';h+='<div class="warning-box"><h4 style="color:var(--warning);">⏰ زمان‌بندی:</h4><p>• الان: ۶۰٪</p><p>• ۱ هفته: ۲۵٪</p><p>• ۲ هفته: ۱۵٪</p></div>';return h}
 
-// ادمین - همه پیام‌ها
-function loadAdminMessages() {
-    allMessages = JSON.parse(localStorage.getItem('allMessages') || '[]');
-    if(allMessages.length === 0) {
-        document.getElementById('admin-msg-list').innerHTML = '<p style="color:#666;text-align:center;">پیامی موجود نیست</p>';
-        return;
-    }
-    document.getElementById('admin-msg-list').innerHTML = allMessages.map(m => 
-        `<div class="msg-item">
-        <strong>👤 کاربر:</strong> <span style="color:var(--gold);">${m.user}</span>
-        <br><small style="color:#888;">${m.time}</small>
-        <p style="margin:8px 0;">${m.message}</p>
-        ${m.replied ? '<div class="success-box">✅ پاسخ: '+m.reply+'</div>' : '<button class="gold-btn" onclick="replyMsg('+m.id+')">✍️ پاسخ به این کاربر</button>'}
-        </div>`
-    ).join('');
-}
+// گردونه شانس
+const wheelPrizes=[
+    {name:'🎁 ۱ استفاده AI',chance:25,type:'ai',value:1},
+    {name:'💀 پوچ',chance:25,type:'nothing',value:0},
+    {name:'⭐ ۱۰ امتیاز',chance:15,type:'points',value:10},
+    {name:'🎊 ۱ روز VIP',chance:2,type:'vip',value:1},
+    {name:'🎁 ۳ استفاده AI',chance:10,type:'ai',value:3},
+    {name:'💀 پوچ',chance:10,type:'nothing',value:0},
+    {name:'⭐ ۵ امتیاز',chance:8,type:'points',value:5},
+    {name:'💎 ۵ روز VIP',chance:5,type:'vip',value:5}
+];
 
-function replyMsg(id) {
-    let reply = prompt('پاسخ خود را بنویسید:');
-    if(reply) {
-        let msg = allMessages.find(m => m.id === id);
-        if(msg) {
-            msg.replied = true;
-            msg.reply = reply;
-            localStorage.setItem('allMessages', JSON.stringify(allMessages));
-            loadAdminMessages();
-            updateAdminStats();
-            alert('✅ پاسخ ارسال شد به کاربر: ' + msg.user);
-        }
-    }
-}
+function getRandomPrize(){let r=Math.random()*100,s=0;for(let i=0;i<wheelPrizes.length;i++){s+=wheelPrizes[i].chance;if(r<=s)return{prize:wheelPrizes[i],index:i}}return{prize:wheelPrizes[0],index:0}}
 
-function updateAdminStats() {
-    document.getElementById('a-users').innerText = Object.keys(users).length;
-    document.getElementById('a-vip').innerText = Object.values(users).filter(u => u.isVIP).length;
-    document.getElementById('a-msgs').innerText = allMessages.filter(m => !m.replied).length;
-    document.getElementById('a-income').innerText = (Object.values(users).filter(u => u.isVIP).length * 35000).toLocaleString('fa-IR');
-}
+function spinWheel(){if(!currentUser)return;let user=users[currentUser];let now=Date.now(),diff=now-(user.lastSpin||0);if(diff<86400000){alert('⏰ باید ۲۴ ساعت صبر کنی!');return}let btn=document.getElementById('spin-btn');btn.disabled=true;btn.innerText='🎡 در حال چرخش...';let result=getRandomPrize();let segAngle=45;let targetAngle=360*5+(360-(result.index*segAngle+segAngle/2));let wheel=document.getElementById('wheel-group');wheel.style.transform='rotate('+targetAngle+'deg)';wheel.style.transformOrigin='center';wheel.style.transition='transform 4s cubic-bezier(0.17,0.67,0.16,0.99)';setTimeout(()=>{user.lastSpin=now;user.totalSpins=(user.totalSpins||0)+1;if(result.prize.type==='nothing'){user.loses=(user.loses||0)+1;document.getElementById('wheel-result').innerHTML='<div class="prize-display prize-lose">😔 پوچ! فردا دوباره امتحان کن</div>'}else{user.wins=(user.wins||0)+1;if(result.prize.type==='ai'){user.aiLimit=(user.aiLimit||1)+result.prize.value;document.getElementById('wheel-result').innerHTML='<div class="prize-display prize-win">🎉 برنده شدی!<br>'+result.prize.name+'</div>'}else if(result.prize.type==='points'){user.points=(user.points||0)+result.prize.value;document.getElementById('wheel-result').innerHTML='<div class="prize-display prize-win">🎉 '+result.prize.value+' امتیاز گرفتی!</div>'}else if(result.prize.type==='vip'){if(user.subscription==='free'){user.subscription='monthly';user.subExpiry=Date.now()+(result.prize.value*86400000)}else if(user.subscription==='monthly'){user.subExpiry+=(result.prize.value*86400000)}document.getElementById('wheel-result').innerHTML='<div class="prize-display prize-win">🎉 '+result.prize.value+' روز VIP گرفتی!</div>'}}if(!user.prizeHistory)user.prizeHistory=[];user.prizeHistory.unshift({name:result.prize.name,time:new Date().toLocaleString('fa-IR')});if(user.prizeHistory.length>10)user.prizeHistory=user.prizeHistory.slice(0,10);localStorage.setItem('users',JSON.stringify(users));updateStatusCard();updateWheelStats();updateLeaderboard();updatePrizeHistory();btn.disabled=false;btn.innerText='🎯 چرخش گردونه!';startTimer()},4500)}
 
-function exitAdmin() {
-    isAdmin = false;
-    tab('p1', document.querySelector('.nav-item'));
-}
+function startTimer(){if(timerInterval)clearInterval(timerInterval);let user=users[currentUser];if(!user)return;let update=()=>{let diff=86400000-(Date.now()-(user.lastSpin||0));if(diff<=0){document.getElementById('wheel-timer').innerText='✅ آماده چرخش!';document.getElementById('spin-btn').disabled=false;clearInterval(timerInterval)}else{let h=Math.floor(diff/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);document.getElementById('wheel-timer').innerText='⏰ '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');document.getElementById('spin-btn').disabled=true}};update();timerInterval=setInterval(update,1000)}
 
-// شروع
-window.onload = function() {
-    let saved = localStorage.getItem('currentUser');
-    if(saved && users[saved]) {
-        currentUser = saved;
-        isVIP = users[saved].isVIP || false;
-        showApp();
-    }
-    loadPrices();
-    setInterval(loadPrices, 60000);
-};
+function updateWheelStats(){if(!currentUser)return;let user=users[currentUser];document.getElementById('w-total').innerText=user.totalSpins||0;document.getElementById('w-wins').innerText=user.wins||0;document.getElementById('w-loses').innerText=user.loses||0}
+
+function updateLeaderboard(){let list=Object.entries(users).sort((a,b)=>(b[1].wins||0)-(a[1].wins||0)).slice(0,5);document.getElementById('leaderboard').innerHTML=list.length===0?'<p style="color:#666;">هنوز کسی نبرده</p>':list.map((u,i)=>'<div class="msg-item">'+(['🥇','🥈','🥉','🏅','🏅'][i])+' <strong>'+u[0]+'</strong> - '+(u[1].wins||0)+' جایزه</div>').join('')}
+
+function updatePrizeHistory(){if(!currentUser)return;let user=users[currentUser];let h=user.prizeHistory||[];document.getElementById('prize-history').innerHTML=h.length===0?'<p style="color:#666;">تاریخچه‌ای نیست</p>':h.map(p=>'<div class="msg-item"><strong>'+p.name+'</strong><br><small style="color:#666;">'+p.time+'</small></div>').join('')}
+
+// پشتیبانی
+function sendSupport(){let msg=document.getElementById('support-msg').value.trim();if(!msg){alert('پیام را وارد کنید');return}allMessages.push({id:Date.now(),user:currentUser,message:msg,time:new Date().toLocaleString('fa-IR'),replied:false,reply:'',type:'support'});localStorage.setItem('allMessages',JSON.stringify(allMessages));document.getElementById('support-result').innerHTML='<div class="success-box" style="margin-top:15px;">✅ پیام ارسال شد</div>';document.getElementById('support-msg').value='';loadMyMessages()}
+
+function loadMyMessages(){let msgs=allMessages.filter(m=>m.user===currentUser);if(msgs.length===0){document.getElementById('my-messages').innerHTML='<p style="color:#666;text-align:center;">پیامی ندارید</p>';return}document.getElementById('my-messages').innerHTML=msgs.map(m=>'<div class="msg-item"><strong>💬</strong> '+m.message+'<br><small style="color:#666;">'+m.time+'</small>'+(m.replied?'<div class="success-box" style="margin-top:8px;"><strong style="color:var(--gold);">📩 پاسخ:</strong><br>'+m.reply+'</div>':'<p style="color:var(--warning);margin-top:8px;font-size:12px;">⏳ در انتظار پاسخ</p>')+'</div>').join('')}
+
+// تبلیغات
+function showAdForm(){document.getElementById('ad-form').style.display='block'}
+
+function submitAdRequest(){let title=document.getElementById('ad-title').value.trim();let text=document.getElementById('ad-text').value.trim();let phone=document.getElementById('ad-phone').value.trim();let image=document.getElementById('ad-image').value.trim();let plan=document.getElementById('ad-plan').value;if(!title||!text||!phone){alert('عنوان، متن و تماس اجباری است');return}let prices={basic:50000,pro:150000,special:300000,vip:1500000,sponsor:5000000};adRequests.push({id:Date.now(),user:currentUser,title,text,phone,image,plan,price:prices[plan],time:new Date().toLocaleString('fa-IR'),status:'pending'});localStorage.setItem('adRequests',JSON.stringify(adRequests));allMessages.push({id:Date.now()+1,user:currentUser,message:'📢 درخواست تبلیغ جدید: '+title+' (پلن: '+plan+' - '+prices[plan].toLocaleString('fa-IR')+' تومان)',time:new Date().toLocaleString('fa-IR'),replied:false,reply:'',type:'ad'});localStorage.setItem('allMessages',JSON.stringify(allMessages));alert('✅ درخواست تبلیغ ارسال شد.\nادمین برای هماهنگی پرداخت با شما تماس میگیرد.');document.getElementById('ad-form').style.display='none';document.getElementById('ad-title').value='';document.getElementById('ad-text').value='';document.getElementById('ad-phone').value='';document.getElementById('ad-image').value=''}
+
+// نمایش تبلیغات
+function displayAds(){let container=document.getElementById('ads-display');container.innerHTML='';if(!currentUser)return;let user=users[currentUser];if(isAdmin||user.subscription==='monthly'||user.subscription==='permanent')return;let now=Date.now();ads=ads.filter(a=>a.expiry>now);localStorage.setItem('ads',JSON.stringify(ads));if(ads.length===0)return;let ad=ads[Math.floor(Math.random()*ads.length)];let html='<div class="ad-container"><div class="ad-label">📢 تبلیغات</div>';if(ad.image)html+='<img src="'+ad.image+'" class="ad-image" onerror="this.style.display=\'none\'">';html+='<div class="ad-title">'+ad.title+'</div><div class="ad-text">'+ad.text+'</div><div class="ad-contact">📞 '+ad.phone+'</div></div>';container.innerHTML=html}
+
+// پنل ادمین
+function loadAdminMessages(){allMessages=JSON.parse(localStorage.getItem('allMessages')||'[]');if(allMessages.length===0){document.getElementById('admin-msg-list').innerHTML='<p style="color:#666;text-align:center;">پیامی نیست</p>';return}document.getElementById('admin-msg-list').innerHTML=allMessages.map(m=>'<div class="msg-item"><strong>👤</strong> <span style="color:var(--gold);">'+m.user+'</span> '+(m.type==='ad'?'<span style="color:var(--pink);">[تبلیغ]</span>':'')+'<br><small style="color:#888;">'+m.time+'</small><p style="margin:8px 0;">'+m.message+'</p>'+(m.replied?'<div class="success-box">✅ پاسخ: '+m.reply+'</div>':'<button class="gold-btn" onclick="replyMsg('+m.id+')">✍️ پاسخ</button>')+'</div>').join('')}
+
+function loadAdminUsers(){let list=Object.keys(users);if(list.length===0){document.getElementById('admin-users-list').innerHTML='<p style="color:#666;">کاربری نیست</p>';return}document.getElementById('admin-users-list').innerHTML=list.map(u=>{let user=users[u];let sub=user.subscription==='permanent'?'💎 همیشگی':(user.subscription==='monthly'?'⭐ VIP':'🆓 رایگان');return'<div class="msg-item"><strong>👤 '+u+'</strong><br><small>'+sub+' | ⭐ '+(user.points||0)+' | 📅 '+user.joinDate+'</small></div>'}).join('')}
+
+function loadAdRequests(){let pending=adRequests.filter(a=>a.status==='pending');if(pending.length===0){document.getElementById('ad-requests').innerHTML='<p style="color:#666;">درخواستی نیست</p>';return}document.getElementById('ad-requests').innerHTML=pending.map(a=>'<div class="msg-item"><strong>👤 '+a.user+'</strong><br><strong>🏪 '+a.title+'</strong><br><p style="margin:5px 0;">'+a.text+'</p><p>📞 '+a.phone+'</p><p>💰 '+a.plan+' - '+a.price.toLocaleString('fa-IR')+' تومان</p><small>'+a.time+'</small><br><button class="gold-btn" onclick="approveAd('+a.id+')">✅ تایید و فعال کن</button><button class="red-btn" onclick="rejectAd('+a.id+')">❌ رد</button></div>').join('')}
+
+function approveAd(id){let req=adRequests.find(a=>a.id===id);if(!req)return;let days=(req.plan==='vip'||req.plan==='sponsor')?30:7;ads.push({id:Date.now(),title:req.title,text:req.text,phone:req.phone,image:req.image,expiry:Date.now()+(days*86400000),plan:req.plan});req.status='approved';localStorage.setItem('ads',JSON.stringify(ads));localStorage.setItem('adRequests',JSON.stringify(adRequests));alert('✅ تبلیغ فعال شد!');loadAdRequests();loadActiveAds()}
+
+function rejectAd(id){let req=adRequests.find(a=>a.id===id);if(!req)return;req.status='rejected';localStorage.setItem('adRequests',JSON.stringify(adRequests));loadAdRequests()}
+
+function loadActiveAds(){let now=Date.now();ads=ads.filter(a=>a.expiry>now);localStorage.setItem('ads',JSON.stringify(ads));if(ads.length===0){document.getElementById('active-ads').innerHTML='<p style="color:#666;">تبلیغی فعال نیست</p>';return}document.getElementById('active-ads').innerHTML=ads.map(a=>{let d=Math.ceil((a.expiry-now)/86400000);return'<div class="msg-item"><strong>🏪 '+a.title+'</strong><br><p>'+a.text+'</p><p>📞 '+a.phone+'</p><p style="color:var(--warning);">📅 '+d+' روز باقی</p><button class="red-btn" onclick="deleteAd('+a.id+')">🗑️ حذف</button></div>'}).join('')}
+
+function deleteAd(id){if(confirm('حذف این تبلیغ؟')){ads=ads.filter(a=>a.id!==id);localStorage.setItem('ads',JSON.stringify(ads));loadActiveAds()}}
+
+function addManualAd(){let title=document.getElementById('manual-title').value.trim();let text=document.getElementById('manual-text').value.trim();let phone=document.getElementById('manual-phone').value.trim();let image=document.getElementById('manual-image').value.trim();let days=parseInt(document.getElementById('manual-days').value);if(!title||!text||!phone){alert('عنوان، متن و تماس اجباری');return}ads.push({id:Date.now(),title,text,phone,image,expiry:Date.now()+(days*86400000),plan:'manual'});localStorage.setItem('ads',JSON.stringify(ads));alert('✅ تبلیغ اضافه شد');document.getElementById('manual-title').value='';document.getElementById('manual-text').value='';document.getElementById('manual-phone').value='';document.getElementById('manual-image').value='';loadActiveAds()}
+
+function replyMsg(id){let reply=prompt('پاسخ:');if(reply){let msg=allMessages.find(m=>m.id===id);if(msg){msg.replied=true;msg.reply=reply;localStorage.setItem('allMessages',JSON.stringify(allMessages));loadAdminMessages();updateAdminStats();alert('✅ ارسال شد به: '+msg.user)}}}
+
+function updateAdminStats(){document.getElementById('a-users').innerText=Object.keys(users).length;let vc=Object.values(users).filter(u=>u.subscription!=='free').length;document.getElementById('a-vip').innerText=vc;document.getElementById('a-msgs').innerText=allMessages.filter(m=>!m.replied).length;let m=Object.values(users).filter(u=>u.subscription==='monthly').length;let p=Object.values(users).filter(u=>u.subscription==='permanent').length;let inc=(m*35000)+(p*299000);document.getElementById('a-income').innerText=inc.toLocaleString('fa-IR')}
+
+function exitAdmin(){isAdmin=false;updateStatusCard();tab('p1',document.querySelector('.nav-item'))}
+
+window.onload=function(){let saved=localStorage.getItem('currentUser');if(saved&&users[saved]){currentUser=saved;checkSubscription();showApp()}loadPrices();setInterval(loadPrices,60000);setInterval(displayAds,30000)}
 </script>
-
 </body>
 </html>
