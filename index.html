@@ -108,6 +108,8 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 .result-box{background:linear-gradient(135deg,rgba(0,255,136,0.15),rgba(255,215,0,0.15));border:2px solid var(--gold);border-radius:15px;padding:20px;margin:15px 0;text-align:center}
 .result-value{font-size:32px;color:var(--gold);font-weight:bold;margin:10px 0;text-shadow:0 0 15px rgba(255,215,0,0.5)}
 .result-label{font-size:14px;color:#aaa}
+.sync-loader{text-align:center;padding:40px}
+.sync-loader p{color:var(--gold);margin-top:15px;font-size:16px}
 </style>
 </head>
 <body>
@@ -115,6 +117,13 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <div class="header"><h1>🧠 هوش طلایی</h1></div>
 <div id="admin-banner" class="admin-mode-banner">🛡️ حالت ادمین - <span id="admin-name-banner">-</span></div>
 <div id="status-card" class="user-status-card" style="display:none;"><div class="status-header"><div><div class="status-name" id="s-username">-</div><div class="status-info" id="s-level"></div></div><div class="status-badge badge-free" id="s-badge">🆓 رایگان</div></div><div id="s-details"></div></div>
+
+<div id="p-loading" class="page" style="display:none;">
+<div class="sync-loader">
+<div class="loader"></div>
+<p>☁️ در حال دریافت اطلاعات از ابر...</p>
+</div>
+</div>
 
 <div id="p-login" class="page active">
 <div class="login-box">
@@ -283,7 +292,7 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <div class="plan-card premium"><div class="plan-title">⭐ VIP ماهانه</div><div class="plan-price">۳۵,۰۰۰ تومان</div><button class="gold-btn" onclick="buyVIP('monthly')">💳 خرید</button></div>
 <div class="plan-card permanent-plan"><div class="plan-title" style="color:var(--purple);">👑 VIP همیشگی</div><div class="plan-price" style="color:var(--purple);">۲۹۹,۰۰۰ تومان</div><button class="purple-btn" onclick="buyVIP('permanent')">💎 خرید</button></div>
 </div>
-<div class="card"><button class="red-btn" onclick="logoutUser()">🚪 خروج</button></div>
+<div class="card"><button class="blue-btn" onclick="syncFromCloud()">🔄 بروزرسانی از ابر</button><button class="red-btn" onclick="logoutUser()">🚪 خروج</button></div>
 </div>
 
 <div id="p6" class="page">
@@ -388,6 +397,31 @@ async function getUserFromCloud(username,password){
     }catch(e){return null}
 }
 
+async function syncUserFromCloud(username){
+    try{
+        let result=await supabaseRequest('GET','users',null,'?username=eq.'+username);
+        if(result&&result.length>0){
+            let cloud=result[0];
+            if(!users[username])users[username]={};
+            users[username].password=cloud.password;
+            users[username].subscription=cloud.vip_type||'free';
+            users[username].subExpiry=cloud.vip_expiry||0;
+            users[username].points=cloud.points||10;
+            users[username].aiUsage=cloud.ai_usage||0;
+            if(!users[username].aiLimit)users[username].aiLimit=1;
+            if(!users[username].referralCode)users[username].referralCode=cloud.referral_code||genReferralCode(username);
+            if(!users[username].joinDate)users[username].joinDate=new Date().toLocaleDateString('fa-IR');
+            if(!users[username].lastSpin)users[username].lastSpin=cloud.last_spin||0;
+            if(!users[username].totalSpins)users[username].totalSpins=0;
+            if(!users[username].wins)users[username].wins=0;
+            if(!users[username].loses)users[username].loses=0;
+            localStorage.setItem('users',JSON.stringify(users));
+            return true;
+        }
+        return false;
+    }catch(e){console.error('Sync error:',e);return false}
+}
+
 let currentUser=null,secretClicks=0,isAdmin=false,isMainAdmin=false,adminPermissions={},adminName='';
 let userBackup=null;
 let users=JSON.parse(localStorage.getItem('users')||'{}');
@@ -417,21 +451,31 @@ async function loginUser(){
     let u=document.getElementById('login-user').value.trim();
     let p=document.getElementById('login-pass').value.trim();
     if(!u||!p){alert('نام و رمز');return}
-    if(users[u]&&users[u].password===p){currentUser=u;localStorage.setItem('currentUser',u);checkSubscription();showApp();return}
     document.getElementById('login-loader').style.display='block';
+    // اول از ابر چک کن
     let cloudUser=await getUserFromCloud(u,p);
     document.getElementById('login-loader').style.display='none';
     if(cloudUser){
-        users[u]={password:cloudUser.password,joinDate:new Date().toLocaleDateString('fa-IR'),joinTime:Date.now(),subscription:cloudUser.vip_type||'free',subExpiry:cloudUser.vip_expiry||0,aiUsage:cloudUser.ai_usage||0,aiLimit:1,points:cloudUser.points||10,referralCode:cloudUser.referral_code||genReferralCode(u),referredBy:null,referrals:0,lastSpin:cloudUser.last_spin||0,totalSpins:0,wins:0,loses:0};
+        users[u]={password:cloudUser.password,joinDate:users[u]&&users[u].joinDate?users[u].joinDate:new Date().toLocaleDateString('fa-IR'),joinTime:Date.now(),subscription:cloudUser.vip_type||'free',subExpiry:cloudUser.vip_expiry||0,aiUsage:cloudUser.ai_usage||0,aiLimit:1,points:cloudUser.points||10,referralCode:cloudUser.referral_code||genReferralCode(u),referredBy:null,referrals:0,lastSpin:cloudUser.last_spin||0,totalSpins:users[u]?users[u].totalSpins||0:0,wins:users[u]?users[u].wins||0:0,loses:users[u]?users[u].loses||0:0};
         localStorage.setItem('users',JSON.stringify(users));
-        currentUser=u;localStorage.setItem('currentUser',u);
-        alert('✅ اطلاعات از ابر بازیابی شد!');
-        checkSubscription();showApp();return;
+        currentUser=u;
+        localStorage.setItem('currentUser',u);
+        checkSubscription();
+        showApp();
+        return;
+    }
+    // اگر در ابر نبود، از حافظه محلی
+    if(users[u]&&users[u].password===p){
+        currentUser=u;
+        localStorage.setItem('currentUser',u);
+        checkSubscription();
+        showApp();
+        return;
     }
     alert('❌ کاربر یافت نشد یا رمز اشتباه');
 }
 
-function checkSubscription(){if(!currentUser||!users[currentUser])return;let user=users[currentUser];if(user.subscription==='monthly'&&user.subExpiry<Date.now()){user.subscription='free';user.subExpiry=0;localStorage.setItem('users',JSON.stringify(users));alert('⚠️ VIP منقضی شد')}}
+function checkSubscription(){if(!currentUser||!users[currentUser])return;let user=users[currentUser];if(user.subscription==='monthly'&&user.subExpiry<Date.now()){user.subscription='free';user.subExpiry=0;localStorage.setItem('users',JSON.stringify(users));saveUserToCloud(currentUser,{vip_type:'free',vip_expiry:0,is_vip:false});alert('⚠️ VIP منقضی شد')}}
 
 function getUserLevel(p){if(p<30)return{name:'تازه‌کار',cls:'level-newbie',icon:'🌱'};if(p<100)return{name:'معمولی',cls:'level-regular',icon:'⭐'};return{name:'حرفه‌ای',cls:'level-pro',icon:'🏆'}}
 
@@ -451,7 +495,21 @@ function updateStatusCard(){
     else{badge.className='status-badge badge-free';badge.innerText='🆓 رایگان';let u=user.aiUsage||0,l=user.aiLimit||1;details.innerHTML='<p class="status-info">⚡ AI: '+u+' از '+l+'</p><button class="upgrade-btn" onclick="tab(\'p5\',document.querySelectorAll(\'.nav-item\')[5])">🎁 ارتقا</button>'}
 }
 
-function showApp(){document.getElementById('p-login').classList.remove('active');document.getElementById('p1').classList.add('active');document.getElementById('main-nav').style.display='flex';updateStatusCard();updateAboutPage();document.getElementById('current-user-name').innerText=currentUser}
+function showApp(){document.getElementById('p-login').classList.remove('active');document.getElementById('p-loading').style.display='none';document.getElementById('p1').classList.add('active');document.getElementById('main-nav').style.display='flex';updateStatusCard();updateAboutPage();document.getElementById('current-user-name').innerText=currentUser}
+
+async function syncFromCloud(){
+    if(!currentUser)return;
+    alert('☁️ در حال بروزرسانی از ابر...');
+    let result=await syncUserFromCloud(currentUser);
+    if(result){
+        checkSubscription();
+        updateStatusCard();
+        updateAboutPage();
+        alert('✅ اطلاعات بروز شد!');
+    }else{
+        alert('❌ خطا در بروزرسانی');
+    }
+}
 
 function updateAboutPage(){
     if(!currentUser||!users[currentUser])return;
@@ -609,7 +667,7 @@ function exitAdmin(){
     document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
     document.querySelectorAll('.nav-item')[0].classList.add('active');
     window.scrollTo(0,0);
-    alert('✅ از حالت ادمین خارج شدید\nبه حالت قبل برگشتید');
+    alert('✅ از حالت ادمین خارج شدید');
 }
 
 function buyVIP(t){alert('🔔 در حال انتقال به مایکت...\n\n📦 '+(t==='permanent'?'همیشگی':'ماهانه'))}
@@ -626,7 +684,7 @@ const wheelPrizes=[{name:'🎁 ۱ AI',chance:25,type:'ai',value:1},{name:'💀 �
 
 function getRandomPrize(){let r=Math.random()*100,s=0;for(let i=0;i<wheelPrizes.length;i++){s+=wheelPrizes[i].chance;if(r<=s)return{prize:wheelPrizes[i],index:i}}return{prize:wheelPrizes[0],index:0}}
 
-function spinWheel(){if(!currentUser)return;let user=users[currentUser];let now=Date.now(),diff=now-(user.lastSpin||0);if(diff<86400000&&!isMainAdmin){alert('⏰ ۲۴ ساعت صبر کن!');return}let btn=document.getElementById('spin-btn');btn.disabled=true;btn.innerText='🎡 چرخش...';let result=getRandomPrize();let segAngle=45;let targetAngle=360*5+(360-(result.index*segAngle+segAngle/2));let wheel=document.getElementById('wheel-group');wheel.style.transform='rotate('+targetAngle+'deg)';setTimeout(()=>{user.lastSpin=now;user.totalSpins=(user.totalSpins||0)+1;if(result.prize.type==='nothing'){user.loses=(user.loses||0)+1;document.getElementById('wheel-result').innerHTML='<div class="prize-display prize-lose">😔 پوچ!</div>'}else{user.wins=(user.wins||0)+1;if(result.prize.type==='ai')user.aiLimit=(user.aiLimit||1)+result.prize.value;else if(result.prize.type==='points')user.points=(user.points||0)+result.prize.value;else if(result.prize.type==='vip'){if(user.subscription==='free'){user.subscription='monthly';user.subExpiry=Date.now()+(result.prize.value*86400000)}else if(user.subscription==='monthly')user.subExpiry+=(result.prize.value*86400000)}document.getElementById('wheel-result').innerHTML='<div class="prize-display prize-win">🎉 '+result.prize.name+'</div>'}localStorage.setItem('users',JSON.stringify(users));saveUserToCloud(currentUser,{last_spin:user.lastSpin,points:user.points,ai_usage:user.aiUsage,vip_type:user.subscription,vip_expiry:user.subExpiry});updateStatusCard();updateWheelStats();btn.disabled=false;btn.innerText='🎯 چرخش گردونه!';startTimer()},4500)}
+function spinWheel(){if(!currentUser)return;let user=users[currentUser];let now=Date.now(),diff=now-(user.lastSpin||0);if(diff<86400000&&!isMainAdmin){alert('⏰ ۲۴ ساعت صبر کن!');return}let btn=document.getElementById('spin-btn');btn.disabled=true;btn.innerText='🎡 چرخش...';let result=getRandomPrize();let segAngle=45;let targetAngle=360*5+(360-(result.index*segAngle+segAngle/2));let wheel=document.getElementById('wheel-group');wheel.style.transform='rotate('+targetAngle+'deg)';setTimeout(()=>{user.lastSpin=now;user.totalSpins=(user.totalSpins||0)+1;if(result.prize.type==='nothing'){user.loses=(user.loses||0)+1;document.getElementById('wheel-result').innerHTML='<div class="prize-display prize-lose">😔 پوچ!</div>'}else{user.wins=(user.wins||0)+1;if(result.prize.type==='ai')user.aiLimit=(user.aiLimit||1)+result.prize.value;else if(result.prize.type==='points')user.points=(user.points||0)+result.prize.value;else if(result.prize.type==='vip'){if(user.subscription==='free'){user.subscription='monthly';user.subExpiry=Date.now()+(result.prize.value*86400000)}else if(user.subscription==='monthly')user.subExpiry+=(result.prize.value*86400000)}document.getElementById('wheel-result').innerHTML='<div class="prize-display prize-win">🎉 '+result.prize.name+'</div>'}localStorage.setItem('users',JSON.stringify(users));saveUserToCloud(currentUser,{last_spin:user.lastSpin,points:user.points,ai_usage:user.aiUsage,vip_type:user.subscription,vip_expiry:user.subExpiry,is_vip:user.subscription!=='free'});updateStatusCard();updateWheelStats();btn.disabled=false;btn.innerText='🎯 چرخش گردونه!';startTimer()},4500)}
 
 function startTimer(){if(timerInterval)clearInterval(timerInterval);let user=users[currentUser];if(!user)return;let update=()=>{let diff=86400000-(Date.now()-(user.lastSpin||0));if(diff<=0||isMainAdmin){document.getElementById('wheel-timer').innerText='✅ آماده!';document.getElementById('spin-btn').disabled=false;clearInterval(timerInterval)}else{let h=Math.floor(diff/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);document.getElementById('wheel-timer').innerText='⏰ '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}};update();timerInterval=setInterval(update,1000)}
 
@@ -652,7 +710,7 @@ async function redeemGiftCode(){
     else if(giftCode.reward_type==='ai'){user.aiLimit=(user.aiLimit||1)+giftCode.reward_value;rewardText='🧠 '+giftCode.reward_value+' استفاده AI'}
     else if(giftCode.reward_type==='permanent'){user.subscription='permanent';user.subExpiry=0;rewardText='💎 VIP همیشگی'}
     localStorage.setItem('users',JSON.stringify(users));
-    await saveUserToCloud(currentUser,{points:user.points,ai_usage:user.aiUsage,vip_type:user.subscription,vip_expiry:user.subExpiry});
+    await saveUserToCloud(currentUser,{points:user.points,ai_usage:user.aiUsage,vip_type:user.subscription,vip_expiry:user.subExpiry,is_vip:user.subscription!=='free'});
     await supabaseRequest('POST','gift_usage',{code:code,username:currentUser});
     await supabaseRequest('PATCH','gift_codes',{used_count:giftCode.used_count+1},'?code=eq.'+code);
     document.getElementById('gift-result').innerHTML='<div class="success-box">🎉 تبریک!<br>'+rewardText+'</div>';
@@ -752,7 +810,37 @@ async function replyMsg(id){let reply=prompt('پاسخ:');if(reply){await supaba
 
 function updateAdminStats(){document.getElementById('a-users').innerText=Object.keys(users).length;let vc=Object.values(users).filter(u=>u.subscription!=='free').length;document.getElementById('a-vip').innerText=vc;let m=Object.values(users).filter(u=>u.subscription==='monthly').length;let p=Object.values(users).filter(u=>u.subscription==='permanent').length;let inc=(m*35000)+(p*299000);document.getElementById('a-income').innerText=inc.toLocaleString('fa-IR')}
 
-window.onload=function(){let saved=localStorage.getItem('currentUser');if(saved&&users[saved]){currentUser=saved;checkSubscription();showApp()}loadPrices();setInterval(loadPrices,60000)}
+// اجرای اصلی هنگام باز شدن برنامه
+window.onload=async function(){
+    loadPrices();
+    setInterval(loadPrices,60000);
+    
+    let saved=localStorage.getItem('currentUser');
+    if(saved){
+        // نمایش صفحه لودینگ
+        document.getElementById('p-login').classList.remove('active');
+        document.getElementById('p-loading').style.display='block';
+        
+        // sync با ابر
+        let synced=await syncUserFromCloud(saved);
+        
+        if(synced&&users[saved]){
+            currentUser=saved;
+            checkSubscription();
+            showApp();
+        }else if(users[saved]){
+            // اگر ابر جواب نداد، از حافظه محلی
+            currentUser=saved;
+            checkSubscription();
+            showApp();
+        }else{
+            // اگر هیچی نیست، به صفحه ورود برو
+            document.getElementById('p-loading').style.display='none';
+            document.getElementById('p-login').classList.add('active');
+            localStorage.removeItem('currentUser');
+        }
+    }
+}
 </script>
 </body>
 </html>
