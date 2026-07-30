@@ -35,7 +35,6 @@ body{background:linear-gradient(180deg,#0a0a0a 0%,#16213e 100%);color:#fff;font-
 .stat-box .icon{font-size:24px;margin-bottom:5px}
 .stat-box .value{color:var(--gold);font-size:14px;font-weight:bold}
 .stat-box .label{font-size:10px;color:#888;margin-top:3px}
-.stat-box .change{font-size:10px;margin-top:3px}
 .up{color:var(--success)}.down{color:var(--danger)}
 .price-row{display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid rgba(255,255,255,0.1)}
 .price-row:last-child{border:none}
@@ -46,10 +45,11 @@ body{background:linear-gradient(180deg,#0a0a0a 0%,#16213e 100%);color:#fff;font-
 .red-btn{background:linear-gradient(135deg,var(--danger),#cc0000);color:#fff;border:none;padding:12px;border-radius:10px;width:100%;font-weight:bold;cursor:pointer;margin-top:10px}
 .blue-btn{background:linear-gradient(135deg,var(--info),#0088cc);color:#fff;border:none;padding:12px;border-radius:10px;width:100%;font-weight:bold;cursor:pointer;margin-top:10px}
 .pink-btn{background:linear-gradient(135deg,var(--pink),#c2185b);color:#fff;border:none;padding:12px;border-radius:10px;width:100%;font-weight:bold;cursor:pointer;margin-top:10px}
+.green-btn{background:linear-gradient(135deg,var(--success),#00aa55);color:#000;border:none;padding:12px;border-radius:10px;width:100%;font-weight:bold;cursor:pointer;margin-top:10px}
 input,textarea,select{width:100%;padding:14px;margin-bottom:12px;border-radius:10px;border:1px solid rgba(255,215,0,0.3);background:#0a0a0a;color:#fff;font-family:Tahoma;font-size:14px}
 input:focus{border-color:var(--gold);outline:none}
 label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
-.bottom-nav{position:fixed;bottom:0;width:100%;background:linear-gradient(180deg,#111,#000);display:flex;justify-content:space-around;padding:8px 0;border-top:2px solid var(--gold);z-index:100;overflow-x:auto}
+.bottom-nav{position:fixed;bottom:0;width:100%;background:linear-gradient(180deg,#111,#000);display:flex;justify-content:space-around;padding:8px 0;border-top:2px solid var(--gold);z-index:100}
 .nav-item{color:#666;text-align:center;font-size:9px;cursor:pointer;padding:5px;min-width:55px}
 .nav-item.active{color:var(--gold)}
 .nav-item .icon{font-size:20px;display:block;margin-bottom:3px}
@@ -71,11 +71,10 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 @keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
 .login-box{max-width:400px;margin:40px auto;padding:25px;background:linear-gradient(135deg,var(--card),var(--card-2));border-radius:20px;border:2px solid var(--gold);box-shadow:0 0 40px rgba(255,215,0,0.3)}
 .plan-card{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:15px;padding:20px;margin:15px 0;border:2px solid rgba(255,215,0,0.3)}
-.plan-card.premium{border-color:var(--gold);box-shadow:0 0 20px rgba(255,215,0,0.3)}
-.plan-card.permanent-plan{border-color:var(--purple);box-shadow:0 0 20px rgba(157,78,221,0.3)}
+.plan-card.premium{border-color:var(--gold)}
+.plan-card.permanent-plan{border-color:var(--purple)}
 .plan-title{color:var(--gold);font-size:18px;margin-bottom:5px}
 .plan-price{font-size:28px;color:var(--gold);font-weight:bold;margin:10px 0}
-.plan-features{text-align:right;margin:15px 0}
 .plan-features p{margin:6px 0;font-size:13px}
 .level-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:10px;margin-right:5px}
 .level-newbie{background:#444;color:#ccc}
@@ -84,41 +83,42 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 .referral-code{background:#000;padding:10px;border-radius:8px;text-align:center;color:var(--gold);font-family:monospace;font-size:18px;letter-spacing:2px;margin:10px 0;border:2px dashed var(--gold)}
 .wheel-container{text-align:center;padding:20px}
 .wheel{width:280px;height:280px;margin:0 auto;position:relative}
-.wheel-svg{transition:transform 4s cubic-bezier(0.17,0.67,0.16,0.99)}
 .wheel-pointer{position:absolute;top:-10px;right:50%;transform:translateX(50%);font-size:40px;z-index:10}
-.spin-btn{background:linear-gradient(135deg,var(--pink),#c2185b);color:#fff;border:none;padding:15px 40px;border-radius:30px;font-weight:bold;font-size:16px;cursor:pointer;margin-top:20px;box-shadow:0 5px 20px rgba(255,0,110,0.5)}
-.spin-btn:disabled{background:#444;cursor:not-allowed;box-shadow:none}
+.spin-btn{background:linear-gradient(135deg,var(--pink),#c2185b);color:#fff;border:none;padding:15px 40px;border-radius:30px;font-weight:bold;font-size:16px;cursor:pointer;margin-top:20px}
+.spin-btn:disabled{background:#444;cursor:not-allowed}
 .timer-display{font-size:24px;color:var(--gold);font-family:monospace;margin:15px 0}
-.prize-display{padding:20px;border-radius:15px;margin:15px 0;text-align:center;font-size:18px;font-weight:bold;animation:prizePop 0.5s}
-@keyframes prizePop{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+.prize-display{padding:20px;border-radius:15px;margin:15px 0;text-align:center;font-size:18px;font-weight:bold}
 .prize-win{background:linear-gradient(135deg,rgba(0,255,136,0.2),rgba(255,215,0,0.2));border:2px solid var(--gold);color:var(--gold)}
 .prize-lose{background:rgba(255,68,68,0.1);border:2px solid var(--danger);color:var(--danger)}
-.ad-container{background:linear-gradient(135deg,#2a1a3e,#1a1a2e);border:2px solid var(--pink);border-radius:15px;padding:15px;margin:10px 15px;position:relative;box-shadow:0 4px 20px rgba(255,0,110,0.3)}
-.ad-label{position:absolute;top:-10px;right:15px;background:var(--pink);color:#fff;padding:3px 10px;border-radius:10px;font-size:10px;font-weight:bold}
-.ad-title{color:var(--gold);font-size:16px;font-weight:bold;margin-bottom:8px}
-.ad-text{color:#fff;font-size:13px;margin-bottom:10px;line-height:1.6}
-.ad-contact{color:var(--info);font-size:14px;font-weight:bold}
-.ad-image{width:100%;max-height:150px;object-fit:cover;border-radius:10px;margin-bottom:10px}
 .cloud-badge{background:linear-gradient(135deg,var(--info),#0088cc);color:#fff;padding:3px 8px;border-radius:10px;font-size:10px;display:inline-block;margin-right:5px}
+.gift-code-box{background:linear-gradient(135deg,#2a1a3e,#1a1a2e);border:2px dashed var(--gold);border-radius:15px;padding:20px;margin:15px 0;text-align:center}
+.gift-code-input{font-size:20px;letter-spacing:3px;text-align:center;font-weight:bold;text-transform:uppercase}
+.admin-tab{background:linear-gradient(135deg,#1a1a2e,#16213e);padding:10px;border-radius:10px;margin:3px;cursor:pointer;text-align:center;flex:1;font-size:12px}
+.admin-tab.active{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000}
+.admin-tabs{display:flex;gap:3px;margin-bottom:15px;flex-wrap:wrap}
+.user-detail-card{background:linear-gradient(135deg,#2a1a3e,#1a1a2e);border:2px solid var(--gold);border-radius:15px;padding:20px;margin:15px 0}
+.detail-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #333}
+.detail-row:last-child{border:none}
+.detail-label{color:#aaa;font-size:13px}
+.detail-value{color:var(--gold);font-weight:bold}
 </style>
 </head>
 <body>
 
 <div class="header"><h1>🧠 هوش طلایی</h1></div>
 <div id="status-card" class="user-status-card" style="display:none;"><div class="status-header"><div><div class="status-name" id="s-username">-</div><div class="status-info" id="s-level"></div></div><div class="status-badge badge-free" id="s-badge">🆓 رایگان</div></div><div id="s-details"></div></div>
-<div id="ads-display"></div>
 
 <div id="p-login" class="page active">
 <div class="login-box">
 <div style="text-align:center;font-size:60px;">🔐</div>
 <h3 style="color:var(--gold);text-align:center;margin:15px 0;">ورود / ثبت‌نام</h3>
-<div class="info-box" style="margin-bottom:15px;"><p style="font-size:11px;text-align:center;">☁️ اطلاعات شما در ابر ذخیره می‌شود<br>حتی با پاک کردن برنامه، اطلاعاتتان محفوظ می‌ماند</p></div>
-<label>👤 نام کاربری:</label><input type="text" id="login-user" placeholder="مثلا: ali1234">
-<label>🔑 رمز عبور:</label><input type="password" id="login-pass" placeholder="رمز عبور">
-<label>🎁 کد معرف (اختیاری):</label><input type="text" id="referral" placeholder="اگر معرف دارید">
+<div class="info-box"><p style="font-size:11px;text-align:center;">☁️ اطلاعات در ابر ذخیره می‌شود</p></div>
+<label>👤 نام کاربری:</label><input type="text" id="login-user" placeholder="ali1234">
+<label>🔑 رمز عبور:</label><input type="password" id="login-pass" placeholder="رمز">
+<label>🎁 کد معرف (اختیاری):</label><input type="text" id="referral" placeholder="کد معرف">
 <button class="gold-btn" onclick="loginUser()">🚪 ورود</button>
 <button class="blue-btn" onclick="registerUser()">📝 ثبت‌نام</button>
-<div id="login-loader" style="display:none;text-align:center;margin-top:10px;"><div class="loader"></div><p style="color:var(--gold);">در حال اتصال به ابر...</p></div>
+<div id="login-loader" style="display:none;text-align:center;margin-top:10px;"><div class="loader"></div></div>
 </div>
 </div>
 
@@ -126,24 +126,24 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <div class="card">
 <h3>📊 قیمت لحظه‌ای</h3>
 <div class="stats-grid">
-<div class="stat-box"><div class="icon">🥇</div><div class="value" id="s-coin">-</div><div class="label">سکه</div><div class="change up">▲ ۲.۳%</div></div>
-<div class="stat-box"><div class="icon">💵</div><div class="value" id="s-dollar">-</div><div class="label">دلار</div><div class="change up">▲ ۰.۵%</div></div>
-<div class="stat-box"><div class="icon">₿</div><div class="value" id="s-btc">-</div><div class="label">بیت‌کوین</div><div class="change down">▼ ۱.۲%</div></div>
+<div class="stat-box"><div class="icon">🥇</div><div class="value" id="s-coin">-</div><div class="label">سکه</div></div>
+<div class="stat-box"><div class="icon">💵</div><div class="value" id="s-dollar">-</div><div class="label">دلار</div></div>
+<div class="stat-box"><div class="icon">₿</div><div class="value" id="s-btc">-</div><div class="label">بیت‌کوین</div></div>
 </div>
 </div>
 <div class="card">
 <h3>💰 قیمت‌های تفصیلی</h3>
-<div class="price-row"><span class="price-name">🥇 سکه تمام</span><span class="price-value" id="p-coin">۴۵,۰۰۰,۰۰۰</span></div>
-<div class="price-row"><span class="price-name">🥈 نیم سکه</span><span class="price-value" id="p-half">۲۵,۰۰۰,۰۰۰</span></div>
-<div class="price-row"><span class="price-name">🥉 ربع سکه</span><span class="price-value" id="p-quarter">۱۵,۰۰۰,۰۰۰</span></div>
-<div class="price-row"><span class="price-name">💎 طلای ۱۸</span><span class="price-value" id="p-gold18">۴,۲۰۰,۰۰۰</span></div>
-<div class="price-row"><span class="price-name">✨ طلای آبشده</span><span class="price-value" id="p-melted">۴,۵۰۰,۰۰۰</span></div>
-<div class="price-row"><span class="price-name">🌎 انس جهانی</span><span class="price-value" id="p-ounce">$۲,۶۵۰</span></div>
-<div class="price-row"><span class="price-name">💵 دلار</span><span class="price-value" id="p-usd">۷۰,۰۰۰</span></div>
-<div class="price-row"><span class="price-name">💶 یورو</span><span class="price-value" id="p-eur">۷۶,۰۰۰</span></div>
-<div class="price-row"><span class="price-name">₿ بیت‌کوین</span><span class="price-value" id="p-btc">$۱۰۴,۰۰۰</span></div>
-<div class="price-row"><span class="price-name">Ξ اتریوم</span><span class="price-value" id="p-eth">$۳,۸۵۰</span></div>
-<div class="price-row"><span class="price-name">💰 تتر</span><span class="price-value" id="p-usdt">۷۰,۲۰۰</span></div>
+<div class="price-row"><span class="price-name">🥇 سکه تمام</span><span class="price-value" id="p-coin">-</span></div>
+<div class="price-row"><span class="price-name">🥈 نیم سکه</span><span class="price-value" id="p-half">-</span></div>
+<div class="price-row"><span class="price-name">🥉 ربع سکه</span><span class="price-value" id="p-quarter">-</span></div>
+<div class="price-row"><span class="price-name">💎 طلای ۱۸</span><span class="price-value" id="p-gold18">-</span></div>
+<div class="price-row"><span class="price-name">✨ طلای آبشده</span><span class="price-value" id="p-melted">-</span></div>
+<div class="price-row"><span class="price-name">🌎 انس جهانی</span><span class="price-value" id="p-ounce">-</span></div>
+<div class="price-row"><span class="price-name">💵 دلار</span><span class="price-value" id="p-usd">-</span></div>
+<div class="price-row"><span class="price-name">💶 یورو</span><span class="price-value" id="p-eur">-</span></div>
+<div class="price-row"><span class="price-name">₿ بیت‌کوین</span><span class="price-value" id="p-btc">-</span></div>
+<div class="price-row"><span class="price-name">Ξ اتریوم</span><span class="price-value" id="p-eth">-</span></div>
+<div class="price-row"><span class="price-name">💰 تتر</span><span class="price-value" id="p-usdt">-</span></div>
 </div>
 <p style="text-align:center;color:#666;font-size:11px;">🕐 <span id="update-time">-</span></p>
 </div>
@@ -151,24 +151,23 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <div id="p2" class="page">
 <div class="card">
 <h3>🧠 مشاور هوش مصنوعی</h3>
-<div id="ai-usage-info" class="info-box" style="margin-bottom:15px;"></div>
-<label>💰 موجودی (تومان):</label><input type="number" id="budget" placeholder="مثلا: ۵۰۰۰۰۰۰۰">
+<div id="ai-usage-info" class="info-box"></div>
+<label>💰 موجودی (تومان):</label><input type="number" id="budget" placeholder="50000000">
 <label>🥇 طلا (گرم):</label><input type="number" id="gold-amount" value="0">
-<label>₿ ارز دیجیتال (دلار):</label><input type="number" id="crypto-amount" value="0">
 <label>⚠️ ریسک:</label><select id="risk"><option value="low">🟢 کم</option><option value="medium" selected>🟡 متوسط</option><option value="high">🔴 زیاد</option></select>
 <label>⏰ مدت:</label><select id="period"><option value="1">۱ ماه</option><option value="3" selected>۳ ماه</option><option value="6">۶ ماه</option><option value="12">۱ سال</option></select>
-<button class="gold-btn" onclick="requestAI()">🎯 تحلیل هوشمند</button>
+<button class="gold-btn" onclick="requestAI()">🎯 تحلیل</button>
 <div id="ai-result"></div>
 </div>
 </div>
 
 <div id="p-wheel" class="page">
 <div class="card">
-<h3>🎡 گردونه شانس روزانه</h3>
+<h3>🎡 گردونه شانس</h3>
 <div class="wheel-container">
 <div class="wheel">
 <div class="wheel-pointer">▼</div>
-<svg width="280" height="280" viewBox="0 0 280 280"><g id="wheel-group" class="wheel-svg" transform="rotate(0 140 140)" style="transform-origin:center;">
+<svg width="280" height="280" viewBox="0 0 280 280"><g id="wheel-group" style="transition:transform 4s cubic-bezier(0.17,0.67,0.16,0.99);transform-origin:center;">
 <path d="M140,140 L140,10 A130,130 0 0,1 232,48 Z" fill="#FFD700"/>
 <path d="M140,140 L232,48 A130,130 0 0,1 270,140 Z" fill="#9d4edd"/>
 <path d="M140,140 L270,140 A130,130 0 0,1 232,232 Z" fill="#ff4444"/>
@@ -178,13 +177,13 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <path d="M140,140 L10,140 A130,130 0 0,1 48,48 Z" fill="#00aaff"/>
 <path d="M140,140 L48,48 A130,130 0 0,1 140,10 Z" fill="#ffaa00"/>
 <text x="170" y="55" fill="#000" font-size="11" font-weight="bold">🎁</text>
-<text x="230" y="105" fill="#fff" font-size="11" font-weight="bold">💀</text>
-<text x="235" y="180" fill="#fff" font-size="11" font-weight="bold">⭐</text>
-<text x="180" y="235" fill="#000" font-size="11" font-weight="bold">🎊</text>
-<text x="100" y="240" fill="#000" font-size="11" font-weight="bold">🎁</text>
-<text x="40" y="180" fill="#fff" font-size="11" font-weight="bold">💀</text>
-<text x="40" y="105" fill="#fff" font-size="11" font-weight="bold">⭐</text>
-<text x="100" y="55" fill="#000" font-size="11" font-weight="bold">💎</text>
+<text x="230" y="105" fill="#fff" font-size="11">💀</text>
+<text x="235" y="180" fill="#fff" font-size="11">⭐</text>
+<text x="180" y="235" fill="#000" font-size="11">🎊</text>
+<text x="100" y="240" fill="#000" font-size="11">🎁</text>
+<text x="40" y="180" fill="#fff" font-size="11">💀</text>
+<text x="40" y="105" fill="#fff" font-size="11">⭐</text>
+<text x="100" y="55" fill="#000" font-size="11">💎</text>
 <circle cx="140" cy="140" r="15" fill="#000"/>
 <circle cx="140" cy="140" r="10" fill="#FFD700"/>
 </g></svg>
@@ -194,23 +193,32 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <div id="wheel-result"></div>
 </div>
 </div>
+
+<div class="card">
+<h3>🎁 کد جایزه</h3>
+<div class="gift-code-box">
+<p style="margin-bottom:10px;color:#aaa;">کد جایزه را وارد کنید:</p>
+<input type="text" id="gift-code" class="gift-code-input" placeholder="GOLD2024" maxlength="20">
+<button class="green-btn" onclick="redeemGiftCode()">✅ فعال‌سازی</button>
+<div id="gift-result"></div>
+</div>
+</div>
+
 <div class="card">
 <h3>📊 آمار شما</h3>
 <div class="stats-grid">
-<div class="admin-stat"><div class="num" id="w-total">۰</div><div class="lbl">کل چرخش</div></div>
+<div class="admin-stat"><div class="num" id="w-total">۰</div><div class="lbl">کل</div></div>
 <div class="admin-stat"><div class="num" id="w-wins">۰</div><div class="lbl">جوایز</div></div>
 <div class="admin-stat"><div class="num" id="w-loses">۰</div><div class="lbl">پوچ</div></div>
 </div>
 </div>
 <div class="card"><h3>🏆 لیدربورد</h3><div id="leaderboard"></div></div>
-<div class="card"><h3>📋 تاریخچه جوایز</h3><div id="prize-history"></div></div>
 </div>
 
 <div id="p3" class="page">
-<div class="card">
-<h3>📰 اخبار اقتصادی</h3>
-<div class="msg-item"><strong>🟢 افزایش قیمت طلا</strong><p style="font-size:12px;color:#aaa;">قیمت انس به ۲,۶۵۰ دلار رسید...</p><small style="color:#666;">۲ ساعت پیش</small></div>
-<div class="msg-item"><strong>🔴 نوسان بیت‌کوین</strong><p style="font-size:12px;color:#aaa;">نوسان ۵ درصدی...</p><small style="color:#666;">۳ ساعت پیش</small></div>
+<div class="card"><h3>📰 اخبار</h3>
+<div class="msg-item"><strong>🟢 افزایش قیمت طلا</strong><p style="font-size:12px;color:#aaa;">قیمت انس رشد داشت...</p></div>
+<div class="msg-item"><strong>🔴 نوسان بیت‌کوین</strong><p style="font-size:12px;color:#aaa;">نوسان شدید...</p></div>
 </div>
 </div>
 
@@ -218,7 +226,7 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <div class="card">
 <h3>📞 ارسال پیام</h3>
 <div class="info-box"><p>👤 <strong style="color:var(--gold);" id="current-user-name">-</strong></p></div>
-<textarea id="support-msg" placeholder="سوال یا مشکل..." style="min-height:100px;"></textarea>
+<textarea id="support-msg" placeholder="پیام..." style="min-height:100px;"></textarea>
 <button class="gold-btn" onclick="sendSupport()">📤 ارسال</button>
 <div id="support-result"></div>
 </div>
@@ -229,11 +237,10 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <div class="card" style="text-align:center;">
 <div class="logo" onclick="secretClick()">GOLD</div>
 <h3 style="color:var(--gold);">هوش طلایی</h3>
-<p style="color:#888;font-size:13px;">مشاور هوشمند</p>
 </div>
 <div class="card">
 <h3>👤 حساب من</h3>
-<p>👤 <strong style="color:var(--gold);" id="about-user">-</strong> <span class="cloud-badge">☁️ ابری</span></p>
+<p>👤 <strong style="color:var(--gold);" id="about-user">-</strong> <span class="cloud-badge">☁️</span></p>
 <p>📅 <strong id="about-joindate">-</strong></p>
 <p>🏆 سطح: <span id="about-level"></span></p>
 <p>⭐ امتیاز: <strong style="color:var(--gold);" id="about-points">۰</strong></p>
@@ -244,35 +251,98 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <h3>👑 پلن‌های اشتراک</h3>
 <div class="plan-card premium">
 <div class="plan-title">⭐ VIP ماهانه</div>
-<div class="plan-price">۳۵,۰۰۰ <span style="font-size:14px;">تومان</span></div>
-<p style="color:#888;font-size:12px;">۳۰ روز</p>
-<div class="plan-features"><p>✅ AI نامحدود</p><p>✅ بدون تبلیغات</p><p>✅ سیگنال دقیق</p></div>
-<button class="gold-btn" onclick="buyVIP('monthly')">💳 خرید ماهانه</button>
+<div class="plan-price">۳۵,۰۰۰ تومان</div>
+<button class="gold-btn" onclick="buyVIP('monthly')">💳 خرید</button>
 </div>
 <div class="plan-card permanent-plan">
 <div class="plan-title" style="color:var(--purple);">👑 VIP همیشگی</div>
-<div class="plan-price" style="color:var(--purple);">۲۹۹,۰۰۰ <span style="font-size:14px;">تومان</span></div>
-<p style="color:#888;font-size:12px;">نامحدود</p>
-<div class="plan-features"><p>✅ همه مزایای VIP</p><p>✅ بدون انقضا</p><p>✅ بدون تبلیغات</p></div>
-<button class="purple-btn" onclick="buyVIP('permanent')">💎 خرید همیشگی</button>
+<div class="plan-price" style="color:var(--purple);">۲۹۹,۰۰۰ تومان</div>
+<button class="purple-btn" onclick="buyVIP('permanent')">💎 خرید</button>
 </div>
 </div>
 <div class="card"><button class="red-btn" onclick="logoutUser()">🚪 خروج</button></div>
 </div>
 
 <div id="p6" class="page">
-<div class="admin-header"><h2 style="color:#fff;">👑 پنل مدیریت</h2></div>
+<div class="admin-header"><h2 style="color:#fff;" id="admin-title">👑 پنل مدیریت</h2><p style="color:#ffcccc;font-size:12px;" id="admin-role">-</p></div>
+
+<div class="admin-tabs">
+<div class="admin-tab active" onclick="switchAdminTab('stats',this)">📊 آمار</div>
+<div class="admin-tab" onclick="switchAdminTab('messages',this)">📬 پیام</div>
+<div class="admin-tab" onclick="switchAdminTab('search',this)">🔍 جستجو</div>
+<div class="admin-tab" id="tab-gifts" onclick="switchAdminTab('gifts',this)">🎁 کد</div>
+<div class="admin-tab" id="tab-admins" onclick="switchAdminTab('admins',this)">🛡️ ادمین</div>
+</div>
+
+<div id="admin-stats" class="admin-section">
 <div class="stats-grid">
 <div class="admin-stat"><div class="num" id="a-users">۰</div><div class="lbl">کاربر</div></div>
 <div class="admin-stat"><div class="num" id="a-vip">۰</div><div class="lbl">VIP</div></div>
 <div class="admin-stat"><div class="num" id="a-msgs">۰</div><div class="lbl">پیام</div></div>
 </div>
-<div class="card">
-<h3>💰 درآمد کل</h3>
+<div class="card" id="income-card">
+<h3>💰 درآمد</h3>
 <div class="success-box" style="text-align:center;"><div style="font-size:32px;color:var(--gold);font-weight:bold;" id="a-income">۰</div><div style="color:#aaa;font-size:12px;">تومان</div></div>
 </div>
-<div class="card"><h3>📬 پیام‌های کاربران</h3><div id="admin-msg-list"></div></div>
-<div class="card"><h3>👥 کاربران (از ابر)</h3><button class="blue-btn" onclick="loadCloudUsers()">🔄 دریافت از ابر</button><div id="admin-users-list" style="margin-top:10px;"></div></div>
+</div>
+
+<div id="admin-messages" class="admin-section" style="display:none;">
+<div class="card"><h3>📬 پیام‌ها</h3><button class="blue-btn" onclick="loadAdminMessages()">🔄 بروزرسانی</button><div id="admin-msg-list" style="margin-top:10px;"></div></div>
+</div>
+
+<div id="admin-search" class="admin-section" style="display:none;">
+<div class="card">
+<h3>🔍 جستجوی کاربر</h3>
+<label>نام کاربری:</label>
+<input type="text" id="search-username" placeholder="مثلا: ali1234">
+<button class="blue-btn" onclick="searchUser()">🔍 جستجو</button>
+<div id="user-detail" style="margin-top:15px;"></div>
+</div>
+</div>
+
+<div id="admin-gifts" class="admin-section" style="display:none;">
+<div class="card">
+<h3>➕ ساخت کد جایزه</h3>
+<label>🎁 کد:</label>
+<input type="text" id="new-gift-code" placeholder="GOLD2024" style="text-transform:uppercase;">
+<label>🎯 نوع:</label>
+<select id="new-gift-type">
+<option value="vip">🎊 روز VIP</option>
+<option value="points">⭐ امتیاز</option>
+<option value="ai">🧠 AI</option>
+<option value="permanent">💎 VIP همیشگی</option>
+</select>
+<label>💰 مقدار:</label>
+<input type="number" id="new-gift-value" value="5">
+<label>👥 حداکثر استفاده:</label>
+<input type="number" id="new-gift-max" value="100">
+<label>📅 انقضا (روز):</label>
+<input type="number" id="new-gift-expiry" value="30">
+<button class="green-btn" onclick="createGiftCode()">➕ ساخت</button>
+</div>
+<div class="card"><h3>🎁 کدهای فعال</h3><button class="blue-btn" onclick="loadGiftCodes()">🔄</button><div id="gift-codes-list" style="margin-top:10px;"></div></div>
+</div>
+
+<div id="admin-admins" class="admin-section" style="display:none;">
+<div class="card">
+<h3>➕ ساخت ادمین</h3>
+<label>👤 نام:</label>
+<input type="text" id="new-admin-name" placeholder="علی">
+<label>🔑 رمز:</label>
+<input type="text" id="new-admin-pass" placeholder="رمز">
+<div style="margin:10px 0;">
+<label style="color:var(--gold);">دسترسی‌ها:</label>
+<div><input type="checkbox" id="perm-msgs" checked style="width:auto;"> <label style="display:inline;">پاسخ پیام</label></div>
+<div><input type="checkbox" id="perm-users" checked style="width:auto;"> <label style="display:inline;">دیدن کاربر</label></div>
+<div><input type="checkbox" id="perm-gifts" style="width:auto;"> <label style="display:inline;">ساخت کد</label></div>
+<div><input type="checkbox" id="perm-income" style="width:auto;"> <label style="display:inline;">دیدن درآمد</label></div>
+<div><input type="checkbox" id="perm-prize" style="width:auto;"> <label style="display:inline;">اضافه جایزه</label></div>
+</div>
+<button class="green-btn" onclick="createAdmin()">➕ ساخت</button>
+</div>
+<div class="card"><h3>🛡️ ادمین‌ها</h3><button class="blue-btn" onclick="loadAdmins()">🔄</button><div id="admins-list" style="margin-top:10px;"></div></div>
+</div>
+
 <button class="red-btn" onclick="exitAdmin()">🚪 خروج</button>
 </div>
 
@@ -286,9 +356,9 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 </div>
 
 <script>
-// ===== Supabase =====
 const SUPABASE_URL='https://fnyrtibnuyejeeblvoph.supabase.co';
 const SUPABASE_KEY='sb_publishable__SFt1ag2Ecac1hg1QUJjmA_tg5QdyGu';
+const MAIN_ADMIN_PASS='139113911391';
 
 async function supabaseRequest(method,table,data=null,query=''){
     try{
@@ -297,7 +367,7 @@ async function supabaseRequest(method,table,data=null,query=''){
         if(data)options.body=JSON.stringify(data);
         let response=await fetch(url,options);
         return await response.json();
-    }catch(e){console.error('Supabase Error:',e);return null}
+    }catch(e){console.error(e);return null}
 }
 
 async function saveUserToCloud(username,userData){
@@ -309,8 +379,7 @@ async function saveUserToCloud(username,userData){
             userData.username=username;
             await supabaseRequest('POST','users',userData);
         }
-        console.log('✅ کاربر در ابر ذخیره شد');
-    }catch(e){console.error('خطا:',e)}
+    }catch(e){console.error(e)}
 }
 
 async function getUserFromCloud(username,password){
@@ -321,18 +390,8 @@ async function getUserFromCloud(username,password){
     }catch(e){return null}
 }
 
-async function getAllCloudUsers(){
-    try{
-        let result=await supabaseRequest('GET','users',null,'');
-        return result||[];
-    }catch(e){return[]}
-}
-// ===== پایان Supabase =====
-
-let currentUser=null,secretClicks=0,isAdmin=false;
+let currentUser=null,secretClicks=0,isAdmin=false,isMainAdmin=false,adminPermissions={};
 let users=JSON.parse(localStorage.getItem('users')||'{}');
-let allMessages=JSON.parse(localStorage.getItem('allMessages')||'[]');
-let ads=JSON.parse(localStorage.getItem('ads')||'[]');
 let prices={};
 let timerInterval=null;
 
@@ -342,61 +401,38 @@ async function registerUser(){
     let u=document.getElementById('login-user').value.trim();
     let p=document.getElementById('login-pass').value.trim();
     let ref=document.getElementById('referral').value.trim();
-    if(!u||!p){alert('نام کاربری و رمز را وارد کنید');return}
-    if(u.length<3){alert('نام کاربری حداقل ۳ حرف');return}
+    if(!u||!p){alert('نام کاربری و رمز');return}
+    if(u.length<3){alert('نام حداقل ۳ حرف');return}
     if(p.length<4){alert('رمز حداقل ۴ حرف');return}
-    
     document.getElementById('login-loader').style.display='block';
-    
     let cloudCheck=await supabaseRequest('GET','users',null,'?username=eq.'+u);
     document.getElementById('login-loader').style.display='none';
-    
-    if(cloudCheck&&cloudCheck.length>0){alert('این نام کاربری قبلا ثبت شده!');return}
-    if(users[u]){alert('این نام کاربری قبلا ثبت شده');return}
-    
-    users[u]={password:p,joinDate:new Date().toLocaleDateString('fa-IR'),joinTime:Date.now(),subscription:'free',subExpiry:0,aiUsage:0,aiLimit:1,points:10,referralCode:genReferralCode(u),referredBy:ref||null,referrals:0,lastSpin:0,totalSpins:0,wins:0,loses:0,prizeHistory:[]};
-    
-    if(ref){for(let un in users){if(users[un].referralCode===ref){users[un].referrals=(users[un].referrals||0)+1;users[un].points+=20;if(users[un].referrals%3===0){users[un].subscription='monthly';users[un].subExpiry=Date.now()+(30*86400000)}break}}}
-    
+    if(cloudCheck&&cloudCheck.length>0){alert('این نام قبلا ثبت شده!');return}
+    users[u]={password:p,joinDate:new Date().toLocaleDateString('fa-IR'),joinTime:Date.now(),subscription:'free',subExpiry:0,aiUsage:0,aiLimit:1,points:10,referralCode:genReferralCode(u),referredBy:ref||null,referrals:0,lastSpin:0,totalSpins:0,wins:0,loses:0};
     localStorage.setItem('users',JSON.stringify(users));
-    
-    await saveUserToCloud(u,{password:p,name:u,is_vip:false,vip_type:'free',vip_expiry:0,points:10,ai_usage:0,referral_code:users[u].referralCode,last_spin:0});
-    
-    alert('✅ ثبت‌نام موفق!\n🎁 کد معرف: '+users[u].referralCode+'\n☁️ اطلاعات در ابر ذخیره شد');
+    await saveUserToCloud(u,{password:p,name:u,is_vip:false,vip_type:'free',vip_expiry:0,points:10,ai_usage:0,referral_code:users[u].referralCode,last_spin:0,admin_note:''});
+    alert('✅ ثبت‌نام موفق!\n🎁 کد معرف: '+users[u].referralCode);
 }
 
 async function loginUser(){
     let u=document.getElementById('login-user').value.trim();
     let p=document.getElementById('login-pass').value.trim();
-    if(!u||!p){alert('نام کاربری و رمز');return}
-    
-    if(users[u]&&users[u].password===p){
-        currentUser=u;
-        localStorage.setItem('currentUser',u);
-        checkSubscription();
-        showApp();
-        return;
-    }
-    
+    if(!u||!p){alert('نام و رمز');return}
+    if(users[u]&&users[u].password===p){currentUser=u;localStorage.setItem('currentUser',u);checkSubscription();showApp();return}
     document.getElementById('login-loader').style.display='block';
     let cloudUser=await getUserFromCloud(u,p);
     document.getElementById('login-loader').style.display='none';
-    
     if(cloudUser){
-        users[u]={password:cloudUser.password,joinDate:new Date().toLocaleDateString('fa-IR'),joinTime:Date.now(),subscription:cloudUser.vip_type||'free',subExpiry:cloudUser.vip_expiry||0,aiUsage:cloudUser.ai_usage||0,aiLimit:1,points:cloudUser.points||10,referralCode:cloudUser.referral_code||genReferralCode(u),referredBy:null,referrals:0,lastSpin:cloudUser.last_spin||0,totalSpins:0,wins:0,loses:0,prizeHistory:[]};
+        users[u]={password:cloudUser.password,joinDate:new Date().toLocaleDateString('fa-IR'),joinTime:Date.now(),subscription:cloudUser.vip_type||'free',subExpiry:cloudUser.vip_expiry||0,aiUsage:cloudUser.ai_usage||0,aiLimit:1,points:cloudUser.points||10,referralCode:cloudUser.referral_code||genReferralCode(u),referredBy:null,referrals:0,lastSpin:cloudUser.last_spin||0,totalSpins:0,wins:0,loses:0};
         localStorage.setItem('users',JSON.stringify(users));
-        currentUser=u;
-        localStorage.setItem('currentUser',u);
-        alert('✅ اطلاعات شما از ابر بازیابی شد!');
-        checkSubscription();
-        showApp();
-        return;
+        currentUser=u;localStorage.setItem('currentUser',u);
+        alert('✅ اطلاعات از ابر بازیابی شد!');
+        checkSubscription();showApp();return;
     }
-    
     alert('❌ کاربر یافت نشد یا رمز اشتباه');
 }
 
-function checkSubscription(){if(!currentUser||!users[currentUser])return;let user=users[currentUser];if(user.subscription==='monthly'&&user.subExpiry<Date.now()){user.subscription='free';user.subExpiry=0;localStorage.setItem('users',JSON.stringify(users));alert('⚠️ اشتراک VIP منقضی شد')}}
+function checkSubscription(){if(!currentUser||!users[currentUser])return;let user=users[currentUser];if(user.subscription==='monthly'&&user.subExpiry<Date.now()){user.subscription='free';user.subExpiry=0;localStorage.setItem('users',JSON.stringify(users));alert('⚠️ VIP منقضی شد')}}
 
 function getUserLevel(p){if(p<30)return{name:'تازه‌کار',cls:'level-newbie',icon:'🌱'};if(p<100)return{name:'معمولی',cls:'level-regular',icon:'⭐'};return{name:'حرفه‌ای',cls:'level-pro',icon:'🏆'}}
 
@@ -404,16 +440,16 @@ function updateStatusCard(){
     if(!currentUser||!users[currentUser])return;
     let user=users[currentUser];
     let card=document.getElementById('status-card');
-    card.style.display='block';
-    card.className='user-status-card';
+    card.style.display='block';card.className='user-status-card';
     document.getElementById('s-username').innerText='👤 '+currentUser;
     let lvl=getUserLevel(user.points);
-    document.getElementById('s-level').innerHTML='<span class="level-badge '+lvl.cls+'">'+lvl.icon+' '+lvl.name+'</span> ⭐ '+user.points+' امتیاز <span class="cloud-badge">☁️</span>';
+    document.getElementById('s-level').innerHTML='<span class="level-badge '+lvl.cls+'">'+lvl.icon+' '+lvl.name+'</span> ⭐ '+user.points+' <span class="cloud-badge">☁️</span>';
     let badge=document.getElementById('s-badge'),details=document.getElementById('s-details');
-    if(isAdmin){card.classList.add('admin');badge.className='status-badge badge-admin';badge.innerText='🛡️ ادمین';details.innerHTML='<p class="status-info">⚡ همه دسترسی‌ها</p>'}
-    else if(user.subscription==='permanent'){card.classList.add('permanent');badge.className='status-badge badge-permanent';badge.innerText='💎 همیشگی';details.innerHTML='<p class="status-info">♾️ اشتراک نامحدود</p>'}
-    else if(user.subscription==='monthly'){card.classList.add('vip');badge.className='status-badge badge-vip';badge.innerText='⭐ VIP';let d=Math.ceil((user.subExpiry-Date.now())/86400000);let pr=Math.max(0,Math.min(100,(d/30)*100));details.innerHTML='<p class="status-info">📅 '+d+' روز باقی مانده</p><div class="progress-bar"><div class="progress-fill" style="width:'+pr+'%"></div></div>'}
-    else{badge.className='status-badge badge-free';badge.innerText='🆓 رایگان';let u=user.aiUsage||0,l=user.aiLimit||1;details.innerHTML='<p class="status-info">⚡ AI: '+u+' از '+l+'</p><div class="progress-bar"><div class="progress-fill" style="width:'+(u/l)*100+'%"></div></div><button class="upgrade-btn" onclick="tab(\'p5\',document.querySelectorAll(\'.nav-item\')[5])">🎁 ارتقا به VIP</button>'}
+    if(isMainAdmin){card.classList.add('admin');badge.className='status-badge badge-admin';badge.innerText='👑 مدیر';details.innerHTML='<p class="status-info">همه دسترسی‌ها</p>'}
+    else if(isAdmin){card.classList.add('admin');badge.className='status-badge badge-admin';badge.innerText='🛡️ ادمین';details.innerHTML='<p class="status-info">محدود</p>'}
+    else if(user.subscription==='permanent'){card.classList.add('permanent');badge.className='status-badge badge-permanent';badge.innerText='💎 همیشگی';details.innerHTML='<p class="status-info">♾️ نامحدود</p>'}
+    else if(user.subscription==='monthly'){card.classList.add('vip');badge.className='status-badge badge-vip';badge.innerText='⭐ VIP';let d=Math.ceil((user.subExpiry-Date.now())/86400000);details.innerHTML='<p class="status-info">📅 '+d+' روز</p>'}
+    else{badge.className='status-badge badge-free';badge.innerText='🆓 رایگان';let u=user.aiUsage||0,l=user.aiLimit||1;details.innerHTML='<p class="status-info">⚡ AI: '+u+' از '+l+'</p><button class="upgrade-btn" onclick="tab(\'p5\',document.querySelectorAll(\'.nav-item\')[5])">🎁 ارتقا</button>'}
 }
 
 function showApp(){document.getElementById('p-login').classList.remove('active');document.getElementById('p1').classList.add('active');document.getElementById('main-nav').style.display='flex';updateStatusCard();updateAboutPage();document.getElementById('current-user-name').innerText=currentUser}
@@ -428,56 +464,188 @@ function updateAboutPage(){
     document.getElementById('about-points').innerText=user.points;
     document.getElementById('my-referral-code').innerText=user.referralCode;
     let s=document.getElementById('subscription-status');
-    if(user.subscription==='permanent'){s.innerHTML='<h3>💎 اشتراک شما</h3><div class="purple-box" style="text-align:center;"><p style="font-size:18px;color:var(--purple);font-weight:bold;">👑 VIP همیشگی</p><p style="margin-top:10px;">♾️ بدون انقضا</p></div>';document.getElementById('plans-section').style.display='none'}
-    else if(user.subscription==='monthly'){let d=Math.ceil((user.subExpiry-Date.now())/86400000);s.innerHTML='<h3>⭐ اشتراک شما</h3><div class="success-box" style="text-align:center;"><p style="font-size:18px;color:var(--gold);font-weight:bold;">VIP ماهانه</p><p style="margin-top:10px;">📅 '+d+' روز باقی مانده</p></div>'}
-    else{s.innerHTML='<h3>🆓 کاربر رایگان</h3><p style="color:#888;text-align:center;">با ارتقا به VIP از همه امکانات لذت ببرید</p>'}
+    if(user.subscription==='permanent'){s.innerHTML='<h3>💎 اشتراک</h3><div class="purple-box" style="text-align:center;"><p style="font-size:18px;color:var(--purple);font-weight:bold;">👑 VIP همیشگی</p></div>';document.getElementById('plans-section').style.display='none'}
+    else if(user.subscription==='monthly'){let d=Math.ceil((user.subExpiry-Date.now())/86400000);s.innerHTML='<h3>⭐ اشتراک</h3><div class="success-box" style="text-align:center;"><p>VIP ماهانه</p><p>📅 '+d+' روز</p></div>'}
+    else{s.innerHTML='<h3>🆓 رایگان</h3>'}
 }
 
-function logoutUser(){if(confirm('خروج؟')){currentUser=null;localStorage.removeItem('currentUser');isAdmin=false;document.getElementById('status-card').style.display='none';document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('p-login').classList.add('active');document.getElementById('main-nav').style.display='none';document.getElementById('login-user').value='';document.getElementById('login-pass').value=''}}
+function logoutUser(){if(confirm('خروج؟')){currentUser=null;localStorage.removeItem('currentUser');isAdmin=false;isMainAdmin=false;document.getElementById('status-card').style.display='none';document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('p-login').classList.add('active');document.getElementById('main-nav').style.display='none'}}
 
-function tab(id,el){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));if(el)el.classList.add('active');if(id==='p4')loadMyMessages();if(id==='p2')updateAIUsageInfo();if(id==='p5')updateAboutPage();if(id==='p-wheel'){updateWheelStats();updateLeaderboard();updatePrizeHistory();startTimer()}window.scrollTo(0,0)}
+function tab(id,el){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));if(el)el.classList.add('active');if(id==='p4')loadMyMessages();if(id==='p2')updateAIUsageInfo();if(id==='p5')updateAboutPage();if(id==='p-wheel'){updateWheelStats();updateLeaderboard();startTimer()}window.scrollTo(0,0)}
 
-function updateAIUsageInfo(){if(!currentUser)return;let user=users[currentUser];let info=document.getElementById('ai-usage-info');if(isAdmin||user.subscription!=='free'){info.innerHTML='<p>⚡ <strong style="color:var(--success);">استفاده نامحدود</strong> ✅</p>'}else{let r=(user.aiLimit||1)-(user.aiUsage||0);info.innerHTML='<p>⚡ باقی مانده: <strong style="color:var(--gold);">'+r+'</strong> از '+(user.aiLimit||1)+'</p>'}}
+function updateAIUsageInfo(){if(!currentUser)return;let user=users[currentUser];let info=document.getElementById('ai-usage-info');if(isAdmin||isMainAdmin||user.subscription!=='free'){info.innerHTML='<p>⚡ <strong style="color:var(--success);">نامحدود</strong></p>'}else{let r=(user.aiLimit||1)-(user.aiUsage||0);info.innerHTML='<p>⚡ باقی: <strong style="color:var(--gold);">'+r+'</strong></p>'}}
 
-function secretClick(){secretClicks++;if(secretClicks>=7){secretClicks=0;let pass=prompt('🔐 رمز مخفی:');if(pass==='139113911391'){isAdmin=true;if(users[currentUser]){users[currentUser].subscription='permanent';localStorage.setItem('users',JSON.stringify(users));saveUserToCloud(currentUser,{vip_type:'permanent',is_vip:true})}updateStatusCard();tab('p6');loadAdminMessages();updateAdminStats()}else if(pass==='13911391'){if(users[currentUser]){users[currentUser].subscription='monthly';users[currentUser].subExpiry=Date.now()+(30*86400000);localStorage.setItem('users',JSON.stringify(users));saveUserToCloud(currentUser,{vip_type:'monthly',vip_expiry:users[currentUser].subExpiry,is_vip:true})}updateStatusCard();alert('✅ VIP فعال شد')}else if(pass)alert('❌ رمز اشتباه')}}
+async function secretClick(){
+    secretClicks++;
+    if(secretClicks>=7){
+        secretClicks=0;
+        let pass=prompt('🔐 رمز مدیر یا ادمین:');
+        if(!pass)return;
+        if(pass===MAIN_ADMIN_PASS){
+            isMainAdmin=true;isAdmin=true;
+            adminPermissions={can_reply_messages:true,can_view_users:true,can_create_gifts:true,can_view_income:true,can_add_prize:true};
+            document.getElementById('admin-title').innerText='👑 پنل مدیر اصلی';
+            document.getElementById('admin-role').innerText='دسترسی کامل';
+            if(users[currentUser]){users[currentUser].subscription='permanent';localStorage.setItem('users',JSON.stringify(users));saveUserToCloud(currentUser,{vip_type:'permanent',is_vip:true})}
+            updateStatusCard();showAdminTabs();tab('p6');updateAdminStats();
+        }else{
+            let admins=await supabaseRequest('GET','admins',null,'?password=eq.'+pass);
+            if(admins&&admins.length>0){
+                let admin=admins[0];
+                isAdmin=true;isMainAdmin=false;
+                adminPermissions={can_reply_messages:admin.can_reply_messages,can_view_users:admin.can_view_users,can_create_gifts:admin.can_create_gifts,can_view_income:admin.can_view_income,can_add_prize:admin.can_add_prize};
+                document.getElementById('admin-title').innerText='🛡️ '+admin.name;
+                document.getElementById('admin-role').innerText='ادمین';
+                updateStatusCard();showAdminTabs();tab('p6');updateAdminStats();
+            }else{alert('❌ رمز اشتباه')}
+        }
+    }
+}
 
-function buyVIP(t){alert('🔔 در حال انتقال به درگاه پرداخت مایکت...\n\n📦 پلن '+(t==='permanent'?'همیشگی':'ماهانه')+'\n💰 '+(t==='permanent'?'۲۹۹,۰۰۰':'۳۵,۰۰۰')+' تومان')}
+function showAdminTabs(){document.getElementById('tab-gifts').style.display=(isMainAdmin||adminPermissions.can_create_gifts)?'block':'none';document.getElementById('tab-admins').style.display=isMainAdmin?'block':'none';document.getElementById('income-card').style.display=(isMainAdmin||adminPermissions.can_view_income)?'block':'none'}
+
+function switchAdminTab(name,el){document.querySelectorAll('.admin-section').forEach(s=>s.style.display='none');document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));document.getElementById('admin-'+name).style.display='block';el.classList.add('active');if(name==='gifts')loadGiftCodes();if(name==='admins')loadAdmins();if(name==='messages')loadAdminMessages()}
+
+function buyVIP(t){alert('🔔 در حال انتقال به مایکت...\n\n📦 '+(t==='permanent'?'همیشگی':'ماهانه'))}
 
 async function loadPrices(){try{const r=await fetch('prices.json?t='+Date.now());const d=await r.json();prices=d;updatePriceDisplay(d);document.getElementById('update-time').innerText=d.updated||new Date().toLocaleString('fa-IR')}catch(e){document.getElementById('update-time').innerText=new Date().toLocaleString('fa-IR')}}
 
 function updatePriceDisplay(d){if(d.coin)document.getElementById('p-coin').innerText=Number(d.coin).toLocaleString('fa-IR');if(d.half_coin)document.getElementById('p-half').innerText=Number(d.half_coin).toLocaleString('fa-IR');if(d.quarter_coin)document.getElementById('p-quarter').innerText=Number(d.quarter_coin).toLocaleString('fa-IR');if(d.gold18)document.getElementById('p-gold18').innerText=Number(d.gold18).toLocaleString('fa-IR');if(d.melted_gold)document.getElementById('p-melted').innerText=Number(d.melted_gold).toLocaleString('fa-IR');if(d.ounce)document.getElementById('p-ounce').innerText='$'+Number(d.ounce).toLocaleString('en-US');if(d.usd)document.getElementById('p-usd').innerText=Number(d.usd).toLocaleString('fa-IR');if(d.eur)document.getElementById('p-eur').innerText=Number(d.eur).toLocaleString('fa-IR');if(d.btc)document.getElementById('p-btc').innerText='$'+Number(d.btc).toLocaleString('en-US');if(d.eth)document.getElementById('p-eth').innerText='$'+Number(d.eth).toLocaleString('en-US');if(d.usdt)document.getElementById('p-usdt').innerText=Number(d.usdt).toLocaleString('fa-IR');if(d.coin)document.getElementById('s-coin').innerText=(d.coin/1000000).toFixed(1)+'M';if(d.usd)document.getElementById('s-dollar').innerText=(d.usd/1000).toFixed(0)+'K';if(d.btc)document.getElementById('s-btc').innerText='$'+(d.btc/1000).toFixed(0)+'K'}
 
-function requestAI(){if(!currentUser){alert('اول وارد شوید');return}let user=users[currentUser];let has=isAdmin||user.subscription==='monthly'||user.subscription==='permanent';if(!has&&(user.aiUsage||0)>=(user.aiLimit||1)){alert('⚠️ استفاده رایگان تمام شد!');tab('p5',document.querySelectorAll('.nav-item')[5]);return}let budget=parseInt(document.getElementById('budget').value);if(!budget||budget<1000000){alert('حداقل ۱ میلیون');return}let ok=confirm('⚠️ این تحلیل هوش مصنوعی است.\nمسئولیت با شماست.\n\nقبول؟');if(!ok)return;if(!has)user.aiUsage=(user.aiUsage||0)+1;user.points=(user.points||0)+5;localStorage.setItem('users',JSON.stringify(users));saveUserToCloud(currentUser,{ai_usage:user.aiUsage,points:user.points});updateStatusCard();updateAIUsageInfo();document.getElementById('ai-result').innerHTML='<div class="loader"></div><p style="text-align:center;color:var(--gold);">🧠 در حال تحلیل...</p>';setTimeout(()=>{let g=parseInt(document.getElementById('gold-amount').value)||0;let c=parseInt(document.getElementById('crypto-amount').value)||0;let r=document.getElementById('risk').value;let p=parseInt(document.getElementById('period').value);document.getElementById('ai-result').innerHTML=generateAdvice(budget,g,c,r,p)},2500)}
+function requestAI(){if(!currentUser){alert('اول وارد شوید');return}let user=users[currentUser];let has=isAdmin||isMainAdmin||user.subscription==='monthly'||user.subscription==='permanent';if(!has&&(user.aiUsage||0)>=(user.aiLimit||1)){alert('⚠️ تمام شد!');return}let budget=parseInt(document.getElementById('budget').value);if(!budget||budget<1000000){alert('حداقل ۱ میلیون');return}let ok=confirm('⚠️ مسئولیت با شماست. قبول؟');if(!ok)return;if(!has)user.aiUsage=(user.aiUsage||0)+1;user.points=(user.points||0)+5;localStorage.setItem('users',JSON.stringify(users));saveUserToCloud(currentUser,{ai_usage:user.aiUsage,points:user.points});updateStatusCard();updateAIUsageInfo();document.getElementById('ai-result').innerHTML='<div class="loader"></div>';setTimeout(()=>{let g=parseInt(document.getElementById('gold-amount').value)||0;let r=document.getElementById('risk').value;let p=parseInt(document.getElementById('period').value);document.getElementById('ai-result').innerHTML=generateAdvice(budget,g,0,r,p)},2000)}
 
-function generateAdvice(budget,gold,crypto,risk,period){let cp=prices.coin||45000000,gp=prices.melted_gold||4500000,up=prices.usdt||70200;let st={},pp=0,rl='';if(risk==='low'){st={coin:0.2,gold:0.5,usdt:0.2,cash:0.1};pp=period*3;rl='کم'}else if(risk==='medium'){st={coin:0.35,gold:0.3,usdt:0.25,cash:0.1};pp=period*5;rl='متوسط'}else{st={coin:0.4,gold:0.2,usdt:0.1,btc:0.2,cash:0.1};pp=period*8;rl='زیاد'}let cc=Math.floor((budget*st.coin)/cp);let gg=Math.floor((budget*st.gold)/gp);let ua=Math.floor((budget*st.usdt)/up);let ca=Math.floor(budget*st.cash);let ep=Math.floor(budget*pp/100);let h='<div class="success-box"><h3 style="color:var(--gold);">📊 تحلیل کامل</h3><p>💰 موجودی: '+budget.toLocaleString('fa-IR')+' تومان</p></div>';h+='<div class="info-box"><p>⚠️ ریسک: <strong>'+rl+'</strong></p><p>📈 سود '+period+' ماهه: <strong style="color:var(--success);">'+pp+'٪</strong></p><p>💵 سود انتظاری: <strong style="color:var(--success);">'+ep.toLocaleString('fa-IR')+' تومان</strong></p></div>';h+='<h3 style="color:var(--gold);margin:15px 0;">🛒 برنامه خرید:</h3>';if(cc>0)h+='<div class="strategy-item"><span class="num-circle">۱</span><strong>سکه</strong><p>📦 '+cc+' سکه</p><p>💰 '+(cc*cp).toLocaleString('fa-IR')+' تومان</p></div>';if(gg>0)h+='<div class="strategy-item"><span class="num-circle">۲</span><strong>طلای آبشده</strong><p>⚖️ '+gg+' گرم</p><p>💰 '+(gg*gp).toLocaleString('fa-IR')+' تومان</p></div>';if(ua>0)h+='<div class="strategy-item"><span class="num-circle">۳</span><strong>تتر</strong><p>💵 '+ua+' دلار</p></div>';h+='<div class="strategy-item"><span class="num-circle">۴</span><strong>نقد</strong><p>💰 '+ca.toLocaleString('fa-IR')+' تومان</p></div>';return h}
+function generateAdvice(budget,gold,crypto,risk,period){let cp=prices.coin||45000000,gp=prices.melted_gold||4500000,up=prices.usdt||70200;let st={},pp=0,rl='';if(risk==='low'){st={coin:0.2,gold:0.5,usdt:0.2,cash:0.1};pp=period*3;rl='کم'}else if(risk==='medium'){st={coin:0.35,gold:0.3,usdt:0.25,cash:0.1};pp=period*5;rl='متوسط'}else{st={coin:0.4,gold:0.2,usdt:0.1,btc:0.2,cash:0.1};pp=period*8;rl='زیاد'}let cc=Math.floor((budget*st.coin)/cp);let gg=Math.floor((budget*st.gold)/gp);let ua=Math.floor((budget*st.usdt)/up);let ca=Math.floor(budget*st.cash);let ep=Math.floor(budget*pp/100);let h='<div class="success-box"><h3 style="color:var(--gold);">📊 تحلیل</h3><p>💰 '+budget.toLocaleString('fa-IR')+' تومان</p></div>';h+='<div class="info-box"><p>⚠️ ریسک: '+rl+'</p><p>📈 سود '+period+' ماهه: '+pp+'٪</p><p>💵 سود: '+ep.toLocaleString('fa-IR')+'</p></div>';h+='<h3 style="color:var(--gold);margin:15px 0;">🛒 خرید:</h3>';if(cc>0)h+='<div class="strategy-item"><span class="num-circle">۱</span><strong>سکه</strong><p>📦 '+cc+' سکه</p></div>';if(gg>0)h+='<div class="strategy-item"><span class="num-circle">۲</span><strong>طلای آبشده</strong><p>⚖️ '+gg+' گرم</p></div>';if(ua>0)h+='<div class="strategy-item"><span class="num-circle">۳</span><strong>تتر</strong><p>💵 '+ua+' دلار</p></div>';h+='<div class="strategy-item"><span class="num-circle">۴</span><strong>نقد</strong><p>💰 '+ca.toLocaleString('fa-IR')+'</p></div>';return h}
 
-const wheelPrizes=[{name:'🎁 ۱ استفاده AI',chance:25,type:'ai',value:1},{name:'💀 پوچ',chance:25,type:'nothing',value:0},{name:'⭐ ۱۰ امتیاز',chance:15,type:'points',value:10},{name:'🎊 ۱ روز VIP',chance:2,type:'vip',value:1},{name:'🎁 ۳ استفاده AI',chance:10,type:'ai',value:3},{name:'💀 پوچ',chance:10,type:'nothing',value:0},{name:'⭐ ۵ امتیاز',chance:8,type:'points',value:5},{name:'💎 ۵ روز VIP',chance:5,type:'vip',value:5}];
+const wheelPrizes=[{name:'🎁 ۱ AI',chance:25,type:'ai',value:1},{name:'💀 پوچ',chance:25,type:'nothing',value:0},{name:'⭐ ۱۰ امتیاز',chance:15,type:'points',value:10},{name:'🎊 ۱ روز VIP',chance:2,type:'vip',value:1},{name:'🎁 ۳ AI',chance:10,type:'ai',value:3},{name:'💀 پوچ',chance:10,type:'nothing',value:0},{name:'⭐ ۵ امتیاز',chance:8,type:'points',value:5},{name:'💎 ۵ روز VIP',chance:5,type:'vip',value:5}];
 
 function getRandomPrize(){let r=Math.random()*100,s=0;for(let i=0;i<wheelPrizes.length;i++){s+=wheelPrizes[i].chance;if(r<=s)return{prize:wheelPrizes[i],index:i}}return{prize:wheelPrizes[0],index:0}}
 
-function spinWheel(){if(!currentUser)return;let user=users[currentUser];let now=Date.now(),diff=now-(user.lastSpin||0);if(diff<86400000){alert('⏰ باید ۲۴ ساعت صبر کنی!');return}let btn=document.getElementById('spin-btn');btn.disabled=true;btn.innerText='🎡 در حال چرخش...';let result=getRandomPrize();let segAngle=45;let targetAngle=360*5+(360-(result.index*segAngle+segAngle/2));let wheel=document.getElementById('wheel-group');wheel.style.transform='rotate('+targetAngle+'deg)';wheel.style.transformOrigin='center';wheel.style.transition='transform 4s cubic-bezier(0.17,0.67,0.16,0.99)';setTimeout(()=>{user.lastSpin=now;user.totalSpins=(user.totalSpins||0)+1;if(result.prize.type==='nothing'){user.loses=(user.loses||0)+1;document.getElementById('wheel-result').innerHTML='<div class="prize-display prize-lose">😔 پوچ! فردا دوباره امتحان کن</div>'}else{user.wins=(user.wins||0)+1;if(result.prize.type==='ai'){user.aiLimit=(user.aiLimit||1)+result.prize.value;document.getElementById('wheel-result').innerHTML='<div class="prize-display prize-win">🎉 برنده شدی!<br>'+result.prize.name+'</div>'}else if(result.prize.type==='points'){user.points=(user.points||0)+result.prize.value;document.getElementById('wheel-result').innerHTML='<div class="prize-display prize-win">🎉 '+result.prize.value+' امتیاز گرفتی!</div>'}else if(result.prize.type==='vip'){if(user.subscription==='free'){user.subscription='monthly';user.subExpiry=Date.now()+(result.prize.value*86400000)}else if(user.subscription==='monthly'){user.subExpiry+=(result.prize.value*86400000)}document.getElementById('wheel-result').innerHTML='<div class="prize-display prize-win">🎉 '+result.prize.value+' روز VIP گرفتی!</div>'}}if(!user.prizeHistory)user.prizeHistory=[];user.prizeHistory.unshift({name:result.prize.name,time:new Date().toLocaleString('fa-IR')});if(user.prizeHistory.length>10)user.prizeHistory=user.prizeHistory.slice(0,10);localStorage.setItem('users',JSON.stringify(users));saveUserToCloud(currentUser,{last_spin:user.lastSpin,points:user.points,ai_usage:user.aiUsage,vip_type:user.subscription,vip_expiry:user.subExpiry});updateStatusCard();updateWheelStats();updateLeaderboard();updatePrizeHistory();btn.disabled=false;btn.innerText='🎯 چرخش گردونه!';startTimer()},4500)}
+function spinWheel(){if(!currentUser)return;let user=users[currentUser];let now=Date.now(),diff=now-(user.lastSpin||0);if(diff<86400000&&!isMainAdmin){alert('⏰ ۲۴ ساعت صبر کن!');return}let btn=document.getElementById('spin-btn');btn.disabled=true;btn.innerText='🎡 چرخش...';let result=getRandomPrize();let segAngle=45;let targetAngle=360*5+(360-(result.index*segAngle+segAngle/2));let wheel=document.getElementById('wheel-group');wheel.style.transform='rotate('+targetAngle+'deg)';setTimeout(()=>{user.lastSpin=now;user.totalSpins=(user.totalSpins||0)+1;if(result.prize.type==='nothing'){user.loses=(user.loses||0)+1;document.getElementById('wheel-result').innerHTML='<div class="prize-display prize-lose">😔 پوچ!</div>'}else{user.wins=(user.wins||0)+1;if(result.prize.type==='ai')user.aiLimit=(user.aiLimit||1)+result.prize.value;else if(result.prize.type==='points')user.points=(user.points||0)+result.prize.value;else if(result.prize.type==='vip'){if(user.subscription==='free'){user.subscription='monthly';user.subExpiry=Date.now()+(result.prize.value*86400000)}else if(user.subscription==='monthly')user.subExpiry+=(result.prize.value*86400000)}document.getElementById('wheel-result').innerHTML='<div class="prize-display prize-win">🎉 '+result.prize.name+'</div>'}localStorage.setItem('users',JSON.stringify(users));saveUserToCloud(currentUser,{last_spin:user.lastSpin,points:user.points,ai_usage:user.aiUsage,vip_type:user.subscription,vip_expiry:user.subExpiry});updateStatusCard();updateWheelStats();btn.disabled=false;btn.innerText='🎯 چرخش گردونه!';startTimer()},4500)}
 
-function startTimer(){if(timerInterval)clearInterval(timerInterval);let user=users[currentUser];if(!user)return;let update=()=>{let diff=86400000-(Date.now()-(user.lastSpin||0));if(diff<=0){document.getElementById('wheel-timer').innerText='✅ آماده چرخش!';document.getElementById('spin-btn').disabled=false;clearInterval(timerInterval)}else{let h=Math.floor(diff/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);document.getElementById('wheel-timer').innerText='⏰ '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');document.getElementById('spin-btn').disabled=true}};update();timerInterval=setInterval(update,1000)}
+function startTimer(){if(timerInterval)clearInterval(timerInterval);let user=users[currentUser];if(!user)return;let update=()=>{let diff=86400000-(Date.now()-(user.lastSpin||0));if(diff<=0||isMainAdmin){document.getElementById('wheel-timer').innerText='✅ آماده!';document.getElementById('spin-btn').disabled=false;clearInterval(timerInterval)}else{let h=Math.floor(diff/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);document.getElementById('wheel-timer').innerText='⏰ '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}};update();timerInterval=setInterval(update,1000)}
 
 function updateWheelStats(){if(!currentUser)return;let user=users[currentUser];document.getElementById('w-total').innerText=user.totalSpins||0;document.getElementById('w-wins').innerText=user.wins||0;document.getElementById('w-loses').innerText=user.loses||0}
 
-function updateLeaderboard(){let list=Object.entries(users).sort((a,b)=>(b[1].wins||0)-(a[1].wins||0)).slice(0,5);document.getElementById('leaderboard').innerHTML=list.length===0?'<p style="color:#666;">هنوز کسی نبرده</p>':list.map((u,i)=>'<div class="msg-item">'+(['🥇','🥈','🥉','🏅','🏅'][i])+' <strong>'+u[0]+'</strong> - '+(u[1].wins||0)+' جایزه</div>').join('')}
+function updateLeaderboard(){let list=Object.entries(users).sort((a,b)=>(b[1].wins||0)-(a[1].wins||0)).slice(0,5);document.getElementById('leaderboard').innerHTML=list.length===0?'<p style="color:#666;">هنوز کسی نبرده</p>':list.map((u,i)=>'<div class="msg-item">'+(['🥇','🥈','🥉','🏅','🏅'][i])+' <strong>'+u[0]+'</strong> - '+(u[1].wins||0)+'</div>').join('')}
 
-function updatePrizeHistory(){if(!currentUser)return;let user=users[currentUser];let h=user.prizeHistory||[];document.getElementById('prize-history').innerHTML=h.length===0?'<p style="color:#666;">تاریخچه‌ای نیست</p>':h.map(p=>'<div class="msg-item"><strong>'+p.name+'</strong><br><small style="color:#666;">'+p.time+'</small></div>').join('')}
+async function redeemGiftCode(){
+    let code=document.getElementById('gift-code').value.trim().toUpperCase();
+    if(!code){alert('کد را وارد کنید');return}
+    document.getElementById('gift-result').innerHTML='<div class="loader"></div>';
+    let usage=await supabaseRequest('GET','gift_usage',null,'?code=eq.'+code+'&username=eq.'+currentUser);
+    if(usage&&usage.length>0){document.getElementById('gift-result').innerHTML='<div class="danger-box">❌ قبلا استفاده کردید!</div>';return}
+    let codes=await supabaseRequest('GET','gift_codes',null,'?code=eq.'+code+'&active=eq.true');
+    if(!codes||codes.length===0){document.getElementById('gift-result').innerHTML='<div class="danger-box">❌ کد نامعتبر</div>';return}
+    let giftCode=codes[0];
+    if(giftCode.expires_at>0&&Date.now()>giftCode.expires_at){document.getElementById('gift-result').innerHTML='<div class="danger-box">❌ منقضی شده</div>';return}
+    if(giftCode.used_count>=giftCode.max_uses){document.getElementById('gift-result').innerHTML='<div class="danger-box">❌ ظرفیت پر</div>';return}
+    let user=users[currentUser];
+    let rewardText='';
+    if(giftCode.reward_type==='vip'){if(user.subscription==='free'){user.subscription='monthly';user.subExpiry=Date.now()+(giftCode.reward_value*86400000)}else if(user.subscription==='monthly')user.subExpiry+=(giftCode.reward_value*86400000);rewardText='🎊 '+giftCode.reward_value+' روز VIP'}
+    else if(giftCode.reward_type==='points'){user.points+=giftCode.reward_value;rewardText='⭐ '+giftCode.reward_value+' امتیاز'}
+    else if(giftCode.reward_type==='ai'){user.aiLimit=(user.aiLimit||1)+giftCode.reward_value;rewardText='🧠 '+giftCode.reward_value+' استفاده AI'}
+    else if(giftCode.reward_type==='permanent'){user.subscription='permanent';user.subExpiry=0;rewardText='💎 VIP همیشگی'}
+    localStorage.setItem('users',JSON.stringify(users));
+    await saveUserToCloud(currentUser,{points:user.points,ai_usage:user.aiUsage,vip_type:user.subscription,vip_expiry:user.subExpiry});
+    await supabaseRequest('POST','gift_usage',{code:code,username:currentUser});
+    await supabaseRequest('PATCH','gift_codes',{used_count:giftCode.used_count+1},'?code=eq.'+code);
+    document.getElementById('gift-result').innerHTML='<div class="success-box">🎉 تبریک!<br>'+rewardText+'</div>';
+    document.getElementById('gift-code').value='';
+    updateStatusCard();
+}
 
-async function sendSupport(){let msg=document.getElementById('support-msg').value.trim();if(!msg){alert('پیام را وارد کنید');return}let newMsg={id:Date.now(),user:currentUser,message:msg,time:new Date().toLocaleString('fa-IR'),replied:false,reply:''};allMessages.push(newMsg);localStorage.setItem('allMessages',JSON.stringify(allMessages));await supabaseRequest('POST','messages',{username:currentUser,message:msg,replied:false});document.getElementById('support-result').innerHTML='<div class="success-box" style="margin-top:15px;">✅ پیام ارسال شد</div>';document.getElementById('support-msg').value='';loadMyMessages()}
+async function createGiftCode(){
+    let code=document.getElementById('new-gift-code').value.trim().toUpperCase();
+    let type=document.getElementById('new-gift-type').value;
+    let value=parseInt(document.getElementById('new-gift-value').value);
+    let max=parseInt(document.getElementById('new-gift-max').value);
+    let expiry=parseInt(document.getElementById('new-gift-expiry').value);
+    if(!code||!value||!max){alert('همه فیلدها');return}
+    let expiryTime=expiry>0?Date.now()+(expiry*86400000):0;
+    let result=await supabaseRequest('POST','gift_codes',{code:code,reward_type:type,reward_value:value,max_uses:max,used_count:0,expires_at:expiryTime,active:true,created_by:currentUser});
+    if(result&&!result.message){alert('✅ کد ساخته شد: '+code);document.getElementById('new-gift-code').value='';loadGiftCodes()}
+    else alert('❌ خطا (شاید تکراری)')
+}
 
-function loadMyMessages(){let msgs=allMessages.filter(m=>m.user===currentUser);if(msgs.length===0){document.getElementById('my-messages').innerHTML='<p style="color:#666;text-align:center;">پیامی ندارید</p>';return}document.getElementById('my-messages').innerHTML=msgs.map(m=>'<div class="msg-item"><strong>💬</strong> '+m.message+'<br><small style="color:#666;">'+m.time+'</small>'+(m.replied?'<div class="success-box" style="margin-top:8px;"><strong style="color:var(--gold);">📩 پاسخ:</strong><br>'+m.reply+'</div>':'<p style="color:var(--warning);margin-top:8px;font-size:12px;">⏳ در انتظار پاسخ</p>')+'</div>').join('')}
+async function loadGiftCodes(){
+    document.getElementById('gift-codes-list').innerHTML='<div class="loader"></div>';
+    let codes=await supabaseRequest('GET','gift_codes',null,'?order=created_at.desc');
+    if(!codes||codes.length===0){document.getElementById('gift-codes-list').innerHTML='<p style="color:#666;">کدی نیست</p>';return}
+    document.getElementById('gift-codes-list').innerHTML=codes.map(c=>{let t={vip:'🎊 روز VIP',points:'⭐ امتیاز',ai:'🧠 AI',permanent:'💎 همیشگی'}[c.reward_type];return'<div class="msg-item"><strong style="color:var(--gold);font-size:16px;">'+c.code+'</strong><br>🎯 '+t+': '+c.reward_value+'<br>👥 '+c.used_count+' / '+c.max_uses+'<br><button class="red-btn" onclick="deleteGiftCode(\''+c.code+'\')">🗑️ حذف</button></div>'}).join('')
+}
 
-function loadAdminMessages(){allMessages=JSON.parse(localStorage.getItem('allMessages')||'[]');if(allMessages.length===0){document.getElementById('admin-msg-list').innerHTML='<p style="color:#666;text-align:center;">پیامی نیست</p>';return}document.getElementById('admin-msg-list').innerHTML=allMessages.map(m=>'<div class="msg-item"><strong>👤</strong> <span style="color:var(--gold);">'+m.user+'</span><br><small style="color:#888;">'+m.time+'</small><p style="margin:8px 0;">'+m.message+'</p>'+(m.replied?'<div class="success-box">✅ پاسخ: '+m.reply+'</div>':'<button class="gold-btn" onclick="replyMsg('+m.id+')">✍️ پاسخ</button>')+'</div>').join('')}
+async function deleteGiftCode(code){if(!confirm('حذف '+code+'؟'))return;await supabaseRequest('DELETE','gift_codes',null,'?code=eq.'+code);loadGiftCodes()}
 
-async function loadCloudUsers(){document.getElementById('admin-users-list').innerHTML='<div class="loader"></div>';let cloudUsers=await getAllCloudUsers();if(cloudUsers.length===0){document.getElementById('admin-users-list').innerHTML='<p style="color:#666;">کاربری در ابر نیست</p>';return}document.getElementById('admin-users-list').innerHTML=cloudUsers.map(u=>{let sub=u.vip_type==='permanent'?'💎 همیشگی':(u.vip_type==='monthly'?'⭐ VIP':'🆓 رایگان');return'<div class="msg-item"><strong>👤 '+u.username+'</strong><br><small>'+sub+' | ⭐ '+(u.points||0)+' امتیاز</small></div>'}).join('')}
+async function createAdmin(){
+    let name=document.getElementById('new-admin-name').value.trim();
+    let pass=document.getElementById('new-admin-pass').value.trim();
+    if(!name||!pass){alert('نام و رمز');return}
+    if(pass.length<6){alert('رمز حداقل ۶');return}
+    let permissions={name:name,password:pass,can_reply_messages:document.getElementById('perm-msgs').checked,can_view_users:document.getElementById('perm-users').checked,can_create_gifts:document.getElementById('perm-gifts').checked,can_view_income:document.getElementById('perm-income').checked,can_add_prize:document.getElementById('perm-prize').checked};
+    let result=await supabaseRequest('POST','admins',permissions);
+    if(result&&!result.message){alert('✅ ادمین ساخته شد!\n👤 '+name+'\n🔑 '+pass);document.getElementById('new-admin-name').value='';document.getElementById('new-admin-pass').value='';loadAdmins()}
+    else alert('❌ خطا')
+}
 
-function replyMsg(id){let reply=prompt('پاسخ:');if(reply){let msg=allMessages.find(m=>m.id===id);if(msg){msg.replied=true;msg.reply=reply;localStorage.setItem('allMessages',JSON.stringify(allMessages));loadAdminMessages();updateAdminStats();alert('✅ ارسال شد به: '+msg.user)}}}
+async function loadAdmins(){
+    document.getElementById('admins-list').innerHTML='<div class="loader"></div>';
+    let admins=await supabaseRequest('GET','admins',null,'?order=created_at.desc');
+    if(!admins||admins.length===0){document.getElementById('admins-list').innerHTML='<p style="color:#666;">ادمینی نیست</p>';return}
+    document.getElementById('admins-list').innerHTML=admins.map(a=>'<div class="msg-item"><strong>🛡️ '+a.name+'</strong><br>🔑 <code style="color:var(--gold);">'+a.password+'</code><br><small>پیام:'+(a.can_reply_messages?'✅':'❌')+' کاربر:'+(a.can_view_users?'✅':'❌')+' جایزه:'+(a.can_create_gifts?'✅':'❌')+'</small><br><button class="red-btn" onclick="deleteAdmin('+a.id+')">🗑️ حذف</button></div>').join('')
+}
 
-function updateAdminStats(){document.getElementById('a-users').innerText=Object.keys(users).length;let vc=Object.values(users).filter(u=>u.subscription!=='free').length;document.getElementById('a-vip').innerText=vc;document.getElementById('a-msgs').innerText=allMessages.filter(m=>!m.replied).length;let m=Object.values(users).filter(u=>u.subscription==='monthly').length;let p=Object.values(users).filter(u=>u.subscription==='permanent').length;let inc=(m*35000)+(p*299000);document.getElementById('a-income').innerText=inc.toLocaleString('fa-IR')}
+async function deleteAdmin(id){if(!confirm('حذف؟'))return;await supabaseRequest('DELETE','admins',null,'?id=eq.'+id);loadAdmins()}
 
-function exitAdmin(){isAdmin=false;updateStatusCard();tab('p1',document.querySelector('.nav-item'))}
+async function searchUser(){
+    let u=document.getElementById('search-username').value.trim();
+    if(!u){alert('نام کاربری');return}
+    document.getElementById('user-detail').innerHTML='<div class="loader"></div>';
+    let result=await supabaseRequest('GET','users',null,'?username=eq.'+u);
+    if(!result||result.length===0){document.getElementById('user-detail').innerHTML='<div class="danger-box">❌ کاربر یافت نشد</div>';return}
+    let user=result[0];
+    let subText=user.vip_type==='permanent'?'💎 همیشگی':(user.vip_type==='monthly'?'⭐ VIP':'🆓 رایگان');
+    let expiryText=user.vip_expiry>0?new Date(user.vip_expiry).toLocaleDateString('fa-IR'):'---';
+    let html='<div class="user-detail-card">';
+    html+='<h3 style="color:var(--gold);margin-bottom:15px;">👤 '+user.username+'</h3>';
+    html+='<div class="detail-row"><span class="detail-label">🔑 رمز:</span><span class="detail-value">'+user.password+'</span></div>';
+    html+='<div class="detail-row"><span class="detail-label">💎 اشتراک:</span><span class="detail-value">'+subText+'</span></div>';
+    html+='<div class="detail-row"><span class="detail-label">📅 انقضا:</span><span class="detail-value">'+expiryText+'</span></div>';
+    html+='<div class="detail-row"><span class="detail-label">⭐ امتیاز:</span><span class="detail-value">'+(user.points||0)+'</span></div>';
+    html+='<div class="detail-row"><span class="detail-label">🧠 AI:</span><span class="detail-value">'+(user.ai_usage||0)+'</span></div>';
+    html+='<div class="detail-row"><span class="detail-label">📝 یادداشت:</span><span class="detail-value">'+(user.admin_note||'---')+'</span></div>';
+    html+='</div>';
+    html+='<h3 style="color:var(--gold);margin-top:20px;">🛠️ عملیات:</h3>';
+    html+='<button class="blue-btn" onclick="changeUserPass(\''+user.username+'\')">🔄 تغییر رمز</button>';
+    html+='<button class="gold-btn" onclick="setUserVIP(\''+user.username+'\',\'monthly\')">⭐ VIP ۳۰ روز</button>';
+    html+='<button class="purple-btn" onclick="setUserVIP(\''+user.username+'\',\'permanent\')">💎 VIP همیشگی</button>';
+    html+='<button class="red-btn" onclick="setUserVIP(\''+user.username+'\',\'free\')">❌ حذف VIP</button>';
+    html+='<button class="green-btn" onclick="addUserPoints(\''+user.username+'\')">⭐ اضافه امتیاز</button>';
+    html+='<button class="green-btn" onclick="addUserAI(\''+user.username+'\')">🧠 اضافه AI</button>';
+    html+='<button class="blue-btn" onclick="setUserNote(\''+user.username+'\')">📝 یادداشت</button>';
+    document.getElementById('user-detail').innerHTML=html;
+}
+
+async function changeUserPass(u){let p=prompt('رمز جدید:');if(!p||p.length<4){alert('حداقل ۴ حرف');return}await supabaseRequest('PATCH','users',{password:p},'?username=eq.'+u);alert('✅ رمز تغییر کرد!\n🔑 رمز جدید: '+p);searchUser()}
+
+async function setUserVIP(u,type){let data={vip_type:type,is_vip:type!=='free'};if(type==='monthly'){let days=parseInt(prompt('چند روز؟','30'));if(!days)return;data.vip_expiry=Date.now()+(days*86400000)}else if(type==='permanent'){data.vip_expiry=0}else{data.vip_expiry=0}await supabaseRequest('PATCH','users',data,'?username=eq.'+u);alert('✅ VIP تغییر کرد');searchUser()}
+
+async function addUserPoints(u){let n=parseInt(prompt('چند امتیاز؟','100'));if(!n)return;let r=await supabaseRequest('GET','users',null,'?username=eq.'+u);if(r&&r[0]){await supabaseRequest('PATCH','users',{points:(r[0].points||0)+n},'?username=eq.'+u);alert('✅ اضافه شد');searchUser()}}
+
+async function addUserAI(u){let n=parseInt(prompt('چند استفاده AI؟','10'));if(!n)return;let r=await supabaseRequest('GET','users',null,'?username=eq.'+u);if(r&&r[0]){await supabaseRequest('PATCH','users',{ai_usage:Math.max(0,(r[0].ai_usage||0)-n)},'?username=eq.'+u);alert('✅ اضافه شد');searchUser()}}
+
+async function setUserNote(u){let n=prompt('یادداشت:');if(n===null)return;await supabaseRequest('PATCH','users',{admin_note:n},'?username=eq.'+u);alert('✅ ذخیره شد');searchUser()}
+
+async function sendSupport(){let msg=document.getElementById('support-msg').value.trim();if(!msg){alert('پیام');return}await supabaseRequest('POST','messages',{username:currentUser,message:msg,replied:false});document.getElementById('support-result').innerHTML='<div class="success-box">✅ ارسال شد</div>';document.getElementById('support-msg').value='';loadMyMessages()}
+
+async function loadMyMessages(){let cloudMsgs=await supabaseRequest('GET','messages',null,'?username=eq.'+currentUser+'&order=created_at.desc');if(!cloudMsgs||cloudMsgs.length===0){document.getElementById('my-messages').innerHTML='<p style="color:#666;text-align:center;">پیامی ندارید</p>';return}document.getElementById('my-messages').innerHTML=cloudMsgs.map(m=>'<div class="msg-item"><strong>💬</strong> '+m.message+'<br><small>'+new Date(m.created_at).toLocaleString('fa-IR')+'</small>'+(m.replied?'<div class="success-box"><strong style="color:var(--gold);">📩 پاسخ:</strong><br>'+m.reply+'</div>':'<p style="color:var(--warning);font-size:12px;">⏳ انتظار</p>')+'</div>').join('')}
+
+async function loadAdminMessages(){if(!isMainAdmin&&!adminPermissions.can_reply_messages){document.getElementById('admin-msg-list').innerHTML='<p>دسترسی ندارید</p>';return}let msgs=await supabaseRequest('GET','messages',null,'?order=created_at.desc');if(!msgs||msgs.length===0){document.getElementById('admin-msg-list').innerHTML='<p style="color:#666;">پیامی نیست</p>';return}document.getElementById('admin-msg-list').innerHTML=msgs.map(m=>'<div class="msg-item"><strong>👤</strong> <span style="color:var(--gold);">'+m.username+'</span><br><small>'+new Date(m.created_at).toLocaleString('fa-IR')+'</small><p style="margin:8px 0;">'+m.message+'</p>'+(m.replied?'<div class="success-box">✅ '+m.reply+'</div>':'<button class="gold-btn" onclick="replyMsg('+m.id+')">✍️ پاسخ</button>')+'</div>').join('')}
+
+async function replyMsg(id){let reply=prompt('پاسخ:');if(reply){await supabaseRequest('PATCH','messages',{replied:true,reply:reply},'?id=eq.'+id);loadAdminMessages();alert('✅ ارسال شد')}}
+
+function updateAdminStats(){document.getElementById('a-users').innerText=Object.keys(users).length;let vc=Object.values(users).filter(u=>u.subscription!=='free').length;document.getElementById('a-vip').innerText=vc;let m=Object.values(users).filter(u=>u.subscription==='monthly').length;let p=Object.values(users).filter(u=>u.subscription==='permanent').length;let inc=(m*35000)+(p*299000);document.getElementById('a-income').innerText=inc.toLocaleString('fa-IR')}
+
+function exitAdmin(){isAdmin=false;isMainAdmin=false;adminPermissions={};updateStatusCard();tab('p1',document.querySelector('.nav-item'))}
 
 window.onload=function(){let saved=localStorage.getItem('currentUser');if(saved&&users[saved]){currentUser=saved;checkSubscription();showApp()}loadPrices();setInterval(loadPrices,60000)}
 </script>
