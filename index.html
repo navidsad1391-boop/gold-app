@@ -211,7 +211,6 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <div class="tool-tab active" onclick="switchTool('calc',this)">🥇 ماشین حساب طلا</div>
 <div class="tool-tab" onclick="switchTool('convert',this)">💱 مبدل ارز</div>
 </div>
-
 <div id="tool-calc">
 <label>⚖️ وزن طلا (گرم):</label>
 <input type="number" id="gold-weight" placeholder="مثلا: 5" step="0.01">
@@ -228,7 +227,6 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <button class="gold-btn" onclick="calcGold()">🧮 محاسبه قیمت</button>
 <div id="calc-result"></div>
 </div>
-
 <div id="tool-convert" style="display:none;">
 <label>💵 مقدار:</label>
 <input type="number" id="convert-amount" placeholder="مثلا: 100" value="1">
@@ -391,6 +389,7 @@ async function getUserFromCloud(username,password){
 }
 
 let currentUser=null,secretClicks=0,isAdmin=false,isMainAdmin=false,adminPermissions={},adminName='';
+let userBackup=null;
 let users=JSON.parse(localStorage.getItem('users')||'{}');
 let prices={};
 let timerInterval=null;
@@ -469,13 +468,12 @@ function updateAboutPage(){
     else{s.innerHTML='<h3>🆓 رایگان</h3>';document.getElementById('plans-section').style.display='block'}
 }
 
-function logoutUser(){if(confirm('خروج؟')){currentUser=null;localStorage.removeItem('currentUser');isAdmin=false;isMainAdmin=false;adminPermissions={};adminName='';document.getElementById('status-card').style.display='none';document.getElementById('admin-banner').style.display='none';document.getElementById('nav-admin').style.display='none';document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('p-login').classList.add('active');document.getElementById('main-nav').style.display='none'}}
+function logoutUser(){if(confirm('خروج؟')){currentUser=null;localStorage.removeItem('currentUser');isAdmin=false;isMainAdmin=false;adminPermissions={};adminName='';userBackup=null;document.getElementById('status-card').style.display='none';document.getElementById('admin-banner').style.display='none';document.getElementById('nav-admin').style.display='none';document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('p-login').classList.add('active');document.getElementById('main-nav').style.display='none'}}
 
 function tab(id,el){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));if(el)el.classList.add('active');if(id==='p4')loadMyMessages();if(id==='p2')updateAIUsageInfo();if(id==='p5')updateAboutPage();if(id==='p-wheel'){updateWheelStats();updateLeaderboard();startTimer()}if(id==='p6'){updateAdminStats();loadAdminMessages()}window.scrollTo(0,0)}
 
 function updateAIUsageInfo(){if(!currentUser)return;let user=users[currentUser];let info=document.getElementById('ai-usage-info');if(isAdmin||isMainAdmin||user.subscription!=='free'){info.innerHTML='<p>⚡ <strong style="color:var(--success);">نامحدود</strong></p>'}else{let r=(user.aiLimit||1)-(user.aiUsage||0);info.innerHTML='<p>⚡ باقی: <strong style="color:var(--gold);">'+r+'</strong></p>'}}
 
-// ابزارها
 function switchTool(name,el){document.querySelectorAll('.tool-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById('tool-calc').style.display=name==='calc'?'block':'none';document.getElementById('tool-convert').style.display=name==='convert'?'block':'none'}
 
 function calcGold(){
@@ -509,7 +507,6 @@ function convertCurrency(){
     let to=document.getElementById('convert-to').value;
     if(!amount||amount<=0){alert('مقدار را وارد کنید');return}
     if(from===to){alert('یک ارز رو انتخاب کنید');return}
-    
     let toman=0;
     if(from==='toman')toman=amount;
     else if(from==='usd')toman=amount*(prices.usd||70000);
@@ -519,7 +516,6 @@ function convertCurrency(){
     else if(from==='eth')toman=amount*(prices.eth||3000)*(prices.usd||70000);
     else if(from==='gold_gram')toman=amount*(prices.gold18||18000000);
     else if(from==='coin')toman=amount*(prices.coin||900000000);
-    
     let result=0;
     if(to==='toman')result=toman;
     else if(to==='usd')result=toman/(prices.usd||70000);
@@ -529,17 +525,14 @@ function convertCurrency(){
     else if(to==='eth')result=toman/((prices.eth||3000)*(prices.usd||70000));
     else if(to==='gold_gram')result=toman/(prices.gold18||18000000);
     else if(to==='coin')result=toman/(prices.coin||900000000);
-    
     let names={usd:'دلار',eur:'یورو',toman:'تومان',btc:'بیت‌کوین',eth:'اتریوم',usdt:'تتر',gold_gram:'گرم طلای ۱۸',coin:'سکه تمام'};
     let icons={usd:'💵',eur:'💶',toman:'💰',btc:'₿',eth:'Ξ',usdt:'💰',gold_gram:'🥇',coin:'🥇'};
-    
     let displayResult=result;
     if(to==='btc'||to==='eth')displayResult=result.toFixed(8);
     else if(to==='usd'||to==='eur'||to==='usdt')displayResult=result.toFixed(2);
     else if(to==='gold_gram')displayResult=result.toFixed(4);
     else if(to==='coin')displayResult=result.toFixed(4);
     else displayResult=Math.floor(result).toLocaleString('fa-IR');
-    
     let html='<div class="result-box">';
     html+='<div class="result-label">'+icons[from]+' '+amount+' '+names[from]+' برابر است با:</div>';
     html+='<div class="result-value">'+displayResult+' '+icons[to]+'</div>';
@@ -555,6 +548,9 @@ async function secretClick(){
         let pass=prompt('🔐 رمز مدیر یا ادمین:');
         if(!pass)return;
         if(pass===MAIN_ADMIN_PASS){
+            if(users[currentUser]){
+                userBackup={subscription:users[currentUser].subscription,subExpiry:users[currentUser].subExpiry,aiUsage:users[currentUser].aiUsage,aiLimit:users[currentUser].aiLimit};
+            }
             isMainAdmin=true;isAdmin=true;adminName='مدیر اصلی';
             adminPermissions={can_reply_messages:true,can_view_users:true,can_create_gifts:true,can_view_income:true,can_add_prize:true};
             document.getElementById('admin-title').innerText='👑 پنل مدیر اصلی';
@@ -569,6 +565,9 @@ async function secretClick(){
             let admins=await supabaseRequest('GET','admins',null,'?password=eq.'+pass);
             if(admins&&admins.length>0){
                 let admin=admins[0];
+                if(users[currentUser]){
+                    userBackup={subscription:users[currentUser].subscription,subExpiry:users[currentUser].subExpiry,aiUsage:users[currentUser].aiUsage,aiLimit:users[currentUser].aiLimit};
+                }
                 isAdmin=true;isMainAdmin=false;adminName=admin.name;
                 adminPermissions={can_reply_messages:admin.can_reply_messages,can_view_users:admin.can_view_users,can_create_gifts:admin.can_create_gifts,can_view_income:admin.can_view_income,can_add_prize:admin.can_add_prize};
                 document.getElementById('admin-title').innerText='🛡️ '+admin.name;
@@ -589,17 +588,28 @@ function showAdminTabs(){document.getElementById('tab-gifts').style.display=(isM
 function switchAdminTab(name,el){document.querySelectorAll('.admin-section').forEach(s=>s.style.display='none');document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));document.getElementById('admin-'+name).style.display='block';el.classList.add('active');if(name==='gifts')loadGiftCodes();if(name==='admins')loadAdmins();if(name==='messages')loadAdminMessages()}
 
 function exitAdmin(){
-    if(!confirm('از حالت ادمین خارج می‌شوید؟'))return;
+    if(!confirm('از حالت ادمین خارج می‌شوید؟\n(به حالت قبل از ادمین شدن برمی‌گردید)'))return;
+    if(userBackup&&users[currentUser]){
+        users[currentUser].subscription=userBackup.subscription;
+        users[currentUser].subExpiry=userBackup.subExpiry;
+        users[currentUser].aiUsage=userBackup.aiUsage;
+        users[currentUser].aiLimit=userBackup.aiLimit;
+        localStorage.setItem('users',JSON.stringify(users));
+        saveUserToCloud(currentUser,{vip_type:userBackup.subscription,vip_expiry:userBackup.subExpiry,ai_usage:userBackup.aiUsage,is_vip:userBackup.subscription!=='free'});
+    }
+    userBackup=null;
     isAdmin=false;isMainAdmin=false;adminPermissions={};adminName='';
     document.getElementById('admin-banner').style.display='none';
     document.getElementById('nav-admin').style.display='none';
     updateStatusCard();
     updateAboutPage();
+    updateAIUsageInfo();
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.getElementById('p1').classList.add('active');
     document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
     document.querySelectorAll('.nav-item')[0].classList.add('active');
     window.scrollTo(0,0);
+    alert('✅ از حالت ادمین خارج شدید\nبه حالت قبل برگشتید');
 }
 
 function buyVIP(t){alert('🔔 در حال انتقال به مایکت...\n\n📦 '+(t==='permanent'?'همیشگی':'ماهانه'))}
