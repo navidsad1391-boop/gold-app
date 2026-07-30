@@ -8,8 +8,9 @@
 :root{--gold:#FFD700;--gold-dark:#B8860B;--dark:#0a0a0a;--card:#1a1a2e;--card-2:#16213e;--success:#00ff88;--danger:#ff4444;--warning:#ffaa00;--info:#00aaff;--purple:#9d4edd;--pink:#ff006e}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:linear-gradient(180deg,#0a0a0a 0%,#16213e 100%);color:#fff;font-family:Tahoma,sans-serif;padding-bottom:80px;direction:rtl;min-height:100vh}
-.header{background:linear-gradient(135deg,#000,#1a1a2e);padding:15px;text-align:center;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(255,215,0,0.3)}
+.header{background:linear-gradient(135deg,#000,#1a1a2e);padding:15px;text-align:center;border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:100}
 .header h1{color:var(--gold);font-size:22px;text-shadow:0 0 15px rgba(255,215,0,0.6)}
+.admin-mode-banner{background:linear-gradient(135deg,#900,#6a0000);color:#fff;padding:8px;text-align:center;font-weight:bold;font-size:12px;margin:5px 15px;border-radius:8px;display:none}
 .user-status-card{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:15px;padding:15px;margin:10px 15px;border:2px solid rgba(255,215,0,0.3)}
 .user-status-card.vip{border-color:var(--gold);box-shadow:0 0 30px rgba(255,215,0,0.4)}
 .user-status-card.admin{border-color:var(--danger);box-shadow:0 0 30px rgba(255,68,68,0.4)}
@@ -40,19 +41,20 @@ body{background:linear-gradient(180deg,#0a0a0a 0%,#16213e 100%);color:#fff;font-
 .price-row:last-child{border:none}
 .price-name{font-size:14px}
 .price-value{color:var(--gold);font-weight:bold;font-size:15px}
-.gold-btn{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;border:none;padding:14px;border-radius:12px;width:100%;font-weight:bold;font-size:15px;cursor:pointer;margin-top:10px;box-shadow:0 4px 15px rgba(255,215,0,0.4)}
+.gold-btn{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;border:none;padding:14px;border-radius:12px;width:100%;font-weight:bold;font-size:15px;cursor:pointer;margin-top:10px}
 .purple-btn{background:linear-gradient(135deg,var(--purple),#6a2ba8);color:#fff;border:none;padding:14px;border-radius:12px;width:100%;font-weight:bold;font-size:15px;cursor:pointer;margin-top:10px}
 .red-btn{background:linear-gradient(135deg,var(--danger),#cc0000);color:#fff;border:none;padding:12px;border-radius:10px;width:100%;font-weight:bold;cursor:pointer;margin-top:10px}
 .blue-btn{background:linear-gradient(135deg,var(--info),#0088cc);color:#fff;border:none;padding:12px;border-radius:10px;width:100%;font-weight:bold;cursor:pointer;margin-top:10px}
-.pink-btn{background:linear-gradient(135deg,var(--pink),#c2185b);color:#fff;border:none;padding:12px;border-radius:10px;width:100%;font-weight:bold;cursor:pointer;margin-top:10px}
 .green-btn{background:linear-gradient(135deg,var(--success),#00aa55);color:#000;border:none;padding:12px;border-radius:10px;width:100%;font-weight:bold;cursor:pointer;margin-top:10px}
 input,textarea,select{width:100%;padding:14px;margin-bottom:12px;border-radius:10px;border:1px solid rgba(255,215,0,0.3);background:#0a0a0a;color:#fff;font-family:Tahoma;font-size:14px}
 input:focus{border-color:var(--gold);outline:none}
 label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
-.bottom-nav{position:fixed;bottom:0;width:100%;background:linear-gradient(180deg,#111,#000);display:flex;justify-content:space-around;padding:8px 0;border-top:2px solid var(--gold);z-index:100}
-.nav-item{color:#666;text-align:center;font-size:9px;cursor:pointer;padding:5px;min-width:55px}
+.bottom-nav{position:fixed;bottom:0;width:100%;background:linear-gradient(180deg,#111,#000);display:flex;justify-content:space-around;padding:8px 0;border-top:2px solid var(--gold);z-index:100;overflow-x:auto}
+.nav-item{color:#666;text-align:center;font-size:9px;cursor:pointer;padding:5px;min-width:50px}
 .nav-item.active{color:var(--gold)}
 .nav-item .icon{font-size:20px;display:block;margin-bottom:3px}
+.nav-item.admin-nav{color:#ff6666}
+.nav-item.admin-nav.active{color:var(--danger)}
 .logo{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000;display:flex;align-items:center;justify-content:center;font-size:45px;margin:20px auto;cursor:pointer;font-weight:bold;box-shadow:0 0 30px rgba(255,215,0,0.5);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 30px rgba(255,215,0,0.5)}50%{box-shadow:0 0 50px rgba(255,215,0,0.8)}}
 .info-box{background:rgba(0,170,255,0.1);border:2px solid var(--info);border-radius:12px;padding:15px;margin:10px 0}
@@ -69,13 +71,12 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 .strategy-item .num-circle{display:inline-block;width:30px;height:30px;background:var(--gold);color:#000;border-radius:50%;text-align:center;line-height:30px;font-weight:bold;margin-left:10px}
 .loader{border:3px solid rgba(255,215,0,0.2);border-top:3px solid var(--gold);border-radius:50%;width:40px;height:40px;animation:spin 1s linear infinite;margin:20px auto}
 @keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
-.login-box{max-width:400px;margin:40px auto;padding:25px;background:linear-gradient(135deg,var(--card),var(--card-2));border-radius:20px;border:2px solid var(--gold);box-shadow:0 0 40px rgba(255,215,0,0.3)}
+.login-box{max-width:400px;margin:40px auto;padding:25px;background:linear-gradient(135deg,var(--card),var(--card-2));border-radius:20px;border:2px solid var(--gold)}
 .plan-card{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:15px;padding:20px;margin:15px 0;border:2px solid rgba(255,215,0,0.3)}
 .plan-card.premium{border-color:var(--gold)}
 .plan-card.permanent-plan{border-color:var(--purple)}
 .plan-title{color:var(--gold);font-size:18px;margin-bottom:5px}
 .plan-price{font-size:28px;color:var(--gold);font-weight:bold;margin:10px 0}
-.plan-features p{margin:6px 0;font-size:13px}
 .level-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:10px;margin-right:5px}
 .level-newbie{background:#444;color:#ccc}
 .level-regular{background:#0088cc;color:#fff}
@@ -106,6 +107,7 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <body>
 
 <div class="header"><h1>🧠 هوش طلایی</h1></div>
+<div id="admin-banner" class="admin-mode-banner">🛡️ حالت ادمین - <span id="admin-name-banner">-</span></div>
 <div id="status-card" class="user-status-card" style="display:none;"><div class="status-header"><div><div class="status-name" id="s-username">-</div><div class="status-info" id="s-level"></div></div><div class="status-badge badge-free" id="s-badge">🆓 رایگان</div></div><div id="s-details"></div></div>
 
 <div id="p-login" class="page active">
@@ -123,16 +125,12 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 </div>
 
 <div id="p1" class="page">
-<div class="card">
-<h3>📊 قیمت لحظه‌ای</h3>
-<div class="stats-grid">
+<div class="card"><h3>📊 قیمت لحظه‌ای</h3><div class="stats-grid">
 <div class="stat-box"><div class="icon">🥇</div><div class="value" id="s-coin">-</div><div class="label">سکه</div></div>
 <div class="stat-box"><div class="icon">💵</div><div class="value" id="s-dollar">-</div><div class="label">دلار</div></div>
 <div class="stat-box"><div class="icon">₿</div><div class="value" id="s-btc">-</div><div class="label">بیت‌کوین</div></div>
-</div>
-</div>
-<div class="card">
-<h3>💰 قیمت‌های تفصیلی</h3>
+</div></div>
+<div class="card"><h3>💰 قیمت‌های تفصیلی</h3>
 <div class="price-row"><span class="price-name">🥇 سکه تمام</span><span class="price-value" id="p-coin">-</span></div>
 <div class="price-row"><span class="price-name">🥈 نیم سکه</span><span class="price-value" id="p-half">-</span></div>
 <div class="price-row"><span class="price-name">🥉 ربع سکه</span><span class="price-value" id="p-quarter">-</span></div>
@@ -148,8 +146,7 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <p style="text-align:center;color:#666;font-size:11px;">🕐 <span id="update-time">-</span></p>
 </div>
 
-<div id="p2" class="page">
-<div class="card">
+<div id="p2" class="page"><div class="card">
 <h3>🧠 مشاور هوش مصنوعی</h3>
 <div id="ai-usage-info" class="info-box"></div>
 <label>💰 موجودی (تومان):</label><input type="number" id="budget" placeholder="50000000">
@@ -158,15 +155,11 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <label>⏰ مدت:</label><select id="period"><option value="1">۱ ماه</option><option value="3" selected>۳ ماه</option><option value="6">۶ ماه</option><option value="12">۱ سال</option></select>
 <button class="gold-btn" onclick="requestAI()">🎯 تحلیل</button>
 <div id="ai-result"></div>
-</div>
-</div>
+</div></div>
 
 <div id="p-wheel" class="page">
-<div class="card">
-<h3>🎡 گردونه شانس</h3>
-<div class="wheel-container">
-<div class="wheel">
-<div class="wheel-pointer">▼</div>
+<div class="card"><h3>🎡 گردونه شانس</h3><div class="wheel-container">
+<div class="wheel"><div class="wheel-pointer">▼</div>
 <svg width="280" height="280" viewBox="0 0 280 280"><g id="wheel-group" style="transition:transform 4s cubic-bezier(0.17,0.67,0.16,0.99);transform-origin:center;">
 <path d="M140,140 L140,10 A130,130 0 0,1 232,48 Z" fill="#FFD700"/>
 <path d="M140,140 L232,48 A130,130 0 0,1 270,140 Z" fill="#9d4edd"/>
@@ -186,45 +179,32 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <text x="100" y="55" fill="#000" font-size="11">💎</text>
 <circle cx="140" cy="140" r="15" fill="#000"/>
 <circle cx="140" cy="140" r="10" fill="#FFD700"/>
-</g></svg>
-</div>
+</g></svg></div>
 <button class="spin-btn" id="spin-btn" onclick="spinWheel()">🎯 چرخش گردونه!</button>
 <div class="timer-display" id="wheel-timer"></div>
 <div id="wheel-result"></div>
-</div>
-</div>
-
-<div class="card">
-<h3>🎁 کد جایزه</h3>
-<div class="gift-code-box">
-<p style="margin-bottom:10px;color:#aaa;">کد جایزه را وارد کنید:</p>
+</div></div>
+<div class="card"><h3>🎁 کد جایزه</h3><div class="gift-code-box">
+<p style="margin-bottom:10px;color:#aaa;">کد را وارد کنید:</p>
 <input type="text" id="gift-code" class="gift-code-input" placeholder="GOLD2024" maxlength="20">
 <button class="green-btn" onclick="redeemGiftCode()">✅ فعال‌سازی</button>
 <div id="gift-result"></div>
-</div>
-</div>
-
-<div class="card">
-<h3>📊 آمار شما</h3>
-<div class="stats-grid">
+</div></div>
+<div class="card"><h3>📊 آمار</h3><div class="stats-grid">
 <div class="admin-stat"><div class="num" id="w-total">۰</div><div class="lbl">کل</div></div>
 <div class="admin-stat"><div class="num" id="w-wins">۰</div><div class="lbl">جوایز</div></div>
 <div class="admin-stat"><div class="num" id="w-loses">۰</div><div class="lbl">پوچ</div></div>
-</div>
-</div>
+</div></div>
 <div class="card"><h3>🏆 لیدربورد</h3><div id="leaderboard"></div></div>
 </div>
 
-<div id="p3" class="page">
-<div class="card"><h3>📰 اخبار</h3>
-<div class="msg-item"><strong>🟢 افزایش قیمت طلا</strong><p style="font-size:12px;color:#aaa;">قیمت انس رشد داشت...</p></div>
+<div id="p3" class="page"><div class="card"><h3>📰 اخبار</h3>
+<div class="msg-item"><strong>🟢 افزایش قیمت طلا</strong><p style="font-size:12px;color:#aaa;">رشد داشت...</p></div>
 <div class="msg-item"><strong>🔴 نوسان بیت‌کوین</strong><p style="font-size:12px;color:#aaa;">نوسان شدید...</p></div>
-</div>
-</div>
+</div></div>
 
 <div id="p4" class="page">
-<div class="card">
-<h3>📞 ارسال پیام</h3>
+<div class="card"><h3>📞 ارسال پیام</h3>
 <div class="info-box"><p>👤 <strong style="color:var(--gold);" id="current-user-name">-</strong></p></div>
 <textarea id="support-msg" placeholder="پیام..." style="min-height:100px;"></textarea>
 <button class="gold-btn" onclick="sendSupport()">📤 ارسال</button>
@@ -234,12 +214,8 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 </div>
 
 <div id="p5" class="page">
-<div class="card" style="text-align:center;">
-<div class="logo" onclick="secretClick()">GOLD</div>
-<h3 style="color:var(--gold);">هوش طلایی</h3>
-</div>
-<div class="card">
-<h3>👤 حساب من</h3>
+<div class="card" style="text-align:center;"><div class="logo" onclick="secretClick()">GOLD</div><h3 style="color:var(--gold);">هوش طلایی</h3></div>
+<div class="card"><h3>👤 حساب من</h3>
 <p>👤 <strong style="color:var(--gold);" id="about-user">-</strong> <span class="cloud-badge">☁️</span></p>
 <p>📅 <strong id="about-joindate">-</strong></p>
 <p>🏆 سطح: <span id="about-level"></span></p>
@@ -249,23 +225,14 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <div class="card" id="subscription-status"></div>
 <div class="card" id="plans-section">
 <h3>👑 پلن‌های اشتراک</h3>
-<div class="plan-card premium">
-<div class="plan-title">⭐ VIP ماهانه</div>
-<div class="plan-price">۳۵,۰۰۰ تومان</div>
-<button class="gold-btn" onclick="buyVIP('monthly')">💳 خرید</button>
-</div>
-<div class="plan-card permanent-plan">
-<div class="plan-title" style="color:var(--purple);">👑 VIP همیشگی</div>
-<div class="plan-price" style="color:var(--purple);">۲۹۹,۰۰۰ تومان</div>
-<button class="purple-btn" onclick="buyVIP('permanent')">💎 خرید</button>
-</div>
+<div class="plan-card premium"><div class="plan-title">⭐ VIP ماهانه</div><div class="plan-price">۳۵,۰۰۰ تومان</div><button class="gold-btn" onclick="buyVIP('monthly')">💳 خرید</button></div>
+<div class="plan-card permanent-plan"><div class="plan-title" style="color:var(--purple);">👑 VIP همیشگی</div><div class="plan-price" style="color:var(--purple);">۲۹۹,۰۰۰ تومان</div><button class="purple-btn" onclick="buyVIP('permanent')">💎 خرید</button></div>
 </div>
 <div class="card"><button class="red-btn" onclick="logoutUser()">🚪 خروج</button></div>
 </div>
 
 <div id="p6" class="page">
 <div class="admin-header"><h2 style="color:#fff;" id="admin-title">👑 پنل مدیریت</h2><p style="color:#ffcccc;font-size:12px;" id="admin-role">-</p></div>
-
 <div class="admin-tabs">
 <div class="admin-tab active" onclick="switchAdminTab('stats',this)">📊 آمار</div>
 <div class="admin-tab" onclick="switchAdminTab('messages',this)">📬 پیام</div>
@@ -273,65 +240,41 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <div class="admin-tab" id="tab-gifts" onclick="switchAdminTab('gifts',this)">🎁 کد</div>
 <div class="admin-tab" id="tab-admins" onclick="switchAdminTab('admins',this)">🛡️ ادمین</div>
 </div>
-
 <div id="admin-stats" class="admin-section">
 <div class="stats-grid">
 <div class="admin-stat"><div class="num" id="a-users">۰</div><div class="lbl">کاربر</div></div>
 <div class="admin-stat"><div class="num" id="a-vip">۰</div><div class="lbl">VIP</div></div>
 <div class="admin-stat"><div class="num" id="a-msgs">۰</div><div class="lbl">پیام</div></div>
 </div>
-<div class="card" id="income-card">
-<h3>💰 درآمد</h3>
-<div class="success-box" style="text-align:center;"><div style="font-size:32px;color:var(--gold);font-weight:bold;" id="a-income">۰</div><div style="color:#aaa;font-size:12px;">تومان</div></div>
+<div class="card" id="income-card"><h3>💰 درآمد</h3><div class="success-box" style="text-align:center;"><div style="font-size:32px;color:var(--gold);font-weight:bold;" id="a-income">۰</div><div style="color:#aaa;font-size:12px;">تومان</div></div></div>
 </div>
-</div>
-
 <div id="admin-messages" class="admin-section" style="display:none;">
 <div class="card"><h3>📬 پیام‌ها</h3><button class="blue-btn" onclick="loadAdminMessages()">🔄 بروزرسانی</button><div id="admin-msg-list" style="margin-top:10px;"></div></div>
 </div>
-
 <div id="admin-search" class="admin-section" style="display:none;">
-<div class="card">
-<h3>🔍 جستجوی کاربر</h3>
+<div class="card"><h3>🔍 جستجوی کاربر</h3>
 <label>نام کاربری:</label>
-<input type="text" id="search-username" placeholder="مثلا: ali1234">
+<input type="text" id="search-username" placeholder="ali1234">
 <button class="blue-btn" onclick="searchUser()">🔍 جستجو</button>
 <div id="user-detail" style="margin-top:15px;"></div>
 </div>
 </div>
-
 <div id="admin-gifts" class="admin-section" style="display:none;">
-<div class="card">
-<h3>➕ ساخت کد جایزه</h3>
-<label>🎁 کد:</label>
-<input type="text" id="new-gift-code" placeholder="GOLD2024" style="text-transform:uppercase;">
-<label>🎯 نوع:</label>
-<select id="new-gift-type">
-<option value="vip">🎊 روز VIP</option>
-<option value="points">⭐ امتیاز</option>
-<option value="ai">🧠 AI</option>
-<option value="permanent">💎 VIP همیشگی</option>
-</select>
-<label>💰 مقدار:</label>
-<input type="number" id="new-gift-value" value="5">
-<label>👥 حداکثر استفاده:</label>
-<input type="number" id="new-gift-max" value="100">
-<label>📅 انقضا (روز):</label>
-<input type="number" id="new-gift-expiry" value="30">
+<div class="card"><h3>➕ ساخت کد جایزه</h3>
+<label>🎁 کد:</label><input type="text" id="new-gift-code" placeholder="GOLD2024" style="text-transform:uppercase;">
+<label>🎯 نوع:</label><select id="new-gift-type"><option value="vip">🎊 روز VIP</option><option value="points">⭐ امتیاز</option><option value="ai">🧠 AI</option><option value="permanent">💎 VIP همیشگی</option></select>
+<label>💰 مقدار:</label><input type="number" id="new-gift-value" value="5">
+<label>👥 حداکثر:</label><input type="number" id="new-gift-max" value="100">
+<label>📅 انقضا (روز):</label><input type="number" id="new-gift-expiry" value="30">
 <button class="green-btn" onclick="createGiftCode()">➕ ساخت</button>
 </div>
-<div class="card"><h3>🎁 کدهای فعال</h3><button class="blue-btn" onclick="loadGiftCodes()">🔄</button><div id="gift-codes-list" style="margin-top:10px;"></div></div>
+<div class="card"><h3>🎁 کدها</h3><button class="blue-btn" onclick="loadGiftCodes()">🔄</button><div id="gift-codes-list" style="margin-top:10px;"></div></div>
 </div>
-
 <div id="admin-admins" class="admin-section" style="display:none;">
-<div class="card">
-<h3>➕ ساخت ادمین</h3>
-<label>👤 نام:</label>
-<input type="text" id="new-admin-name" placeholder="علی">
-<label>🔑 رمز:</label>
-<input type="text" id="new-admin-pass" placeholder="رمز">
-<div style="margin:10px 0;">
-<label style="color:var(--gold);">دسترسی‌ها:</label>
+<div class="card"><h3>➕ ساخت ادمین</h3>
+<label>👤 نام:</label><input type="text" id="new-admin-name" placeholder="علی">
+<label>🔑 رمز:</label><input type="text" id="new-admin-pass" placeholder="رمز">
+<div style="margin:10px 0;"><label style="color:var(--gold);">دسترسی‌ها:</label>
 <div><input type="checkbox" id="perm-msgs" checked style="width:auto;"> <label style="display:inline;">پاسخ پیام</label></div>
 <div><input type="checkbox" id="perm-users" checked style="width:auto;"> <label style="display:inline;">دیدن کاربر</label></div>
 <div><input type="checkbox" id="perm-gifts" style="width:auto;"> <label style="display:inline;">ساخت کد</label></div>
@@ -342,8 +285,7 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 </div>
 <div class="card"><h3>🛡️ ادمین‌ها</h3><button class="blue-btn" onclick="loadAdmins()">🔄</button><div id="admins-list" style="margin-top:10px;"></div></div>
 </div>
-
-<button class="red-btn" onclick="exitAdmin()">🚪 خروج</button>
+<button class="red-btn" onclick="exitAdmin()">🚪 خروج از حالت ادمین</button>
 </div>
 
 <div class="bottom-nav" id="main-nav" style="display:none;">
@@ -353,6 +295,7 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <div class="nav-item" onclick="tab('p3',this)"><span class="icon">📰</span>اخبار</div>
 <div class="nav-item" onclick="tab('p4',this)"><span class="icon">📞</span>پشتیبانی</div>
 <div class="nav-item" onclick="tab('p5',this)"><span class="icon">ℹ️</span>حساب</div>
+<div class="nav-item admin-nav" id="nav-admin" style="display:none;" onclick="tab('p6',this)"><span class="icon">🛡️</span>ادمین</div>
 </div>
 
 <script>
@@ -390,7 +333,7 @@ async function getUserFromCloud(username,password){
     }catch(e){return null}
 }
 
-let currentUser=null,secretClicks=0,isAdmin=false,isMainAdmin=false,adminPermissions={};
+let currentUser=null,secretClicks=0,isAdmin=false,isMainAdmin=false,adminPermissions={},adminName='';
 let users=JSON.parse(localStorage.getItem('users')||'{}');
 let prices={};
 let timerInterval=null;
@@ -445,8 +388,8 @@ function updateStatusCard(){
     let lvl=getUserLevel(user.points);
     document.getElementById('s-level').innerHTML='<span class="level-badge '+lvl.cls+'">'+lvl.icon+' '+lvl.name+'</span> ⭐ '+user.points+' <span class="cloud-badge">☁️</span>';
     let badge=document.getElementById('s-badge'),details=document.getElementById('s-details');
-    if(isMainAdmin){card.classList.add('admin');badge.className='status-badge badge-admin';badge.innerText='👑 مدیر';details.innerHTML='<p class="status-info">همه دسترسی‌ها</p>'}
-    else if(isAdmin){card.classList.add('admin');badge.className='status-badge badge-admin';badge.innerText='🛡️ ادمین';details.innerHTML='<p class="status-info">محدود</p>'}
+    if(isMainAdmin){card.classList.add('admin');badge.className='status-badge badge-admin';badge.innerText='👑 مدیر';details.innerHTML='<p class="status-info">دسترسی کامل</p>'}
+    else if(isAdmin){card.classList.add('admin');badge.className='status-badge badge-admin';badge.innerText='🛡️ '+adminName;details.innerHTML='<p class="status-info">ادمین</p>'}
     else if(user.subscription==='permanent'){card.classList.add('permanent');badge.className='status-badge badge-permanent';badge.innerText='💎 همیشگی';details.innerHTML='<p class="status-info">♾️ نامحدود</p>'}
     else if(user.subscription==='monthly'){card.classList.add('vip');badge.className='status-badge badge-vip';badge.innerText='⭐ VIP';let d=Math.ceil((user.subExpiry-Date.now())/86400000);details.innerHTML='<p class="status-info">📅 '+d+' روز</p>'}
     else{badge.className='status-badge badge-free';badge.innerText='🆓 رایگان';let u=user.aiUsage||0,l=user.aiLimit||1;details.innerHTML='<p class="status-info">⚡ AI: '+u+' از '+l+'</p><button class="upgrade-btn" onclick="tab(\'p5\',document.querySelectorAll(\'.nav-item\')[5])">🎁 ارتقا</button>'}
@@ -465,13 +408,13 @@ function updateAboutPage(){
     document.getElementById('my-referral-code').innerText=user.referralCode;
     let s=document.getElementById('subscription-status');
     if(user.subscription==='permanent'){s.innerHTML='<h3>💎 اشتراک</h3><div class="purple-box" style="text-align:center;"><p style="font-size:18px;color:var(--purple);font-weight:bold;">👑 VIP همیشگی</p></div>';document.getElementById('plans-section').style.display='none'}
-    else if(user.subscription==='monthly'){let d=Math.ceil((user.subExpiry-Date.now())/86400000);s.innerHTML='<h3>⭐ اشتراک</h3><div class="success-box" style="text-align:center;"><p>VIP ماهانه</p><p>📅 '+d+' روز</p></div>'}
-    else{s.innerHTML='<h3>🆓 رایگان</h3>'}
+    else if(user.subscription==='monthly'){let d=Math.ceil((user.subExpiry-Date.now())/86400000);s.innerHTML='<h3>⭐ اشتراک</h3><div class="success-box" style="text-align:center;"><p>VIP ماهانه</p><p>📅 '+d+' روز</p></div>';document.getElementById('plans-section').style.display='block'}
+    else{s.innerHTML='<h3>🆓 رایگان</h3>';document.getElementById('plans-section').style.display='block'}
 }
 
-function logoutUser(){if(confirm('خروج؟')){currentUser=null;localStorage.removeItem('currentUser');isAdmin=false;isMainAdmin=false;document.getElementById('status-card').style.display='none';document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('p-login').classList.add('active');document.getElementById('main-nav').style.display='none'}}
+function logoutUser(){if(confirm('خروج؟')){currentUser=null;localStorage.removeItem('currentUser');isAdmin=false;isMainAdmin=false;adminPermissions={};adminName='';document.getElementById('status-card').style.display='none';document.getElementById('admin-banner').style.display='none';document.getElementById('nav-admin').style.display='none';document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('p-login').classList.add('active');document.getElementById('main-nav').style.display='none'}}
 
-function tab(id,el){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));if(el)el.classList.add('active');if(id==='p4')loadMyMessages();if(id==='p2')updateAIUsageInfo();if(id==='p5')updateAboutPage();if(id==='p-wheel'){updateWheelStats();updateLeaderboard();startTimer()}window.scrollTo(0,0)}
+function tab(id,el){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));if(el)el.classList.add('active');if(id==='p4')loadMyMessages();if(id==='p2')updateAIUsageInfo();if(id==='p5')updateAboutPage();if(id==='p-wheel'){updateWheelStats();updateLeaderboard();startTimer()}if(id==='p6'){updateAdminStats();loadAdminMessages()}window.scrollTo(0,0)}
 
 function updateAIUsageInfo(){if(!currentUser)return;let user=users[currentUser];let info=document.getElementById('ai-usage-info');if(isAdmin||isMainAdmin||user.subscription!=='free'){info.innerHTML='<p>⚡ <strong style="color:var(--success);">نامحدود</strong></p>'}else{let r=(user.aiLimit||1)-(user.aiUsage||0);info.innerHTML='<p>⚡ باقی: <strong style="color:var(--gold);">'+r+'</strong></p>'}}
 
@@ -482,21 +425,30 @@ async function secretClick(){
         let pass=prompt('🔐 رمز مدیر یا ادمین:');
         if(!pass)return;
         if(pass===MAIN_ADMIN_PASS){
-            isMainAdmin=true;isAdmin=true;
+            isMainAdmin=true;isAdmin=true;adminName='مدیر اصلی';
             adminPermissions={can_reply_messages:true,can_view_users:true,can_create_gifts:true,can_view_income:true,can_add_prize:true};
             document.getElementById('admin-title').innerText='👑 پنل مدیر اصلی';
             document.getElementById('admin-role').innerText='دسترسی کامل';
-            if(users[currentUser]){users[currentUser].subscription='permanent';localStorage.setItem('users',JSON.stringify(users));saveUserToCloud(currentUser,{vip_type:'permanent',is_vip:true})}
-            updateStatusCard();showAdminTabs();tab('p6');updateAdminStats();
+            document.getElementById('admin-name-banner').innerText='مدیر اصلی';
+            document.getElementById('admin-banner').style.display='block';
+            document.getElementById('nav-admin').style.display='block';
+            showAdminTabs();
+            updateStatusCard();
+            alert('✅ حالت مدیر فعال شد!\nمی‌توانید از تب 🛡️ ادمین وارد پنل شوید.');
         }else{
             let admins=await supabaseRequest('GET','admins',null,'?password=eq.'+pass);
             if(admins&&admins.length>0){
                 let admin=admins[0];
-                isAdmin=true;isMainAdmin=false;
+                isAdmin=true;isMainAdmin=false;adminName=admin.name;
                 adminPermissions={can_reply_messages:admin.can_reply_messages,can_view_users:admin.can_view_users,can_create_gifts:admin.can_create_gifts,can_view_income:admin.can_view_income,can_add_prize:admin.can_add_prize};
                 document.getElementById('admin-title').innerText='🛡️ '+admin.name;
                 document.getElementById('admin-role').innerText='ادمین';
-                updateStatusCard();showAdminTabs();tab('p6');updateAdminStats();
+                document.getElementById('admin-name-banner').innerText=admin.name;
+                document.getElementById('admin-banner').style.display='block';
+                document.getElementById('nav-admin').style.display='block';
+                showAdminTabs();
+                updateStatusCard();
+                alert('✅ حالت ادمین فعال شد!\nمی‌توانید از تب 🛡️ ادمین وارد پنل شوید.');
             }else{alert('❌ رمز اشتباه')}
         }
     }
@@ -505,6 +457,21 @@ async function secretClick(){
 function showAdminTabs(){document.getElementById('tab-gifts').style.display=(isMainAdmin||adminPermissions.can_create_gifts)?'block':'none';document.getElementById('tab-admins').style.display=isMainAdmin?'block':'none';document.getElementById('income-card').style.display=(isMainAdmin||adminPermissions.can_view_income)?'block':'none'}
 
 function switchAdminTab(name,el){document.querySelectorAll('.admin-section').forEach(s=>s.style.display='none');document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));document.getElementById('admin-'+name).style.display='block';el.classList.add('active');if(name==='gifts')loadGiftCodes();if(name==='admins')loadAdmins();if(name==='messages')loadAdminMessages()}
+
+function exitAdmin(){
+    if(!confirm('از حالت ادمین خارج می‌شوید؟\n(به عنوان کاربر عادی ادامه می‌دهید)'))return;
+    isAdmin=false;isMainAdmin=false;adminPermissions={};adminName='';
+    document.getElementById('admin-banner').style.display='none';
+    document.getElementById('nav-admin').style.display='none';
+    updateStatusCard();
+    updateAboutPage();
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('p1').classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    document.querySelectorAll('.nav-item')[0].classList.add('active');
+    window.scrollTo(0,0);
+    alert('✅ از حالت ادمین خارج شدید');
+}
 
 function buyVIP(t){alert('🔔 در حال انتقال به مایکت...\n\n📦 '+(t==='permanent'?'همیشگی':'ماهانه'))}
 
@@ -552,6 +519,7 @@ async function redeemGiftCode(){
     document.getElementById('gift-result').innerHTML='<div class="success-box">🎉 تبریک!<br>'+rewardText+'</div>';
     document.getElementById('gift-code').value='';
     updateStatusCard();
+    updateAboutPage();
 }
 
 async function createGiftCode(){
@@ -564,7 +532,7 @@ async function createGiftCode(){
     let expiryTime=expiry>0?Date.now()+(expiry*86400000):0;
     let result=await supabaseRequest('POST','gift_codes',{code:code,reward_type:type,reward_value:value,max_uses:max,used_count:0,expires_at:expiryTime,active:true,created_by:currentUser});
     if(result&&!result.message){alert('✅ کد ساخته شد: '+code);document.getElementById('new-gift-code').value='';loadGiftCodes()}
-    else alert('❌ خطا (شاید تکراری)')
+    else alert('❌ خطا')
 }
 
 async function loadGiftCodes(){
@@ -625,13 +593,13 @@ async function searchUser(){
     document.getElementById('user-detail').innerHTML=html;
 }
 
-async function changeUserPass(u){let p=prompt('رمز جدید:');if(!p||p.length<4){alert('حداقل ۴ حرف');return}await supabaseRequest('PATCH','users',{password:p},'?username=eq.'+u);alert('✅ رمز تغییر کرد!\n🔑 رمز جدید: '+p);searchUser()}
+async function changeUserPass(u){let p=prompt('رمز جدید:');if(!p||p.length<4){alert('حداقل ۴');return}await supabaseRequest('PATCH','users',{password:p},'?username=eq.'+u);alert('✅ تغییر کرد!\n🔑 '+p);searchUser()}
 
-async function setUserVIP(u,type){let data={vip_type:type,is_vip:type!=='free'};if(type==='monthly'){let days=parseInt(prompt('چند روز؟','30'));if(!days)return;data.vip_expiry=Date.now()+(days*86400000)}else if(type==='permanent'){data.vip_expiry=0}else{data.vip_expiry=0}await supabaseRequest('PATCH','users',data,'?username=eq.'+u);alert('✅ VIP تغییر کرد');searchUser()}
+async function setUserVIP(u,type){let data={vip_type:type,is_vip:type!=='free'};if(type==='monthly'){let days=parseInt(prompt('چند روز؟','30'));if(!days)return;data.vip_expiry=Date.now()+(days*86400000)}else{data.vip_expiry=0}await supabaseRequest('PATCH','users',data,'?username=eq.'+u);alert('✅ تغییر کرد');searchUser()}
 
 async function addUserPoints(u){let n=parseInt(prompt('چند امتیاز؟','100'));if(!n)return;let r=await supabaseRequest('GET','users',null,'?username=eq.'+u);if(r&&r[0]){await supabaseRequest('PATCH','users',{points:(r[0].points||0)+n},'?username=eq.'+u);alert('✅ اضافه شد');searchUser()}}
 
-async function addUserAI(u){let n=parseInt(prompt('چند استفاده AI؟','10'));if(!n)return;let r=await supabaseRequest('GET','users',null,'?username=eq.'+u);if(r&&r[0]){await supabaseRequest('PATCH','users',{ai_usage:Math.max(0,(r[0].ai_usage||0)-n)},'?username=eq.'+u);alert('✅ اضافه شد');searchUser()}}
+async function addUserAI(u){let n=parseInt(prompt('چند AI؟','10'));if(!n)return;let r=await supabaseRequest('GET','users',null,'?username=eq.'+u);if(r&&r[0]){await supabaseRequest('PATCH','users',{ai_usage:Math.max(0,(r[0].ai_usage||0)-n)},'?username=eq.'+u);alert('✅ اضافه شد');searchUser()}}
 
 async function setUserNote(u){let n=prompt('یادداشت:');if(n===null)return;await supabaseRequest('PATCH','users',{admin_note:n},'?username=eq.'+u);alert('✅ ذخیره شد');searchUser()}
 
@@ -644,8 +612,6 @@ async function loadAdminMessages(){if(!isMainAdmin&&!adminPermissions.can_reply_
 async function replyMsg(id){let reply=prompt('پاسخ:');if(reply){await supabaseRequest('PATCH','messages',{replied:true,reply:reply},'?id=eq.'+id);loadAdminMessages();alert('✅ ارسال شد')}}
 
 function updateAdminStats(){document.getElementById('a-users').innerText=Object.keys(users).length;let vc=Object.values(users).filter(u=>u.subscription!=='free').length;document.getElementById('a-vip').innerText=vc;let m=Object.values(users).filter(u=>u.subscription==='monthly').length;let p=Object.values(users).filter(u=>u.subscription==='permanent').length;let inc=(m*35000)+(p*299000);document.getElementById('a-income').innerText=inc.toLocaleString('fa-IR')}
-
-function exitAdmin(){isAdmin=false;isMainAdmin=false;adminPermissions={};updateStatusCard();tab('p1',document.querySelector('.nav-item'))}
 
 window.onload=function(){let saved=localStorage.getItem('currentUser');if(saved&&users[saved]){currentUser=saved;checkSubscription();showApp()}loadPrices();setInterval(loadPrices,60000)}
 </script>
