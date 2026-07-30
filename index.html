@@ -102,6 +102,12 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 .detail-row:last-child{border:none}
 .detail-label{color:#aaa;font-size:13px}
 .detail-value{color:var(--gold);font-weight:bold}
+.tool-tabs{display:flex;gap:5px;margin-bottom:15px}
+.tool-tab{flex:1;background:linear-gradient(135deg,#1a1a2e,#16213e);padding:12px;border-radius:10px;cursor:pointer;text-align:center;font-size:13px;border:1px solid rgba(255,215,0,0.3)}
+.tool-tab.active{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:#000}
+.result-box{background:linear-gradient(135deg,rgba(0,255,136,0.15),rgba(255,215,0,0.15));border:2px solid var(--gold);border-radius:15px;padding:20px;margin:15px 0;text-align:center}
+.result-value{font-size:32px;color:var(--gold);font-weight:bold;margin:10px 0;text-shadow:0 0 15px rgba(255,215,0,0.5)}
+.result-label{font-size:14px;color:#aaa}
 </style>
 </head>
 <body>
@@ -198,10 +204,61 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <div class="card"><h3>🏆 لیدربورد</h3><div id="leaderboard"></div></div>
 </div>
 
-<div id="p3" class="page"><div class="card"><h3>📰 اخبار</h3>
-<div class="msg-item"><strong>🟢 افزایش قیمت طلا</strong><p style="font-size:12px;color:#aaa;">رشد داشت...</p></div>
-<div class="msg-item"><strong>🔴 نوسان بیت‌کوین</strong><p style="font-size:12px;color:#aaa;">نوسان شدید...</p></div>
-</div></div>
+<div id="p3" class="page">
+<div class="card">
+<h3>🛠️ ابزارها</h3>
+<div class="tool-tabs">
+<div class="tool-tab active" onclick="switchTool('calc',this)">🥇 ماشین حساب طلا</div>
+<div class="tool-tab" onclick="switchTool('convert',this)">💱 مبدل ارز</div>
+</div>
+
+<div id="tool-calc">
+<label>⚖️ وزن طلا (گرم):</label>
+<input type="number" id="gold-weight" placeholder="مثلا: 5" step="0.01">
+<label>💎 عیار طلا:</label>
+<select id="gold-carat">
+<option value="18">۱۸ عیار (معمول)</option>
+<option value="24">۲۴ عیار (خالص)</option>
+<option value="22">۲۲ عیار</option>
+<option value="21">۲۱ عیار</option>
+<option value="20">۲۰ عیار</option>
+</select>
+<label>💰 اجرت (اختیاری - درصد):</label>
+<input type="number" id="gold-wage" placeholder="مثلا: 7" value="0">
+<button class="gold-btn" onclick="calcGold()">🧮 محاسبه قیمت</button>
+<div id="calc-result"></div>
+</div>
+
+<div id="tool-convert" style="display:none;">
+<label>💵 مقدار:</label>
+<input type="number" id="convert-amount" placeholder="مثلا: 100" value="1">
+<label>از:</label>
+<select id="convert-from">
+<option value="usd">💵 دلار آمریکا</option>
+<option value="eur">💶 یورو</option>
+<option value="toman">💰 تومان</option>
+<option value="btc">₿ بیت‌کوین</option>
+<option value="eth">Ξ اتریوم</option>
+<option value="usdt">💰 تتر</option>
+<option value="gold_gram">🥇 گرم طلای ۱۸</option>
+<option value="coin">🥇 سکه تمام</option>
+</select>
+<label>به:</label>
+<select id="convert-to">
+<option value="toman" selected>💰 تومان</option>
+<option value="usd">💵 دلار آمریکا</option>
+<option value="eur">💶 یورو</option>
+<option value="btc">₿ بیت‌کوین</option>
+<option value="eth">Ξ اتریوم</option>
+<option value="usdt">💰 تتر</option>
+<option value="gold_gram">🥇 گرم طلای ۱۸</option>
+<option value="coin">🥇 سکه تمام</option>
+</select>
+<button class="gold-btn" onclick="convertCurrency()">🔄 تبدیل کن</button>
+<div id="convert-result"></div>
+</div>
+</div>
+</div>
 
 <div id="p4" class="page">
 <div class="card"><h3>📞 ارسال پیام</h3>
@@ -292,7 +349,7 @@ label{display:block;margin-bottom:5px;color:#aaa;font-size:13px}
 <div class="nav-item active" onclick="tab('p1',this)"><span class="icon">📊</span>قیمت</div>
 <div class="nav-item" onclick="tab('p2',this)"><span class="icon">🧠</span>مشاور</div>
 <div class="nav-item" onclick="tab('p-wheel',this)"><span class="icon">🎡</span>گردونه</div>
-<div class="nav-item" onclick="tab('p3',this)"><span class="icon">📰</span>اخبار</div>
+<div class="nav-item" onclick="tab('p3',this)"><span class="icon">🛠️</span>ابزار</div>
 <div class="nav-item" onclick="tab('p4',this)"><span class="icon">📞</span>پشتیبانی</div>
 <div class="nav-item" onclick="tab('p5',this)"><span class="icon">ℹ️</span>حساب</div>
 <div class="nav-item admin-nav" id="nav-admin" style="display:none;" onclick="tab('p6',this)"><span class="icon">🛡️</span>ادمین</div>
@@ -418,6 +475,79 @@ function tab(id,el){document.querySelectorAll('.page').forEach(p=>p.classList.re
 
 function updateAIUsageInfo(){if(!currentUser)return;let user=users[currentUser];let info=document.getElementById('ai-usage-info');if(isAdmin||isMainAdmin||user.subscription!=='free'){info.innerHTML='<p>⚡ <strong style="color:var(--success);">نامحدود</strong></p>'}else{let r=(user.aiLimit||1)-(user.aiUsage||0);info.innerHTML='<p>⚡ باقی: <strong style="color:var(--gold);">'+r+'</strong></p>'}}
 
+// ابزارها
+function switchTool(name,el){document.querySelectorAll('.tool-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById('tool-calc').style.display=name==='calc'?'block':'none';document.getElementById('tool-convert').style.display=name==='convert'?'block':'none'}
+
+function calcGold(){
+    let weight=parseFloat(document.getElementById('gold-weight').value);
+    let carat=parseInt(document.getElementById('gold-carat').value);
+    let wage=parseFloat(document.getElementById('gold-wage').value)||0;
+    if(!weight||weight<=0){alert('وزن را وارد کنید');return}
+    let gold18Price=prices.gold18||18000000;
+    let pricePerGram=(gold18Price*carat)/18;
+    let basePrice=pricePerGram*weight;
+    let wageAmount=basePrice*(wage/100);
+    let totalPrice=basePrice+wageAmount;
+    let html='<div class="result-box">';
+    html+='<div class="result-label">قیمت پایه ('+weight+' گرم × '+carat+' عیار):</div>';
+    html+='<div class="result-value">'+Math.floor(basePrice).toLocaleString('fa-IR')+' تومان</div>';
+    if(wage>0){
+        html+='<div class="result-label" style="margin-top:15px;">اجرت ('+wage+'٪):</div>';
+        html+='<div style="font-size:18px;color:var(--warning);">'+Math.floor(wageAmount).toLocaleString('fa-IR')+' تومان</div>';
+        html+='<hr style="margin:15px 0;border-color:#333;">';
+        html+='<div class="result-label">💰 قیمت نهایی:</div>';
+        html+='<div class="result-value" style="color:var(--success);">'+Math.floor(totalPrice).toLocaleString('fa-IR')+' تومان</div>';
+    }
+    html+='<p style="font-size:11px;color:#888;margin-top:15px;">قیمت هر گرم '+carat+' عیار: '+Math.floor(pricePerGram).toLocaleString('fa-IR')+' تومان</p>';
+    html+='</div>';
+    document.getElementById('calc-result').innerHTML=html;
+}
+
+function convertCurrency(){
+    let amount=parseFloat(document.getElementById('convert-amount').value);
+    let from=document.getElementById('convert-from').value;
+    let to=document.getElementById('convert-to').value;
+    if(!amount||amount<=0){alert('مقدار را وارد کنید');return}
+    if(from===to){alert('یک ارز رو انتخاب کنید');return}
+    
+    let toman=0;
+    if(from==='toman')toman=amount;
+    else if(from==='usd')toman=amount*(prices.usd||70000);
+    else if(from==='eur')toman=amount*(prices.eur||76000);
+    else if(from==='usdt')toman=amount*(prices.usdt||70200);
+    else if(from==='btc')toman=amount*(prices.btc||64000)*(prices.usd||70000);
+    else if(from==='eth')toman=amount*(prices.eth||3000)*(prices.usd||70000);
+    else if(from==='gold_gram')toman=amount*(prices.gold18||18000000);
+    else if(from==='coin')toman=amount*(prices.coin||900000000);
+    
+    let result=0;
+    if(to==='toman')result=toman;
+    else if(to==='usd')result=toman/(prices.usd||70000);
+    else if(to==='eur')result=toman/(prices.eur||76000);
+    else if(to==='usdt')result=toman/(prices.usdt||70200);
+    else if(to==='btc')result=toman/((prices.btc||64000)*(prices.usd||70000));
+    else if(to==='eth')result=toman/((prices.eth||3000)*(prices.usd||70000));
+    else if(to==='gold_gram')result=toman/(prices.gold18||18000000);
+    else if(to==='coin')result=toman/(prices.coin||900000000);
+    
+    let names={usd:'دلار',eur:'یورو',toman:'تومان',btc:'بیت‌کوین',eth:'اتریوم',usdt:'تتر',gold_gram:'گرم طلای ۱۸',coin:'سکه تمام'};
+    let icons={usd:'💵',eur:'💶',toman:'💰',btc:'₿',eth:'Ξ',usdt:'💰',gold_gram:'🥇',coin:'🥇'};
+    
+    let displayResult=result;
+    if(to==='btc'||to==='eth')displayResult=result.toFixed(8);
+    else if(to==='usd'||to==='eur'||to==='usdt')displayResult=result.toFixed(2);
+    else if(to==='gold_gram')displayResult=result.toFixed(4);
+    else if(to==='coin')displayResult=result.toFixed(4);
+    else displayResult=Math.floor(result).toLocaleString('fa-IR');
+    
+    let html='<div class="result-box">';
+    html+='<div class="result-label">'+icons[from]+' '+amount+' '+names[from]+' برابر است با:</div>';
+    html+='<div class="result-value">'+displayResult+' '+icons[to]+'</div>';
+    html+='<div class="result-label">'+names[to]+'</div>';
+    html+='</div>';
+    document.getElementById('convert-result').innerHTML=html;
+}
+
 async function secretClick(){
     secretClicks++;
     if(secretClicks>=7){
@@ -434,7 +564,7 @@ async function secretClick(){
             document.getElementById('nav-admin').style.display='block';
             showAdminTabs();
             updateStatusCard();
-            alert('✅ حالت مدیر فعال شد!\nمی‌توانید از تب 🛡️ ادمین وارد پنل شوید.');
+            alert('✅ حالت مدیر فعال شد!');
         }else{
             let admins=await supabaseRequest('GET','admins',null,'?password=eq.'+pass);
             if(admins&&admins.length>0){
@@ -448,7 +578,7 @@ async function secretClick(){
                 document.getElementById('nav-admin').style.display='block';
                 showAdminTabs();
                 updateStatusCard();
-                alert('✅ حالت ادمین فعال شد!\nمی‌توانید از تب 🛡️ ادمین وارد پنل شوید.');
+                alert('✅ حالت ادمین فعال شد!');
             }else{alert('❌ رمز اشتباه')}
         }
     }
@@ -459,7 +589,7 @@ function showAdminTabs(){document.getElementById('tab-gifts').style.display=(isM
 function switchAdminTab(name,el){document.querySelectorAll('.admin-section').forEach(s=>s.style.display='none');document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));document.getElementById('admin-'+name).style.display='block';el.classList.add('active');if(name==='gifts')loadGiftCodes();if(name==='admins')loadAdmins();if(name==='messages')loadAdminMessages()}
 
 function exitAdmin(){
-    if(!confirm('از حالت ادمین خارج می‌شوید؟\n(به عنوان کاربر عادی ادامه می‌دهید)'))return;
+    if(!confirm('از حالت ادمین خارج می‌شوید؟'))return;
     isAdmin=false;isMainAdmin=false;adminPermissions={};adminName='';
     document.getElementById('admin-banner').style.display='none';
     document.getElementById('nav-admin').style.display='none';
@@ -470,7 +600,6 @@ function exitAdmin(){
     document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
     document.querySelectorAll('.nav-item')[0].classList.add('active');
     window.scrollTo(0,0);
-    alert('✅ از حالت ادمین خارج شدید');
 }
 
 function buyVIP(t){alert('🔔 در حال انتقال به مایکت...\n\n📦 '+(t==='permanent'?'همیشگی':'ماهانه'))}
