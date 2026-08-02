@@ -861,6 +861,45 @@ window.onload=async function(){
         }
     }
 }
+    
+// ========== توابع جدید پرداخت مایکت ==========
+function buyVIP(t){
+    if(typeof Myket !== 'undefined' && Myket.buyProduct){
+        if(t==='permanent'){
+            Myket.buyProduct('vip_permanent');
+        } else {
+            Myket.buyProduct('vip_monthly');
+        }
+    } else {
+        alert('⚠️ لطفاً از داخل اپلیکیشن مایکت خرید کنید');
+    }
+}
+
+function onVipStatus(vipType){
+    if(!currentUser || !users[currentUser]) return;
+    let user = users[currentUser];
+    if(vipType === 'vip_permanent'){
+        user.subscription = 'permanent';
+        user.subExpiry = 0;
+        localStorage.setItem('users', JSON.stringify(users));
+        saveUserToCloud(currentUser, {vip_type: 'permanent', vip_expiry: 0, is_vip: true});
+        alert('🎉 VIP همیشگی فعال شد!');
+        updateStatusCard();
+        updateAboutPage();
+    } else if(vipType === 'vip_monthly'){
+        if(user.subscription === 'free'){
+            user.subscription = 'monthly';
+            user.subExpiry = Date.now() + (30 * 86400000);
+        } else if(user.subscription === 'monthly'){
+            user.subExpiry += (30 * 86400000);
+        }
+        localStorage.setItem('users', JSON.stringify(users));
+        saveUserToCloud(currentUser, {vip_type: 'monthly', vip_expiry: user.subExpiry, is_vip: true});
+        alert('🎉 VIP ماهانه فعال شد!');
+        updateStatusCard();
+        updateAboutPage();
+    }
+}
 </script>
 </body>
 </html>
